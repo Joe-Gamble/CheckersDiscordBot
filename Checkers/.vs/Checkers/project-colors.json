@@ -1,0 +1,21 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5": {
+      "ProjectGuid": "1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5",
+      "DisplayName": "Checkers",
+      "ColorIndex": 0
+    },
+    "4e9bac07-7582-46a8-bff1-fb5f58d466fe": {
+      "ProjectGuid": "4e9bac07-7582-46a8-bff1-fb5f58d466fe",
+      "DisplayName": "Checkers.Data",
+      "ColorIndex": 1
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Miscellaneous Files",
+      "ColorIndex": -1
+    }
+  },
+  "NextColorIndex": 2
+}

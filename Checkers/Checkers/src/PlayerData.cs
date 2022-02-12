@@ -8,7 +8,7 @@ namespace Checkers
 {
     public struct PlayerData
     {
-        public string Name { get; set; }
+        public string Id { get; set; }
         public Dictionary<RoleType, Role> Roles { get; set; }
     }
 }
