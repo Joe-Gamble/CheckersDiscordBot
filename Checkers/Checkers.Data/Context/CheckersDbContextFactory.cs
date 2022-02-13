@@ -1,4 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿// <copyright file="CheckersDbContextFactory.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using System;

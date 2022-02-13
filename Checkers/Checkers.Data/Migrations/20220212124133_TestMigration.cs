@@ -1,4 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿// <copyright file="20220212124133_TestMigration.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 

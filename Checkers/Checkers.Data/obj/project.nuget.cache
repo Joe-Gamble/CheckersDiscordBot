@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Pgsx8clmOeN2YwTbtj+Gy9/zIWyNaCCnZdH1Gy1hRpYI2WG0dXlidd+7tsdLdyUCEPS0Sr3xPRWAljeM8CAaaA==",
+  "dgSpecHash": "XKY07QvvkRNu2zgIzODiy73na+LdKNVp8u6j4zA4xqELkmlm6/vOg7wGXdWVYua37KYxFteeQ+/k5U03aDe9VA==",
   "success": true,
   "projectFilePath": "C:\\Users\\joemi\\Documents\\Dev\\DiscordBots\\Checkers\\CheckersDiscordBot\\Checkers\\Checkers.Data\\Checkers.Data.csproj",
   "expectedPackageFiles": [
@@ -29,6 +29,7 @@
     "C:\\Users\\joemi\\.nuget\\packages\\microsoft.extensions.primitives\\6.0.0\\microsoft.extensions.primitives.6.0.0.nupkg.sha512",
     "C:\\Users\\joemi\\.nuget\\packages\\mysqlconnector\\2.1.2\\mysqlconnector.2.1.2.nupkg.sha512",
     "C:\\Users\\joemi\\.nuget\\packages\\pomelo.entityframeworkcore.mysql\\6.0.1\\pomelo.entityframeworkcore.mysql.6.0.1.nupkg.sha512",
+    "C:\\Users\\joemi\\.nuget\\packages\\stylecop.analyzers\\1.1.118\\stylecop.analyzers.1.1.118.nupkg.sha512",
     "C:\\Users\\joemi\\.nuget\\packages\\system.collections.immutable\\6.0.0\\system.collections.immutable.6.0.0.nupkg.sha512",
     "C:\\Users\\joemi\\.nuget\\packages\\system.diagnostics.diagnosticsource\\6.0.0\\system.diagnostics.diagnosticsource.6.0.0.nupkg.sha512",
     "C:\\Users\\joemi\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",

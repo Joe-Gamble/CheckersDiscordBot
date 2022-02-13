@@ -5,7 +5,12 @@ VisualStudioVersion = 17.0.32126.317
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Checkers", "Checkers\Checkers.csproj", "{1E0FDF2E-44B2-4F54-BC31-FB0845E4FFF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checkers.Data", "Checkers.Data\Checkers.Data.csproj", "{4E9BAC07-7582-46A8-BFF1-FB5F58D466FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Checkers.Data", "Checkers.Data\Checkers.Data.csproj", "{4E9BAC07-7582-46A8-BFF1-FB5F58D466FE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D6B309AD-B317-4987-926F-06CEDF1A7DE7}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

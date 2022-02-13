@@ -336,6 +336,9 @@
           "lib/net6.0/Pomelo.EntityFrameworkCore.MySql.dll": {}
         }
       },
+      "StyleCop.Analyzers/1.1.118": {
+        "type": "package"
+      },
       "System.Collections.Immutable/6.0.0": {
         "type": "package",
         "dependencies": {
@@ -945,6 +948,31 @@
         "pomelo.entityframeworkcore.mysql.nuspec"
       ]
     },
+    "StyleCop.Analyzers/1.1.118": {
+      "sha512": "Onx6ovGSqXSK07n/0eM3ZusiNdB6cIlJdabQhWGgJp3Vooy9AaLS/tigeybOJAobqbtggTamoWndz72JscZBvw==",
+      "type": "package",
+      "path": "stylecop.analyzers/1.1.118",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "THIRD-PARTY-NOTICES.txt",
+        "analyzers/dotnet/cs/StyleCop.Analyzers.CodeFixes.dll",
+        "analyzers/dotnet/cs/StyleCop.Analyzers.dll",
+        "analyzers/dotnet/cs/de-DE/StyleCop.Analyzers.resources.dll",
+        "analyzers/dotnet/cs/en-GB/StyleCop.Analyzers.resources.dll",
+        "analyzers/dotnet/cs/es-MX/StyleCop.Analyzers.resources.dll",
+        "analyzers/dotnet/cs/fr-FR/StyleCop.Analyzers.resources.dll",
+        "analyzers/dotnet/cs/pl-PL/StyleCop.Analyzers.resources.dll",
+        "analyzers/dotnet/cs/pt-BR/StyleCop.Analyzers.resources.dll",
+        "analyzers/dotnet/cs/ru-RU/StyleCop.Analyzers.resources.dll",
+        "stylecop.analyzers.1.1.118.nupkg.sha512",
+        "stylecop.analyzers.nuspec",
+        "tools/install.ps1",
+        "tools/uninstall.ps1"
+      ]
+    },
     "System.Collections.Immutable/6.0.0": {
       "sha512": "l4zZJ1WU2hqpQQHXz1rvC3etVZN+2DLmQMO79FhOTZHMn8tDRr+WU287sbomD0BETlmKDn0ygUgVy9k5xkkJdA==",
       "type": "package",
@@ -1107,7 +1135,8 @@
       "Microsoft.Extensions.Configuration >= 6.0.0",
       "Microsoft.Extensions.Configuration.Binder >= 6.0.0",
       "Microsoft.Extensions.Configuration.Json >= 6.0.0",
-      "Pomelo.EntityFrameworkCore.MySql >= 6.0.1"
+      "Pomelo.EntityFrameworkCore.MySql >= 6.0.1",
+      "StyleCop.Analyzers >= 1.1.118"
     ]
   },
   "packageFolders": {
@@ -1179,6 +1208,12 @@
           "Pomelo.EntityFrameworkCore.MySql": {
             "target": "Package",
             "version": "[6.0.1, )"
+          },
+          "StyleCop.Analyzers": {
+            "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+            "suppressParent": "All",
+            "target": "Package",
+            "version": "[1.1.118, )"
           }
         },
         "imports": [

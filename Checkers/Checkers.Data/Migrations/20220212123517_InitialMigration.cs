@@ -1,4 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿// <copyright file="20220212123517_InitialMigration.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable

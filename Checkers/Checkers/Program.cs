@@ -1,22 +1,29 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using Discord;
-using Discord.WebSocket;
-using Discord.Addons.Hosting;
-using System.Text.Json;
-using Discord.Commands;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Checkers.Services;
-using Microsoft.Extensions.DependencyInjection;
+﻿// <copyright file="Program.cs" company="GambleDev">
+// Copyright (c) GambleDev. All rights reserved.
+// </copyright>
 
 namespace Checkers
 {
-    class Program
+    using System;
+    using System.Text.Json;
+    using System.Threading.Tasks;
+    using Checkers.Services;
+    using Discord;
+    using Discord.Addons.Hosting;
+    using Discord.Commands;
+    using Discord.WebSocket;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.DependencyInjection.Extensions;
+    using Microsoft.Extensions.Hosting;
+    using Microsoft.Extensions.Logging;
+
+    /// <summary>
+    /// The Entry point for Checkers Client.
+    /// </summary>
+    internal class Program
     {
-        static async Task Main()
+        private static async Task Main()
         {
             string dir = Directory.GetCurrentDirectory();
             var builder = new HostBuilder()
@@ -40,7 +47,7 @@ namespace Checkers
                 {
                     LogLevel = LogSeverity.Debug,
                     AlwaysDownloadUsers = true,
-                    MessageCacheSize = 200
+                    MessageCacheSize = 200,
                 };
                 config.Token = context.Configuration["Token"];
             })
@@ -62,75 +69,5 @@ namespace Checkers
                 await host.RunAsync();
             }
         }
-
-        //        private DiscordSocketClient client;
-
-        //        public async Task MainAsync()
-        //        {
-        //            Player player = new Player();
-
-        //            string json = JsonSerializer.Serialize(player.data);
-        //            Console.WriteLine(json);
-
-        //            /*
-        //            var config = new DiscordSocketConfig()
-        //            {
-        //                GatewayIntents = GatewayIntents.All
-        //            };
-
-        //            client = new DiscordSocketClient(config);
-
-
-        //            client.MessageReceived += CommandHandler;
-        //            client.Log += Log;
-
-
-        //            var token = File.ReadAllText("token.txt");
-
-        //            await client.LoginAsync(TokenType.Bot, token);
-        //            await client.StartAsync();
-        //*/
-        //            await Task.Delay(-1);
-
-        //        }
-
-        //        private Task Log(LogMessage message)
-        //        {
-        //            Console.WriteLine(message.ToString());
-        //            return Task.CompletedTask;
-        //        }
-
-        //        private Task CommandHandler (SocketMessage message)
-        //        {
-        //            Console.WriteLine("test");
-
-        //            string command = "";
-        //            int lengthOfCommand = -1;
-
-        //            //Filter the messages
-        //            if(!message.Content.StartsWith('#'))
-        //                return Task.CompletedTask;
-
-        //            if (message.Author.IsBot)
-        //                return Task.CompletedTask;
-
-        //            if (message.Content.Contains(' '))
-        //                lengthOfCommand = message.Content.IndexOf(' ');
-        //            else
-        //                lengthOfCommand = message.Content.Length;
-
-        //            command = message.Content.Substring(1, lengthOfCommand - 1);
-
-
-        //            //Commands begin here
-        //            if(command == "Hello")
-        //            {
-        //                message.Channel.SendMessageAsync($@"Hello {message.Author.Mention}");
-        //            }
-
-        //            return Task.CompletedTask;
-        //        }
-        //    }
     }
-
 }
