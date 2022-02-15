@@ -515,6 +515,15 @@
           "lib/netstandard2.0/Newtonsoft.Json.dll": {}
         }
       },
+      "Profanity.Detector/0.1.8": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/ProfanityFilter.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/ProfanityFilter.dll": {}
+        }
+      },
       "StyleCop.Analyzers/1.1.118": {
         "type": "package"
       },
@@ -1401,6 +1410,18 @@
         "packageIcon.png"
       ]
     },
+    "Profanity.Detector/0.1.8": {
+      "sha512": "4rfonJb74vncmdyobz71Wm0N5YeKtReOMIr0P8z/IRP9iJsVcoRfFFfgANopaFjmHI1lZyZL+ps8AKwF1rNjHg==",
+      "type": "package",
+      "path": "profanity.detector/0.1.8",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.0/ProfanityFilter.dll",
+        "profanity.detector.0.1.8.nupkg.sha512",
+        "profanity.detector.nuspec"
+      ]
+    },
     "StyleCop.Analyzers/1.1.118": {
       "sha512": "Onx6ovGSqXSK07n/0eM3ZusiNdB6cIlJdabQhWGgJp3Vooy9AaLS/tigeybOJAobqbtggTamoWndz72JscZBvw==",
       "type": "package",
@@ -1741,6 +1762,7 @@
       "Discord.Net.Commands >= 3.3.0",
       "Discord.Net.Core >= 3.3.0",
       "Discord.Net.WebSocket >= 3.3.0",
+      "Profanity.Detector >= 0.1.8",
       "StyleCop.Analyzers >= 1.1.118"
     ]
   },
@@ -1807,6 +1829,10 @@
           "Discord.Net.WebSocket": {
             "target": "Package",
             "version": "[3.3.0, )"
+          },
+          "Profanity.Detector": {
+            "target": "Package",
+            "version": "[0.1.8, )"
           },
           "StyleCop.Analyzers": {
             "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",

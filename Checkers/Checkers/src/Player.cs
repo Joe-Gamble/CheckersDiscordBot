@@ -22,6 +22,10 @@ namespace Checkers
             };
         }
 
+        /// <summary>
+        /// Utility role to find best role of a player.
+        /// </summary>
+        /// <returns> The players best role. </returns>
         public Role GetBestRole()
         {
             var bestRole = from r in this.data.Roles.Values
