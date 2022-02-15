@@ -14,6 +14,6 @@ namespace Checkers.Data.Models
     {
         public ulong Id { get; set; }
 
-        public string Prefix { get; set; } = "#";
+        public string Prefix { get; set; } = "!";
     }
 }
