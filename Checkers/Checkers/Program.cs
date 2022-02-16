@@ -7,11 +7,14 @@ namespace Checkers
     using System;
     using System.Text.Json;
     using System.Threading.Tasks;
+    using Checkers.Data;
+    using Checkers.Data.Context;
     using Checkers.Services;
     using Discord;
     using Discord.Addons.Hosting;
     using Discord.Commands;
     using Discord.WebSocket;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -59,7 +62,12 @@ namespace Checkers
             })
             .ConfigureServices((context, services) =>
             {
-                services.AddHostedService<CommandHandler>();
+                services
+                .AddHostedService<CommandHandler>().AddDbContextFactory<CheckersDbContext>(options =>
+                    options.UseMySql(
+                        connectionString:
+                    context.Configuration.GetConnectionString("Default"),
+                        new MySqlServerVersion(new Version(8, 0, 28)))).AddSingleton<DataAccessLayer>();
             })
             .UseConsoleLifetime();
 

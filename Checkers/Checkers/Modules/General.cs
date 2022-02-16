@@ -29,7 +29,9 @@ namespace Checkers.Modules
         [Command("Register")]
         public async Task RegisterPlayer(RegisterArguments args = null)
         {
+            // TODO:
             // Check needed to see if an account already exists for that user.
+            // Check for if the user has been registered but doesnt have the role?
             if (this.Context.Channel == this.Context.Guild.DefaultChannel)
             {
                 string name = this.Context.User.Username;
@@ -38,9 +40,10 @@ namespace Checkers.Modules
                     name = args.Name;
                 }
 
-                // string name = args.Name ?? this.Context.User.Username;
-                string id = this.Context.User.Discriminator;
+                // This should be the identifier as it is guarenteed to be unique per discord user.
+                ulong id = this.Context.User.Id;
 
+                // This should be retrieved from server database.
                 var role = this.Context.Guild.GetRole(942533679027200051);
 
                 var profanity = ProfanityHandler.Instance;

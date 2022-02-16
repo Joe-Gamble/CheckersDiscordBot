@@ -4,14 +4,14 @@
     "C:\\Users\\joemi\\Documents\\Dev\\DiscordBots\\Checkers\\CheckersDiscordBot\\Checkers\\Checkers\\Checkers.csproj": {}
   },
   "projects": {
-    "C:\\Users\\joemi\\Documents\\Dev\\DiscordBots\\Checkers\\CheckersDiscordBot\\Checkers\\Checkers\\Checkers.csproj": {
+    "C:\\Users\\joemi\\Documents\\Dev\\DiscordBots\\Checkers\\CheckersDiscordBot\\Checkers\\Checkers.Data\\Checkers.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\joemi\\Documents\\Dev\\DiscordBots\\Checkers\\CheckersDiscordBot\\Checkers\\Checkers\\Checkers.csproj",
-        "projectName": "Checkers",
-        "projectPath": "C:\\Users\\joemi\\Documents\\Dev\\DiscordBots\\Checkers\\CheckersDiscordBot\\Checkers\\Checkers\\Checkers.csproj",
+        "projectUniqueName": "C:\\Users\\joemi\\Documents\\Dev\\DiscordBots\\Checkers\\CheckersDiscordBot\\Checkers\\Checkers.Data\\Checkers.Data.csproj",
+        "projectName": "Checkers.Data",
+        "projectPath": "C:\\Users\\joemi\\Documents\\Dev\\DiscordBots\\Checkers\\CheckersDiscordBot\\Checkers\\Checkers.Data\\Checkers.Data.csproj",
         "packagesPath": "C:\\Users\\joemi\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\joemi\\Documents\\Dev\\DiscordBots\\Checkers\\CheckersDiscordBot\\Checkers\\Checkers\\obj\\",
+        "outputPath": "C:\\Users\\joemi\\Documents\\Dev\\DiscordBots\\Checkers\\CheckersDiscordBot\\Checkers\\Checkers.Data\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -44,6 +44,102 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.2, )"
+            },
+            "Microsoft.Extensions.Configuration": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "Microsoft.Extensions.Configuration.Binder": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "Microsoft.Extensions.Configuration.Json": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "Pomelo.EntityFrameworkCore.MySql": {
+              "target": "Package",
+              "version": "[6.0.1, )"
+            },
+            "StyleCop.Analyzers": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.1.118, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.102\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\joemi\\Documents\\Dev\\DiscordBots\\Checkers\\CheckersDiscordBot\\Checkers\\Checkers\\Checkers.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\joemi\\Documents\\Dev\\DiscordBots\\Checkers\\CheckersDiscordBot\\Checkers\\Checkers\\Checkers.csproj",
+        "projectName": "Checkers",
+        "projectPath": "C:\\Users\\joemi\\Documents\\Dev\\DiscordBots\\Checkers\\CheckersDiscordBot\\Checkers\\Checkers\\Checkers.csproj",
+        "packagesPath": "C:\\Users\\joemi\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\joemi\\Documents\\Dev\\DiscordBots\\Checkers\\CheckersDiscordBot\\Checkers\\Checkers\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\joemi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "C:\\Users\\joemi\\Documents\\Dev\\DiscordBots\\Checkers\\CheckersDiscordBot\\Checkers\\Checkers.Data\\Checkers.Data.csproj": {
+                "projectPath": "C:\\Users\\joemi\\Documents\\Dev\\DiscordBots\\Checkers\\CheckersDiscordBot\\Checkers\\Checkers.Data\\Checkers.Data.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
             "Discord.Addons.Hosting": {
               "target": "Package",
               "version": "[5.1.0, )"
@@ -63,6 +159,10 @@
             "Discord.Net.WebSocket": {
               "target": "Package",
               "version": "[3.3.0, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.2, )"
             },
             "Profanity.Detector": {
               "target": "Package",

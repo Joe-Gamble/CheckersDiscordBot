@@ -13,7 +13,8 @@
           "Microsoft.Extensions.Configuration": "6.0.0",
           "Microsoft.Extensions.Configuration.Binder": "6.0.0",
           "Microsoft.Extensions.Configuration.Json": "6.0.0",
-          "Pomelo.EntityFrameworkCore.MySql": "6.0.1"
+          "Pomelo.EntityFrameworkCore.MySql": "6.0.1",
+          "StyleCop.Analyzers": "1.1.118"
         },
         "runtime": {
           "Checkers.Data.dll": {}
@@ -291,6 +292,7 @@
           }
         }
       },
+      "StyleCop.Analyzers/1.1.118": {},
       "System.Collections.Immutable/6.0.0": {
         "dependencies": {
           "System.Runtime.CompilerServices.Unsafe": "6.0.0"
@@ -495,6 +497,13 @@
       "sha512": "sha512-sFIo5e9RmQoCTEvH6EeSV8ptmX3dw/6XgyD8R93X/i7A9+XCeG9KTjSNjrszVjVOtCu/eyvYqqcv2uZ/BHhlYA==",
       "path": "pomelo.entityframeworkcore.mysql/6.0.1",
       "hashPath": "pomelo.entityframeworkcore.mysql.6.0.1.nupkg.sha512"
+    },
+    "StyleCop.Analyzers/1.1.118": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Onx6ovGSqXSK07n/0eM3ZusiNdB6cIlJdabQhWGgJp3Vooy9AaLS/tigeybOJAobqbtggTamoWndz72JscZBvw==",
+      "path": "stylecop.analyzers/1.1.118",
+      "hashPath": "stylecop.analyzers.1.1.118.nupkg.sha512"
     },
     "System.Collections.Immutable/6.0.0": {
       "type": "package",
