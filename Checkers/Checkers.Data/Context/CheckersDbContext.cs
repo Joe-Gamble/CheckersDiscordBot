@@ -17,10 +17,10 @@ namespace Checkers.Data.Context
         public CheckersDbContext(DbContextOptions options)
             : base(options)
         {
+            
         }
 
         // These were changed
         public DbSet<Guild> Guilds { get; set; }
-        public DbSet<Player>? Players { get; set; }
     }
 }

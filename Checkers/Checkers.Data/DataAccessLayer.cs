@@ -19,7 +19,7 @@ namespace Checkers.Data
 
         public DataAccessLayer(IDbContextFactory<CheckersDbContext> contextFactory)
         {
-
+            this.contextFactory = contextFactory;
         }
 
         public async Task CreateGuild(ulong id)

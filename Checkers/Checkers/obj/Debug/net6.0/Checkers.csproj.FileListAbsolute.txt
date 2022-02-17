@@ -64,3 +64,6 @@ C:\Users\joemi\Documents\Dev\DiscordBots\Checkers\CheckersDiscordBot\Checkers\Ch
 C:\Users\joemi\Documents\Dev\DiscordBots\Checkers\CheckersDiscordBot\Checkers\Checkers\bin\Debug\net6.0\Pomelo.EntityFrameworkCore.MySql.dll
 C:\Users\joemi\Documents\Dev\DiscordBots\Checkers\CheckersDiscordBot\Checkers\Checkers\bin\Debug\net6.0\Checkers.Data.dll
 C:\Users\joemi\Documents\Dev\DiscordBots\Checkers\CheckersDiscordBot\Checkers\Checkers\bin\Debug\net6.0\Checkers.Data.pdb
+C:\Users\joemi\Documents\Dev\DiscordBots\Checkers\CheckersDiscordBot\Checkers\Checkers\bin\Debug\net6.0\Microsoft.Extensions.Http.dll
+C:\Users\joemi\Documents\Dev\DiscordBots\Checkers\CheckersDiscordBot\Checkers\Checkers\bin\Debug\net6.0\Humanizer.dll
+C:\Users\joemi\Documents\Dev\DiscordBots\Checkers\CheckersDiscordBot\Checkers\Checkers\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Design.dll

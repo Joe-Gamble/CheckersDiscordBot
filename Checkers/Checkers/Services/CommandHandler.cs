@@ -10,6 +10,7 @@ namespace Checkers.Services
     using System.Reflection;
     using System.Text;
     using System.Threading.Tasks;
+    using Checkers.Data;
     using Discord;
     using Discord.Addons.Hosting;
     using Discord.Commands;
@@ -20,7 +21,7 @@ namespace Checkers.Services
     /// <summary>
     /// The Command Handler for the Client.
     /// </summary>
-    public class CommandHandler : DiscordClientService
+    public class CommandHandler : CheckersService
     {
         private readonly IServiceProvider provider;
         private readonly CommandService service;
@@ -34,8 +35,9 @@ namespace Checkers.Services
         /// <param name="logger"> The <see cref="ILogger"/> that should be injected. </param>
         /// <param name="service"> The <see cref="CommandService"/> that should be injected. </param>
         /// <param name="configuration"> The <see cref="IConfiguration"/> that should be injected. </param>
-        public CommandHandler(IServiceProvider provider, DiscordSocketClient client, ILogger<DiscordClientService> logger, CommandService service, IConfiguration configuration)
-            : base(client, logger)
+        /// <param name="dataAccessLayer"> The <see cref="DataAccessLayer"/> that should be injected. </param>
+        public CommandHandler(IServiceProvider provider, DiscordSocketClient client, ILogger<DiscordClientService> logger, CommandService service, IConfiguration configuration, DataAccessLayer dataAccessLayer)
+            : base(client, logger, configuration, dataAccessLayer)
         {
            this.provider = provider;
            this.service = service;
@@ -73,14 +75,21 @@ namespace Checkers.Services
             }
 
             var argPos = 0;
-            if (!message.HasStringPrefix(this.configuration["Prefix"], ref argPos) &&
-                !message.HasMentionPrefix(this.Client.CurrentUser, ref argPos))
+
+            if (message.Author is SocketGuildUser user)
             {
-                return;
+                var prefix = this.DataAccessLayer.GetPrefix(user.Guild.Id);
+
+                if (!message.HasStringPrefix(prefix, ref argPos) &&
+                    !message.HasMentionPrefix(this.Client.CurrentUser, ref argPos))
+                {
+                    return;
+                }
+
+                var context = new SocketCommandContext(this.Client, message);
+                await this.service.ExecuteAsync(context, argPos, this.provider);
             }
 
-            var context = new SocketCommandContext(this.Client, message);
-            await this.service.ExecuteAsync(context, argPos, this.provider);
         }
     }
 }

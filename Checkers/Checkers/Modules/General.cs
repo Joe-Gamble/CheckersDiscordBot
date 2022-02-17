@@ -15,12 +15,42 @@ namespace Checkers.Modules
     using Discord.Commands;
     using Discord.WebSocket;
     using ProfanityFilter;
+    using System.Net.Http;
+    using Checkers.Data;
 
     /// <summary>
     /// General module containing basic commands.
     /// </summary>
-    public class General : ModuleBase<SocketCommandContext>
+    public class General : CheckersModuleBase
     {
+        private readonly IHttpClientFactory httpClientFactory;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="General"/> class.
+        /// </summary>
+        /// <param name="httpClientFactory"> The <see cref="IHttpClientFactory"/> to be used. </param>
+        /// <param name=dataAccessLayer"> The <see cref="DataAccessLayer"/> to be used. </param>
+        public General(IHttpClientFactory httpClientFactory, DataAccessLayer dataAccessLayer)
+            : base(dataAccessLayer)
+        {
+            this.httpClientFactory = httpClientFactory;
+        }
+
+        [Command("Prefix")]
+        public async Task GetPrefix(string prefix = null)
+        {
+            if (prefix == null)
+            {
+                var currentPrefix = this.DataAccessLayer.GetPrefix(this.Context.Guild.Id);
+                await this.ReplyAsync($"The prefix of this guild is {currentPrefix}.");
+                return;
+            }
+
+            await DataAccessLayer.SetPrefix(this.Context.Guild.Id, prefix);
+            await this.ReplyAsync($"The prefix has been set to {prefix}.");
+
+        }
+
         /// <summary>
         /// Register function for new Players.
         /// </summary>

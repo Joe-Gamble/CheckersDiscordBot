@@ -24,10 +24,6 @@ namespace Checkers.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint unsigned");
 
-                    b.Property<string>("Member")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.Property<string>("Prefix")
                         .IsRequired()
                         .HasColumnType("longtext");
