@@ -17,10 +17,16 @@ namespace Checkers.Data.Context
         public CheckersDbContext(DbContextOptions options)
             : base(options)
         {
-            
         }
 
-        // These were changed
+        /// <summary>
+        /// Gets or sets collection of Guilds registered with the bot.
+        /// </summary>
         public DbSet<Guild> Guilds { get; set; }
+
+        /// <summary>
+        /// Gets or sets collection of Players registered with the bot.
+        /// </summary>
+        public DbSet<Player> Players { get; set; }
     }
 }

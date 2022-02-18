@@ -13,6 +13,9 @@ namespace Checkers.Data
     using Checkers.Data.Models;
     using Microsoft.EntityFrameworkCore;
 
+    /// <summary>
+    /// The DataAccessLayer for the Checkers client.
+    /// </summary>
     public class DataAccessLayer
     {
         private readonly IDbContextFactory<CheckersDbContext> contextFactory;
@@ -22,6 +25,7 @@ namespace Checkers.Data
             this.contextFactory = contextFactory;
         }
 
+        #region Guild Commands
         public async Task CreateGuild(ulong id)
         {
             using var context = this.contextFactory.CreateDbContext();
@@ -69,7 +73,7 @@ namespace Checkers.Data
 
         public async Task DeleteGuild(ulong id)
         {
-            using var context = this.contextFactory.CreateDbContext();   
+            using var context = this.contextFactory.CreateDbContext();
             var guild = await context.Guilds.FindAsync(id);
 
             if (guild == null)
@@ -80,20 +84,47 @@ namespace Checkers.Data
             context.Remove(guild);
             await context.SaveChangesAsync();
         }
+        #endregion
 
         /// <summary>
         /// This is test Summary
         /// </summary>
-        /// <param name="id" The id of the player. ></param>
+        /// <param name="username" > The username of the player. </param>
+        /// <param name="id" > The id of the player. </param>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-        public async Task RegisterPlayer(ulong id)
+        public async Task RegisterPlayer(string username, ulong id)
         {
             using var context = this.contextFactory.CreateDbContext();
-            if (!context.Guilds.Any(x => x.Id == id))
+
+            context.Add(new Player(id, username));
+            await context.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// Searches for the Player.
+        /// </summary>
+        /// <param name="id"> The ID of the Player being searched for. </param>
+        /// <returns> True if the Player is found within the database. </returns>
+        public Player? HasPlayer(ulong id)
+        {
+            using var context = this.contextFactory.CreateDbContext();
+
+            var player = context.Players.Find(id);
+            return player;
+        }
+
+        public async Task UpdatePlayerName(ulong id, string name)
+        {
+            using var context = this.contextFactory.CreateDbContext();
+
+            var playerEntry = await context.Players.FindAsync(id);
+
+            if (playerEntry != null)
             {
-                context.Add(new Guild { Id = id });
-                await context.SaveChangesAsync();
+                playerEntry.Username = name;
             }
+
+            await context.SaveChangesAsync();
         }
     }
 }

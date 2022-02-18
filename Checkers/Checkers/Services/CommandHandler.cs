@@ -49,6 +49,7 @@ namespace Checkers.Services
         {
             this.Client.MessageReceived += this.OnMessageReceived;
             this.service.CommandExecuted += this.OnCommandExcecuted;
+            this.Client.UserJoined += this.OnUserJoin;
             await this.service.AddModulesAsync(Assembly.GetEntryAssembly(), this.provider);
         }
 
@@ -60,6 +61,11 @@ namespace Checkers.Services
             }
 
             await commandContext.Channel.SendMessageAsync(result.ErrorReason);
+        }
+
+        private async Task OnUserJoin(SocketUser user)
+        {
+
         }
 
         private async Task OnMessageReceived(SocketMessage socketMessage)

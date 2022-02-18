@@ -10,6 +10,9 @@ namespace Checkers.Data.Models
     using System.Text;
     using System.Threading.Tasks;
 
+    /// <summary>
+    /// Guild Class for Checkers Data.
+    /// </summary>
     public class Guild
     {
         public ulong Id { get; set; }

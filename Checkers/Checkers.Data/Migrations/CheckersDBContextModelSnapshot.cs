@@ -32,6 +32,24 @@ namespace Checkers.Data.Migrations
 
                     b.ToTable("Guilds");
                 });
+
+            modelBuilder.Entity("Checkers.Data.Models.Player", b =>
+                {
+                    b.Property<ulong>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint unsigned");
+
+                    b.Property<bool>("Registered")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Players");
+                });
 #pragma warning restore 612, 618
         }
     }

@@ -64,43 +64,64 @@ namespace Checkers.Modules
             // Check for if the user has been registered but doesnt have the role?
             if (this.Context.Channel == this.Context.Guild.DefaultChannel)
             {
-                string name = this.Context.User.Username;
-                if (args != null)
-                {
-                    name = args.Name;
-                }
+                SocketGuildUser user = (SocketGuildUser)this.Context.User;
 
-                // This should be the identifier as it is guarenteed to be unique per discord user.
-                ulong id = this.Context.User.Id;
+                ulong id = user.Id;
+                string name = user.Username;
 
                 // This should be retrieved from server database.
                 var role = this.Context.Guild.GetRole(942533679027200051);
+                var player = this.DataAccessLayer.HasPlayer(id);
 
-                var profanity = ProfanityHandler.Instance;
-
-                if (!profanity.Filter().IsProfanity(name))
+                if (args != null)
                 {
-                    if (role != null)
+                    if (args.Name != null && args.Name != "name:")
                     {
-                        // TODO: Check if user already has the registered role.
-                        if (!((SocketGuildUser)this.Context.User).Roles.Contains(role))
-                        {
-                            // TODO: Add a new player entry to the database.
-                             await ((SocketGuildUser)this.Context.User).AddRoleAsync(role);
-                             await this.Context.Message.ReplyAsync($"Account registered! Welcome to Checkers!");
-                             return;
-                        }
-
-                        await this.ReplyAsync($"Temp Response: User already has that role.");
-                        return;
+                        name = args.Name;
                     }
+                }
 
+                if (role == null)
+                {
                     await this.ReplyAsync($"Couldn't find the registration role.");
                     return;
                 }
+                else
+                {
+                    if (player != null)
+                    {
+                        player.Registered = true;
 
-                await this.ReplyAsync($"The chosen name is inappropiate.");
-                return;
+                        if (player.Username != name)
+                        {
+                            if (args != null && args.Name != "name:")
+                            {
+                                await this.DataAccessLayer.UpdatePlayerName(id, name);
+                                await user.SendMessageAsync($"Account already exists. Your name has been updated to {name}!");
+                            }
+                        }
+
+                        await this.Context.Message.ReplyAsync($"Welcome back, {name}!");
+                    }
+                    else
+                    {
+                        var profanity = ProfanityHandler.Instance;
+
+                        if (!profanity.Filter().IsProfanity(name))
+                        {
+                            // TODO: Check if user already has the registered role.
+
+                            // TODO: Add a new player entry to the database.
+                            await this.DataAccessLayer.RegisterPlayer(name, id);
+                            await this.Context.Message.ReplyAsync($"Account registered! Welcome to Checkers!");
+                            await user.AddRoleAsync(role);
+                            return;
+                        }
+
+                        await this.ReplyAsync($"The chosen name is inappropiate.");
+                        return;
+                    }
+                }
             }
         }
 
@@ -122,18 +143,21 @@ namespace Checkers.Modules
         /// <param name="socketGuildUser"> An optinal Guild user to get information from. </param>
         /// <returns><see cref="Task"/> representing the asynchronous operation.</placeholder></returns>
         [Command("Details")]
-        public async Task GetDetails(SocketGuildUser socketGuildUser = null)
+        public async Task GetDetails(SocketGuildUser? socketGuildUser = null)
         {
             if (socketGuildUser == null)
             {
                 socketGuildUser = this.Context.User as SocketGuildUser;
             }
 
-            var embed = new CheckersEmbedBuilder().WithTitle($"{socketGuildUser.Username}#{socketGuildUser.Discriminator}")
-                .AddField("ID", socketGuildUser.Id, true).AddField($"Name: ", socketGuildUser.Username, true)
-                .AddField($"Created At:", socketGuildUser.CreatedAt, true).WithImageUrl("https://ibb.co/6RG5YKC").Build();
+            if (socketGuildUser != null)
+            {
+                var embed = new CheckersEmbedBuilder().WithTitle($"{socketGuildUser.Username}#{socketGuildUser.Discriminator}")
+               .AddField("ID", socketGuildUser.Id, true).AddField($"Name: ", socketGuildUser.Username, true)
+               .AddField($"Created At:", socketGuildUser.CreatedAt, true).WithImageUrl("https://ibb.co/6RG5YKC").Build();
 
-            await this.ReplyAsync(embed: embed);
+                await this.ReplyAsync(embed: embed);
+            }
         }
     }
 }
