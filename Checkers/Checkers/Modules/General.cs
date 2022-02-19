@@ -36,9 +36,20 @@ namespace Checkers.Modules
             this.httpClientFactory = httpClientFactory;
         }
 
+        /// <summary>
+        /// Gets or Sets the prefix of the current Guild or the DM channel.
+        /// </summary>
+        /// <param name="prefix"> If null retrieves the current prefix. If not, attempts to assign it to the database. </param>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         [Command("Prefix")]
         public async Task GetPrefix(string prefix = null)
         {
+            if (this.Context.IsPrivate)
+            {
+                await this.ReplyAsync("All DM Commands use ! as their prefix.");
+                return;
+            }
+
             if (prefix == null)
             {
                 var currentPrefix = this.DataAccessLayer.GetPrefix(this.Context.Guild.Id);
@@ -46,22 +57,29 @@ namespace Checkers.Modules
                 return;
             }
 
-            await DataAccessLayer.SetPrefix(this.Context.Guild.Id, prefix);
+            await this.DataAccessLayer.SetPrefix(this.Context.Guild.Id, prefix);
             await this.ReplyAsync($"The prefix has been set to {prefix}.");
 
         }
 
         /// <summary>
         /// Register function for new Players.
+        /// TODO: Move Register function into another sub instead of General?
         /// </summary>
         /// <param name="args"> Optional arguments that users can pass while registering. </param>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         [Command("Register")]
         public async Task RegisterPlayer(RegisterArguments args = null)
         {
+            if (this.Context.IsPrivate)
+            {
+                await this.ReplyAsync("Must be a member of the Checkers Discord Server to Register an account.");
+                return;
+            }
+
             // TODO:
-            // Check needed to see if an account already exists for that user.
-            // Check for if the user has been registered but doesnt have the role?
+            // Check needed to see if an account already exists for that user. DONE.
+            // Check for if the user has been registered but doesnt have the role? DONE.
             if (this.Context.Channel == this.Context.Guild.DefaultChannel)
             {
                 SocketGuildUser user = (SocketGuildUser)this.Context.User;
@@ -71,7 +89,6 @@ namespace Checkers.Modules
 
                 // This should be retrieved from server database.
                 var role = this.Context.Guild.GetRole(942533679027200051);
-                var player = this.DataAccessLayer.HasPlayer(id);
 
                 if (args != null)
                 {
@@ -88,6 +105,10 @@ namespace Checkers.Modules
                 }
                 else
                 {
+                    // We shouldn't have to account for this, but just in case? I have no idea how robust this is.
+                    // TODO: Further testing with non-admin users.
+                    var player = this.DataAccessLayer.HasPlayer(id);
+
                     if (player != null)
                     {
                         player.Registered = true;
@@ -96,12 +117,15 @@ namespace Checkers.Modules
                         {
                             if (args != null && args.Name != "name:")
                             {
-                                await this.DataAccessLayer.UpdatePlayerName(id, name);
-                                await user.SendMessageAsync($"Account already exists. Your name has been updated to {name}!");
+                                // This seemns like an awful way to do it. Problem is we need feedback instantly with new name. How?
+                                await this.DataAccessLayer.UpdatePlayerName(player, name);
+                                await user.SendMessageAsync($"Account already exists. Your name has been updated to {player.Username}!");
+
+                                // Database login function.
                             }
                         }
 
-                        await this.Context.Message.ReplyAsync($"Welcome back, {name}!");
+                        await this.Context.Message.ReplyAsync($"Welcome back, {player.Username}!");
                     }
                     else
                     {
@@ -114,14 +138,25 @@ namespace Checkers.Modules
                             // TODO: Add a new player entry to the database.
                             await this.DataAccessLayer.RegisterPlayer(name, id);
                             await this.Context.Message.ReplyAsync($"Account registered! Welcome to Checkers!");
-                            await user.AddRoleAsync(role);
-                            return;
                         }
-
-                        await this.ReplyAsync($"The chosen name is inappropiate.");
-                        return;
+                        else
+                        {
+                            await this.ReplyAsync($"The chosen name is inappropiate.");
+                        }
                     }
+
+                    await user.AddRoleAsync(role);
                 }
+            }
+        }
+
+        [Command("Update")]
+        public async Task UpdatePlayer()
+        {
+            if (this.Context.IsPrivate)
+            {
+                // This is a dm.
+                await this.ReplyAsync("Test");
             }
         }
 

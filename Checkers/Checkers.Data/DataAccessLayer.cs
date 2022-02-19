@@ -113,17 +113,17 @@ namespace Checkers.Data
             return player;
         }
 
-        public async Task UpdatePlayerName(ulong id, string name)
+        public async Task UpdatePlayerName(Player player, string name)
         {
             using var context = this.contextFactory.CreateDbContext();
 
-            var playerEntry = await context.Players.FindAsync(id);
+            var playerEntry = await context.Players.FindAsync(player.Id);
 
             if (playerEntry != null)
             {
                 playerEntry.Username = name;
+                player.Username = name;
             }
-
             await context.SaveChangesAsync();
         }
     }

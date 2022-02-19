@@ -60,6 +60,7 @@ namespace Checkers.Services
                 return;
             }
 
+            // Send this to me or to a dev channel.
             await commandContext.Channel.SendMessageAsync(result.ErrorReason);
         }
 
@@ -81,21 +82,25 @@ namespace Checkers.Services
             }
 
             var argPos = 0;
+            var prefix = string.Empty;
 
             if (message.Author is SocketGuildUser user)
             {
-                var prefix = this.DataAccessLayer.GetPrefix(user.Guild.Id);
-
-                if (!message.HasStringPrefix(prefix, ref argPos) &&
-                    !message.HasMentionPrefix(this.Client.CurrentUser, ref argPos))
-                {
-                    return;
-                }
-
-                var context = new SocketCommandContext(this.Client, message);
-                await this.service.ExecuteAsync(context, argPos, this.provider);
+                prefix = this.DataAccessLayer.GetPrefix(user.Guild.Id);
+            }
+            else if (message.Author is SocketUser priv_user)
+            {
+                prefix = "!";
             }
 
+            if (!message.HasStringPrefix(prefix, ref argPos) &&
+                    !message.HasMentionPrefix(this.Client.CurrentUser, ref argPos))
+            {
+                return;
+            }
+
+            var context = new SocketCommandContext(this.Client, message);
+            await this.service.ExecuteAsync(context, argPos, this.provider);
         }
     }
 }
