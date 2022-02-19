@@ -11,18 +11,17 @@
     /// </summary>
     public abstract class CheckersService : DiscordClientService
     {
-        public readonly DiscordSocketClient Client;
-        public readonly ILogger Logger;
+        public new readonly DiscordSocketClient Client;
         public readonly IConfiguration Config;
         public readonly DataAccessLayer DataAccessLayer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CheckersService"/> class.
         /// </summary>
-        /// <param name="client"></param>
-        /// <param name="logger"></param>
-        /// <param name="configuration"></param>
-        /// <param name="dataAccessLayer"></param>
+        /// <param name="client"> The <see cref="DiscordSocketClient"/> to be injected.</param>
+        /// <param name="logger"> The <see cref="ILogger"/> to be injected. </param>
+        /// <param name="configuration"> The <see cref="IConfiguration"/> to be injected. </param>
+        /// <param name="dataAccessLayer"> The <see cref="DataAccessLayer"/> to be injected. </param>
         public CheckersService(DiscordSocketClient client, ILogger<DiscordClientService> logger, IConfiguration configuration, DataAccessLayer dataAccessLayer)
             : base(client, logger)
         {

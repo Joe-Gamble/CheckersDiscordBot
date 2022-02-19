@@ -50,6 +50,7 @@ namespace Checkers.Services
             this.Client.MessageReceived += this.OnMessageReceived;
             this.service.CommandExecuted += this.OnCommandExcecuted;
             this.Client.UserJoined += this.OnUserJoin;
+            this.Client.UserLeft += this.OnUserLeave;
             await this.service.AddModulesAsync(Assembly.GetEntryAssembly(), this.provider);
         }
 
@@ -66,7 +67,28 @@ namespace Checkers.Services
 
         private async Task OnUserJoin(SocketUser user)
         {
+            if (user is not SocketGuildUser)
+            {
+                return;
+            }
 
+            SocketGuildUser socketGuildUser = (SocketGuildUser)user;
+
+            var player = this.DataAccessLayer.HasPlayer(socketGuildUser.Id);
+            if (player != null)
+            {
+               var role = socketGuildUser.Guild.GetRole(942533679027200051);
+               await socketGuildUser.AddRoleAsync(role);
+            }
+        }
+
+        private async Task OnUserLeave(SocketGuild guild, SocketUser user)
+        {
+            var player = this.DataAccessLayer.HasPlayer(user.Id);
+            if (player != null)
+            {
+                // Log out here.
+            }
         }
 
         private async Task OnMessageReceived(SocketMessage socketMessage)

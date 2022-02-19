@@ -108,30 +108,39 @@ namespace Checkers.Modules
                     // We shouldn't have to account for this, but just in case? I have no idea how robust this is.
                     // TODO: Further testing with non-admin users.
                     var player = this.DataAccessLayer.HasPlayer(id);
+                    var profanity = ProfanityHandler.Instance;
+
+                    bool nameAllowed = !profanity.Filter().ContainsProfanity(name);
 
                     if (player != null)
                     {
                         player.Registered = true;
 
-                        if (player.Username != name)
+                        if (nameAllowed)
                         {
-                            if (args != null && args.Name != "name:")
+                            if (player.Username != name)
                             {
-                                // This seemns like an awful way to do it. Problem is we need feedback instantly with new name. How?
-                                await this.DataAccessLayer.UpdatePlayerName(player, name);
-                                await user.SendMessageAsync($"Account already exists. Your name has been updated to {player.Username}!");
+                                if (args != null && args.Name != "name:")
+                                {
+                                    // This seemns like an awful way to do it. Problem is we need feedback instantly with new name. How?
+                                    await this.DataAccessLayer.UpdatePlayerName(player, name);
+                                    await user.SendMessageAsync($"Account already exists. Your name has been updated to {player.Username}!");
 
-                                // Database login function.
+                                    // Database login function.
+                                }
                             }
-                        }
 
-                        await this.Context.Message.ReplyAsync($"Welcome back, {player.Username}!");
+                            await this.Context.Message.ReplyAsync($"Welcome back, {player.Username}!");
+                        }
+                        else
+                        {
+                            await this.ReplyAsync($"The chosen name is inappropiate.");
+                            return;
+                        }
                     }
                     else
                     {
-                        var profanity = ProfanityHandler.Instance;
-
-                        if (!profanity.Filter().IsProfanity(name))
+                        if (nameAllowed)
                         {
                             // TODO: Check if user already has the registered role.
 

@@ -48,6 +48,7 @@ namespace Checkers
             {
                 config.SocketConfig = new DiscordSocketConfig
                 {
+                    GatewayIntents = GatewayIntents.All,
                     LogLevel = LogSeverity.Debug,
                     AlwaysDownloadUsers = true,
                     MessageCacheSize = 200,

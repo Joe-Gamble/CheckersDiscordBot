@@ -100,6 +100,16 @@ namespace Checkers.Data
             await context.SaveChangesAsync();
         }
 
+        public async Task LogIn(ulong id)
+        {
+
+        }
+
+        public async Task LogOut(ulong id)
+        {
+
+        }
+
         /// <summary>
         /// Searches for the Player.
         /// </summary>
