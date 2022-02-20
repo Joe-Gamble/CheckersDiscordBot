@@ -1,4 +1,8 @@
-﻿namespace Checkers.Modules
+﻿// <copyright file="CheckersModuleBase.cs" company="GambleDev">
+// Copyright (c) GambleDev. All rights reserved.
+// </copyright>
+
+namespace Checkers.Modules
 {
     using System;
     using System.Collections.Generic;

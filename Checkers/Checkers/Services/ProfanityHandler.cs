@@ -1,4 +1,8 @@
-﻿namespace Checkers.Services
+﻿// <copyright file="ProfanityHandler.cs" company="GambleDev">
+// Copyright (c) GambleDev. All rights reserved.
+// </copyright>
+
+namespace Checkers.Services
 {
     using System;
     using System.Collections.Generic;

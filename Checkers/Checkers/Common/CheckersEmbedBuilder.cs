@@ -1,4 +1,8 @@
-﻿namespace Checkers.Common
+﻿// <copyright file="CheckersEmbedBuilder.cs" company="GambleDev">
+// Copyright (c) GambleDev. All rights reserved.
+// </copyright>
+
+namespace Checkers.Common
 {
     using System;
     using System.Collections.Generic;

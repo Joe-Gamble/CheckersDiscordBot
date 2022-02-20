@@ -1,4 +1,8 @@
-﻿namespace Checkers.Data.Models.Ranked
+﻿// <copyright file="SkillRating.cs" company="GambleDev">
+// Copyright (c) GambleDev. All rights reserved.
+// </copyright>
+
+namespace Checkers.Data.Models.Ranked
 {
     using System;
     using System.Collections.Generic;
@@ -29,7 +33,7 @@
         public SkillRating(int rating)
         {
             this.CurrentRating = rating;
-            this.CurrentTier = this.GetTierAt(rating);
+            this.CurrentTier = GetTierAt(rating);
         }
 
         /// <summary>
@@ -43,6 +47,45 @@
         public SkillTier CurrentTier { get; set; }
 
         /// <summary>
+        /// Returns a SkillTier based on the passed rating.
+        /// </summary>
+        /// <param name="rating"> The skill rating total. </param>
+        /// <returns> The SkilTier of the Player's current rank. </returns>
+        public static SkillTier GetTierAt(int rating)
+        {
+            if (rating < 0)
+            {
+                return SkillTier.Undefined;
+            }
+            else if (rating <= 1500)
+            {
+                return SkillTier.Silver;
+            }
+            else if (rating <= 2000)
+            {
+                return SkillTier.Gold;
+            }
+            else if (rating <= 2500)
+            {
+                return SkillTier.Platnium;
+            }
+            else if (rating <= 3000)
+            {
+                return SkillTier.Sapphire;
+            }
+            else if (rating <= 3500)
+            {
+                return SkillTier.Masters;
+            }
+            else if (rating > 4000)
+            {
+                return SkillTier.Warlord;
+            }
+
+            return SkillTier.Undefined;
+        }
+
+        /// <summary>
         /// Add Skill Rating to the Current Rating. Auto adjusts rating if players surpass their current Tier's threshold.
         /// </summary>
         /// <param name="total"> The total to be added. </param>
@@ -50,12 +93,12 @@
         {
             this.CurrentRating += total;
 
-            SkillTier tier = this.GetTierAt(this.CurrentRating);
+            SkillTier tier = GetTierAt(this.CurrentRating);
 
             if (this.CurrentTier != tier)
             {
                 // promoted
-                this.CurrentTier = this.GetTierAt(this.CurrentRating);
+                this.CurrentTier = GetTierAt(this.CurrentRating);
             }
         }
 
@@ -67,51 +110,16 @@
         {
             this.CurrentRating -= total;
 
-            if (this.GetTierAt(this.CurrentRating) != this.CurrentTier)
+            if (GetTierAt(this.CurrentRating) != this.CurrentTier)
             {
                 this.gamesOutOfDivision++;
 
                 if (this.gamesOutOfDivision >= 5)
                 {
-                    this.CurrentTier = this.GetTierAt(this.CurrentRating);
+                    this.CurrentTier = GetTierAt(this.CurrentRating);
                     this.gamesOutOfDivision = 0;
                 }
             }
-        }
-
-        // this might need to be public or moved
-        private SkillTier GetTierAt(int total)
-        {
-            if (total < 0)
-            {
-                return SkillTier.Undefined;
-            }
-            else if (total <= 1500)
-            {
-                return SkillTier.Silver;
-            }
-            else if (total <= 2000)
-            {
-                return SkillTier.Gold;
-            }
-            else if (total <= 2500)
-            {
-                return SkillTier.Platnium;
-            }
-            else if (total <= 3000)
-            {
-                return SkillTier.Sapphire;
-            }
-            else if (total <= 3500)
-            {
-                return SkillTier.Masters;
-            }
-            else if (total > 4000)
-            {
-                return SkillTier.Warlord;
-            }
-
-            return SkillTier.Undefined;
         }
     }
 }

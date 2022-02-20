@@ -1,4 +1,8 @@
-﻿namespace Checkers.Services
+﻿// <copyright file="CheckersService.cs" company="GambleDev">
+// Copyright (c) GambleDev. All rights reserved.
+// </copyright>
+
+namespace Checkers.Services
 {
     using Checkers.Data;
     using Discord.Addons.Hosting;

@@ -27,6 +27,8 @@ namespace Checkers.Data.Models
             this.IsActive = true;
             this.IsQueued = false;
             this.IsPlaying = false;
+
+            this.Stats = new PlayerStats();
         }
 
         /// <summary>
@@ -58,5 +60,14 @@ namespace Checkers.Data.Models
         /// Gets or Sets the Players Stats.
         /// </summary>
         public PlayerStats Stats { get; set; }
+
+        /// <summary>
+        /// Get the current skill rating.
+        /// </summary>
+        /// <returns> The Players skill rating. </returns>
+        public int GetCurrentRanting()
+        {
+            return this.Stats.Rating.CurrentRating;
+        }
     }
 }
