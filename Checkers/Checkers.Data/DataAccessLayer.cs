@@ -100,6 +100,25 @@ namespace Checkers.Data
             await context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Remove a player from the database.
+        /// </summary>
+        /// <param name="id" > The id of the player. </param>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        public async Task RemovePlayer(ulong id)
+        {
+            using var context = this.contextFactory.CreateDbContext();
+
+            var player = await context.Players.FindAsync(id);
+
+            if (player != null)
+            {
+                context.Players.Remove(player);
+            }
+
+            await context.SaveChangesAsync();
+        }
+
         public async Task AttemptLogIn(ulong id)
         {
             using var context = this.contextFactory.CreateDbContext();
@@ -130,6 +149,12 @@ namespace Checkers.Data
             return player;
         }
 
+        /// <summary>
+        /// Update a players name.
+        /// </summary>
+        /// <param name="player"> The Player reference. </param>
+        /// <param name="name"> The new name for the Player. </param>
+        /// <returns> A <see cref="Task"/> representing the asynchronous operation. </returns>
         public async Task UpdatePlayerName(Player player, string name)
         {
             using var context = this.contextFactory.CreateDbContext();
@@ -141,6 +166,33 @@ namespace Checkers.Data
                 playerEntry.Username = name;
                 player.Username = name;
             }
+
+            await context.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// Insert a player into the Queue.
+        /// </summary>
+        /// <param name="id"> The ID of the player. </param>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        public async Task QueuePlayer(ulong id)
+        {
+            using var context = this.contextFactory.CreateDbContext();
+
+            var player = this.HasPlayer(id);
+
+            if (player != null)
+            {
+                throw new InvalidOperationException("Test");
+
+                if (!player.IsQueued && player.IsPlaying && player.IsActive)
+                {
+                    //context.CheckersQueue.AddToQueue(player);
+                    player.IsQueued = true;
+                }
+                
+            }
+
             await context.SaveChangesAsync();
         }
     }

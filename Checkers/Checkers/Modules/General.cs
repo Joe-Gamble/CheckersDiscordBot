@@ -68,11 +68,11 @@ namespace Checkers.Modules
         /// <param name="args"> Optional arguments that users can pass while registering. </param>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         [Command("Register")]
-        public async Task RegisterPlayer(RegisterArguments args = null)
+        public async Task RegisterPlayer(string customName = null)
         {
             if (this.Context.IsPrivate)
             {
-                await this.ReplyAsync("Must be a member of the Checkers Discord Server to Register an account.");
+                await this.ReplyAsync("Players must register through the offical Checkers Discord server.");
                 return;
             }
 
@@ -98,12 +98,9 @@ namespace Checkers.Modules
                 {
                     // We shouldn't have to account for this, but just in case? I have no idea how robust this is.
                     // TODO: Further testing with non-admin users.
-                    if (args != null)
+                    if (customName != null)
                     {
-                        if (args.Name != null && args.Name != "name:")
-                        {
-                            name = args.Name;
-                        }
+                        name = customName;
                     }
 
                     var player = this.DataAccessLayer.HasPlayer(id);
@@ -126,6 +123,41 @@ namespace Checkers.Modules
 
                     await user.AddRoleAsync(role);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Delete a users account.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Command("DeleteAccount")]
+        public async Task RemovePlayer()
+        {
+            if (this.Context.IsPrivate)
+            {
+                await this.ReplyAsync("Players must register through the offical Checkers Discord server.");
+                return;
+            }
+
+            SocketGuildUser user = (SocketGuildUser)this.Context.User;
+
+            ulong id = user.Id;
+
+            var player = this.DataAccessLayer.HasPlayer(id);
+
+            if (player != null)
+            {
+                await this.DataAccessLayer.RemovePlayer(this.Context.User.Id);
+                await this.Context.Message.ReplyAsync($"Account deleted. Thanks for playing!");
+            }
+
+            // This should be retrieved from server database.
+            var role = this.Context.Guild.GetRole(942533679027200051);
+
+            if (role != null)
+            {
+                await user.RemoveRoleAsync(role);
+                return;
             }
         }
 
@@ -188,6 +220,13 @@ namespace Checkers.Modules
 
                 await this.ReplyAsync(embed: embed);
             }
+        }
+
+        [Command("Queue")]
+        public async Task QueuePlayer()
+        {
+            // Rough implemantion.
+            await this.DataAccessLayer.QueuePlayer(this.Context.User.Id);
         }
 
         //TEST FUNCTION CAN I UPDATE EMBEDS LIKE THIS?

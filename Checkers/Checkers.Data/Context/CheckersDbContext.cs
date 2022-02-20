@@ -10,6 +10,7 @@ namespace Checkers.Data.Context
     using System.Text;
     using System.Threading.Tasks;
     using Checkers.Data.Models;
+    using Checkers.Data.Models.Ranked;
     using Microsoft.EntityFrameworkCore;
 
     public class CheckersDbContext : DbContext

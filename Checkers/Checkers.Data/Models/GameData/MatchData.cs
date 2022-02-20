@@ -13,22 +13,20 @@ namespace Checkers.Data.Models.Game
     /// <summary>
     /// Checkers Match class for initialising new matches.
     /// </summary>
-    public class Match
+    public class MatchData
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Match"/> class.
+        /// Initializes a new instance of the <see cref="MatchData"/> class.
         /// </summary>
         /// <param name="teamA"> The first team to be injected. </param>
         /// <param name="teamB"> The second team to be injected. </param>
-        /// <param name="catID"> The CategoryID of the Match. </param>
-        /// <param name="textID"> The Text Channel ID of the Match. </param>
-        public Match(Team teamA, Team teamB, ulong catID, ulong textID)
+        /// <param name="duration"> The duration of this match. </param>
+        public MatchData(TeamData teamA, TeamData teamB, int duration)
         {
             this.TeamA = teamA;
             this.TeamB = teamB;
-            this.CategoryID = catID;
-            this.TectChannelID = textID;
-            this.TimeStarted = DateTime.UtcNow;
+
+            this.Duration = duration;
         }
 
         // TODO: Get Player Ids into this class to be passed into Team constructors.
@@ -36,26 +34,17 @@ namespace Checkers.Data.Models.Game
         /// <summary>
         /// Gets or Sets team A in the match.
         /// </summary>
-        public Team TeamA { get; set; }
+        public TeamData TeamA { get; set; }
 
         /// <summary>
         /// Gets or Sets team B in the match.
         /// </summary>
-        public Team TeamB { get; set; }
+        public TeamData TeamB { get; set; }
+
 
         /// <summary>
-        /// Gets the CategoryID for this match.
+        /// Gets the duration of this Match.
         /// </summary>
-        public ulong CategoryID { get; }
-
-        /// <summary>
-        /// Gets the Text CHannel ID for this match.
-        /// </summary>
-        public ulong TectChannelID { get; }
-
-        /// <summary>
-        /// Gets the start time of the Match.
-        /// </summary>
-        public DateTimeOffset TimeStarted { get; }
+        public int Duration { get; }
     }
 }

@@ -1,9 +1,10 @@
-﻿// <copyright file="Player.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="Player.cs" company="GambleDev">
+// Copyright (c) GambleDev. All rights reserved.
 // </copyright>
 
 namespace Checkers.Data.Models
 {
+    using Checkers.Data.Models.Ranked;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -28,7 +29,8 @@ namespace Checkers.Data.Models
             this.IsQueued = false;
             this.IsPlaying = false;
 
-            this.Stats = new PlayerStats();
+            this.Rating = 0;
+            this.CurrentTier = SkillTier.Undefined;
         }
 
         /// <summary>
@@ -57,9 +59,24 @@ namespace Checkers.Data.Models
         public bool IsPlaying { get; set; } = false;
 
         /// <summary>
-        /// Gets or Sets the Players Stats.
+        /// Gets or Sets the Players current rating.
         /// </summary>
-        public PlayerStats Stats { get; set; }
+        public int Rating { get; set; }
+
+        /// <summary>
+        /// Gets or Sets the Players Winrate.
+        /// </summary>
+        public int WinRate { get; set; }
+
+        /// <summary>
+        /// Gets or Sets the current Tier.
+        /// </summary>
+        public SkillTier CurrentTier { get; set; }
+
+        /// <summary>
+        /// Gets or Sets the players current games out of their division.
+        /// </summary>
+        public int GamesOutOfDivision { get; set; }
 
         /// <summary>
         /// Get the current skill rating.
@@ -67,7 +84,16 @@ namespace Checkers.Data.Models
         /// <returns> The Players skill rating. </returns>
         public int GetCurrentRanting()
         {
-            return this.Stats.Rating.CurrentRating;
+            return this.Rating;
+        }
+
+        /// <summary>
+        /// Get the current skill rating.
+        /// </summary>
+        /// <returns> The Players Stats. </returns>
+        public int GetStats()
+        {
+            return this.Rating;
         }
     }
 }

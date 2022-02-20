@@ -11,41 +11,10 @@ namespace Checkers.Data.Models.Ranked
     using System.Threading.Tasks;
 
     /// <summary>
-    /// Wrapper Class for everything associated with a Player's SkillRating.
+    /// Util CLass for handling skill rating data.
     /// </summary>
-    public class SkillRating
+    public class RatingUtils
     {
-        private int gamesOutOfDivision = 0;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SkillRating"/> class.
-        /// </summary>
-        public SkillRating()
-        {
-            this.CurrentRating = 0;
-            this.CurrentTier = SkillTier.Undefined;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SkillRating"/> class from pre-existing data.
-        /// </summary>
-        /// <param name="rating"> The rating to initialise at. </param>
-        public SkillRating(int rating)
-        {
-            this.CurrentRating = rating;
-            this.CurrentTier = GetTierAt(rating);
-        }
-
-        /// <summary>
-        /// Gets or Sets the current rating.
-        /// </summary>
-        public int CurrentRating { get; set; }
-
-        /// <summary>
-        /// Gets or Sets the current Tier.
-        /// </summary>
-        public SkillTier CurrentTier { get; set; }
-
         /// <summary>
         /// Returns a SkillTier based on the passed rating.
         /// </summary>
@@ -88,36 +57,38 @@ namespace Checkers.Data.Models.Ranked
         /// <summary>
         /// Add Skill Rating to the Current Rating. Auto adjusts rating if players surpass their current Tier's threshold.
         /// </summary>
+        /// <param name="player"> The Player to add points to. </param>
         /// <param name="total"> The total to be added. </param>
-        public void Gain(int total)
+        public static void Gain(Player player, int total)
         {
-            this.CurrentRating += total;
+            player.Rating += total;
 
-            SkillTier tier = GetTierAt(this.CurrentRating);
+            SkillTier tier = GetTierAt(player.Rating);
 
-            if (this.CurrentTier != tier)
+            if (player.CurrentTier != tier)
             {
                 // promoted
-                this.CurrentTier = GetTierAt(this.CurrentRating);
+                player.CurrentTier = GetTierAt(player.Rating);
             }
         }
 
         /// <summary>
         /// Subract Skill Rating from the Current Rating. Auto adjusts rating if players drop below their current tier.
         /// </summary>
+        /// <param name="player"> The Player to add points to. </param>
         /// <param name="total"> The amount to subtract. </param>
-        public void Lose(int total)
+        public static void Lose(Player player, int total)
         {
-            this.CurrentRating -= total;
+            player.Rating -= total;
 
-            if (GetTierAt(this.CurrentRating) != this.CurrentTier)
+            if (GetTierAt(player.Rating) != player.CurrentTier)
             {
-                this.gamesOutOfDivision++;
+                player.GamesOutOfDivision++;
 
-                if (this.gamesOutOfDivision >= 5)
+                if (player.GamesOutOfDivision >= 5)
                 {
-                    this.CurrentTier = GetTierAt(this.CurrentRating);
-                    this.gamesOutOfDivision = 0;
+                    player.CurrentTier = GetTierAt(player.Rating);
+                    player.GamesOutOfDivision = 0;
                 }
             }
         }

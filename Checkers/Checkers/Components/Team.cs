@@ -40,22 +40,22 @@ namespace Checkers.Data.Models.Game
         public ulong VoiceID { get; }
 
         /// <summary>
-        /// Gets the Average <see cref="SkillRating"/> of this Team.
+        /// Gets the Average <see cref="RatingUtils"/> of this Team.
         /// </summary>
-        public SkillRating AverageRating { get; }
+        public int AverageRating { get; }
 
-        private SkillRating GetAverageRating()
+        private int GetAverageRating()
         {
             int skillRating = 0;
 
             foreach (Player player in this.Players)
             {
-                skillRating += player.Stats.Rating.CurrentRating;
+                skillRating += player.GetCurrentRanting();
             }
 
             int skillAverage = skillRating / this.Players.Count;
 
-            return new SkillRating(skillAverage);
+            return skillAverage;
         }
     }
 }

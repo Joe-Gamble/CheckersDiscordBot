@@ -63,7 +63,7 @@ namespace Checkers.Data.Models.Ranked
         {
             List<Player> closestPlayers = new List<Player>();
 
-            var avRating = this.players.Average(player => player.Stats.Rating.CurrentRating);
+            var avRating = this.players.Average(player => player.GetCurrentRanting());
 
             var result = this.players.OrderBy(i => Math.Abs(i.GetCurrentRanting() - avRating))
              .ThenBy(i => i.GetCurrentRanting() < avRating)

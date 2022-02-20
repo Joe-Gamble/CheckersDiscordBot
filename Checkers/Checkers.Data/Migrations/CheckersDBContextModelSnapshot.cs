@@ -39,12 +39,30 @@ namespace Checkers.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint unsigned");
 
-                    b.Property<bool>("Registered")
+                    b.Property<int>("CurrentTier")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GamesOutOfDivision")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsPlaying")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsQueued")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
 
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<int>("WinRate")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
