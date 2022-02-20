@@ -100,9 +100,16 @@ namespace Checkers.Data
             await context.SaveChangesAsync();
         }
 
-        public async Task LogIn(ulong id)
+        public async Task AttemptLogIn(ulong id)
         {
+            using var context = this.contextFactory.CreateDbContext();
 
+            var player = await context.Players.FindAsync(id);
+
+            if (player != null)
+            {
+                player.IsActive = true;
+            }
         }
 
         public async Task LogOut(ulong id)

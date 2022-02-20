@@ -7,16 +7,16 @@ namespace Checkers.Modules
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net.Http;
     using System.Text;
     using System.Threading.Tasks;
     using Checkers.Common;
+    using Checkers.Data;
     using Checkers.Services;
     using Discord;
     using Discord.Commands;
     using Discord.WebSocket;
     using ProfanityFilter;
-    using System.Net.Http;
-    using Checkers.Data;
 
     /// <summary>
     /// General module containing basic commands.
@@ -59,7 +59,6 @@ namespace Checkers.Modules
 
             await this.DataAccessLayer.SetPrefix(this.Context.Guild.Id, prefix);
             await this.ReplyAsync($"The prefix has been set to {prefix}.");
-
         }
 
         /// <summary>
@@ -90,14 +89,6 @@ namespace Checkers.Modules
                 // This should be retrieved from server database.
                 var role = this.Context.Guild.GetRole(942533679027200051);
 
-                if (args != null)
-                {
-                    if (args.Name != null && args.Name != "name:")
-                    {
-                        name = args.Name;
-                    }
-                }
-
                 if (role == null)
                 {
                     await this.ReplyAsync($"Couldn't find the registration role.");
@@ -107,44 +98,23 @@ namespace Checkers.Modules
                 {
                     // We shouldn't have to account for this, but just in case? I have no idea how robust this is.
                     // TODO: Further testing with non-admin users.
+                    if (args != null)
+                    {
+                        if (args.Name != null && args.Name != "name:")
+                        {
+                            name = args.Name;
+                        }
+                    }
+
                     var player = this.DataAccessLayer.HasPlayer(id);
                     var profanity = ProfanityHandler.Instance;
 
                     bool nameAllowed = !profanity.Filter().ContainsProfanity(name);
 
-                    if (player != null)
-                    {
-                        player.Registered = true;
-
-                        if (nameAllowed)
-                        {
-                            if (player.Username != name)
-                            {
-                                if (args != null && args.Name != "name:")
-                                {
-                                    // This seemns like an awful way to do it. Problem is we need feedback instantly with new name. How?
-                                    await this.DataAccessLayer.UpdatePlayerName(player, name);
-                                    await user.SendMessageAsync($"Account already exists. Your name has been updated to {player.Username}!");
-
-                                    // Database login function.
-                                }
-                            }
-
-                            await this.Context.Message.ReplyAsync($"Welcome back, {player.Username}!");
-                        }
-                        else
-                        {
-                            await this.ReplyAsync($"The chosen name is inappropiate.");
-                            return;
-                        }
-                    }
-                    else
+                    if (player == null)
                     {
                         if (nameAllowed)
                         {
-                            // TODO: Check if user already has the registered role.
-
-                            // TODO: Add a new player entry to the database.
                             await this.DataAccessLayer.RegisterPlayer(name, id);
                             await this.Context.Message.ReplyAsync($"Account registered! Welcome to Checkers!");
                         }
@@ -159,14 +129,30 @@ namespace Checkers.Modules
             }
         }
 
-        [Command("Update")]
+        [Command("Group")]
         public async Task UpdatePlayer()
         {
-            if (this.Context.IsPrivate)
-            {
-                // This is a dm.
-                await this.ReplyAsync("Test");
-            }
+            var role = this.Context.Guild.GetRole(942533679027200051);
+
+            var role1 = await this.Context.Guild.CreateRoleAsync(name: "Role1", permissions: GuildPermissions.None, isMentionable: false);
+            var role2 = await this.Context.Guild.CreateRoleAsync(name: "Role2", permissions: GuildPermissions.None, isMentionable: false);
+
+            var basePermissions = new GuildPermissions(role.Permissions.RawValue);
+
+            // THIS IS A VERY GOOD IDEA. CREATE CATEGORTY & CHANNELS PER MATCH.
+            var category = await this.Context.Guild.CreateCategoryChannelAsync("Test Category");
+            await category.AddPermissionOverwriteAsync(this.Context.Guild.EveryoneRole, OverwritePermissions.DenyAll(category));
+
+            await category.AddPermissionOverwriteAsync(role1, OverwritePermissions.DenyAll(category).Modify(viewChannel: PermValue.Allow, sendMessages: PermValue.Allow, addReactions: PermValue.Allow, speak: PermValue.Allow, connect: PermValue.Allow));
+            await category.AddPermissionOverwriteAsync(role2, OverwritePermissions.DenyAll(category).Modify(viewChannel: PermValue.Allow, sendMessages: PermValue.Allow, addReactions: PermValue.Allow, speak: PermValue.Allow, connect: PermValue.Allow));
+
+            var channel = await this.Context.Guild.CreateTextChannelAsync("Test Channel", x => x.CategoryId = category.Id);
+
+            var teamA_VC = await this.Context.Guild.CreateVoiceChannelAsync("Team A Voice", x => x.CategoryId = category.Id);
+            await teamA_VC.AddPermissionOverwriteAsync(role2, OverwritePermissions.DenyAll(category));
+
+            var teamB_VC = await this.Context.Guild.CreateVoiceChannelAsync("Team B Voice", x => x.CategoryId = category.Id);
+            await teamB_VC.AddPermissionOverwriteAsync(role1, OverwritePermissions.DenyAll(category));
         }
 
         /// <summary>
@@ -198,9 +184,26 @@ namespace Checkers.Modules
             {
                 var embed = new CheckersEmbedBuilder().WithTitle($"{socketGuildUser.Username}#{socketGuildUser.Discriminator}")
                .AddField("ID", socketGuildUser.Id, true).AddField($"Name: ", socketGuildUser.Username, true)
-               .AddField($"Created At:", socketGuildUser.CreatedAt, true).WithImageUrl("https://ibb.co/6RG5YKC").Build();
+               .AddField($"Created At:", socketGuildUser.CreatedAt, true).Build();
 
                 await this.ReplyAsync(embed: embed);
+            }
+        }
+
+        //TEST FUNCTION CAN I UPDATE EMBEDS LIKE THIS?
+        public async Task EditEmbed(ulong id)
+        {
+            var message = await this.Context.Channel.GetMessageAsync(id) as IUserMessage;
+
+
+
+            var embed = new EmbedBuilder()
+                .WithDescription("test edit")
+                .Build();
+
+            if (message != null)
+            {
+                await message.ModifyAsync(x => x.Embed = embed);
             }
         }
     }

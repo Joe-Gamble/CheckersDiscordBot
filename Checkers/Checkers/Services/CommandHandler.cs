@@ -67,6 +67,31 @@ namespace Checkers.Services
 
         private async Task OnUserJoin(SocketUser user)
         {
+            /*
+             player.Registered = true;
+
+                        if (nameAllowed)
+                        {
+                            if (player.Username != name)
+                            {
+                                if (args != null && args.Name != "name:")
+                                {
+                                    // This seemns like an awful way to do it. Problem is we need feedback instantly with new name. How?
+                                    await this.DataAccessLayer.UpdatePlayerName(player, name);
+                                    await user.SendMessageAsync($"Account already exists. Your name has been updated to {player.Username}!");
+
+                                    // Database login function.
+                                }
+                            }
+
+                            await this.Context.Message.ReplyAsync($"Welcome back, {player.Username}!");
+                        }
+                        else
+                        {
+                            await this.ReplyAsync($"The chosen name is inappropiate.");
+                            return;
+                        }
+            */
             if (user is not SocketGuildUser)
             {
                 return;

@@ -19,5 +19,14 @@
         {
             this.WithColor(new Color(87, 203, 147));
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns> A Welcome Embed with rules etc. </returns>
+        public Embed GetWelcomeEmbed()
+        {
+            return this.Build();
+        }
     }
 }
