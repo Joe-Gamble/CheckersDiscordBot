@@ -9,6 +9,7 @@ namespace Checkers
     using System.Threading.Tasks;
     using Checkers.Data;
     using Checkers.Data.Context;
+    using Checkers.Modules;
     using Checkers.Services;
     using Discord;
     using Discord.Addons.Hosting;

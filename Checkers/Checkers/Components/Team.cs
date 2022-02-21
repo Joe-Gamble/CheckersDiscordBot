@@ -2,13 +2,14 @@
 // Copyright (c) GambleDev. All rights reserved.
 // </copyright>
 
-namespace Checkers.Data.Models.Game
+namespace Checkers.Components
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using Checkers.Data.Models;
     using Checkers.Data.Models.Ranked;
 
     /// <summary>
@@ -21,11 +22,11 @@ namespace Checkers.Data.Models.Game
         /// </summary>
         /// <param name="players"> The players for this Team. </param>
         /// <param name="vcID"> The Voice Channel ID for Team VC. </param>
-        public Team(List<Player> players, ulong vcID)
+        public Team(List<Player> players)
         {
             this.Players = players;
-            this.VoiceID = vcID;
 
+            // this.VoiceID = vcID;
             this.AverageRating = this.GetAverageRating();
         }
 

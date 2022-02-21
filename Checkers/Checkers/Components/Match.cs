@@ -2,7 +2,7 @@
 // Copyright (c) GambleDev. All rights reserved.
 // </copyright>
 
-namespace Checkers.Data.Models.Game
+namespace Checkers.Components
 {
     using System;
     using System.Collections.Generic;

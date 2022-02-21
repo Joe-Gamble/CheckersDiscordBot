@@ -222,13 +222,6 @@ namespace Checkers.Modules
             }
         }
 
-        [Command("Queue")]
-        public async Task QueuePlayer()
-        {
-            // Rough implemantion.
-            await this.DataAccessLayer.QueuePlayer(this.Context.User.Id);
-        }
-
         //TEST FUNCTION CAN I UPDATE EMBEDS LIKE THIS?
         public async Task EditEmbed(ulong id)
         {
