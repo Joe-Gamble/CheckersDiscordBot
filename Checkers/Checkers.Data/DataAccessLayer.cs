@@ -155,17 +155,11 @@ namespace Checkers.Data
         /// <param name="player"> The Player reference. </param>
         /// <param name="name"> The new name for the Player. </param>
         /// <returns> A <see cref="Task"/> representing the asynchronous operation. </returns>
-        public async Task UpdatePlayerName(Player player, string name)
+        public async Task UpdatePlayer(Player player)
         {
             using var context = this.contextFactory.CreateDbContext();
 
-            var playerEntry = await context.Players.FindAsync(player.Id);
-
-            if (playerEntry != null)
-            {
-                playerEntry.Username = name;
-                player.Username = name;
-            }
+            context.Update(player);
 
             await context.SaveChangesAsync();
         }

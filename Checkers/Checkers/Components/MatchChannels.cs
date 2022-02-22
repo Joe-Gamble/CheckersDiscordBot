@@ -18,12 +18,14 @@ namespace Checkers.Components
     /// </summary>
     public struct MatchChannels
     {
-        private MatchChannels(ulong cat, ulong mText, ulong tA_VC, ulong tB_VC)
+        private MatchChannels(ulong cat, ulong mText, ulong tA_VC, ulong tB_VC, ulong a_Role, ulong b_Role)
         {
             this.MatchCategoryID = cat;
             this.MatchText = mText;
             this.BVc = tB_VC;
             this.AVc = tA_VC;
+            this.ARole = a_Role;
+            this.BRole = b_Role;
         }
 
         /// <summary>
@@ -45,6 +47,16 @@ namespace Checkers.Components
         /// Gets the ID of Team B's Voice Channel.
         /// </summary>
         public ulong BVc { get; }
+
+        /// <summary>
+        /// Gets the ID of Team A's Role.
+        /// </summary>
+        public ulong ARole { get; }
+
+        /// <summary>
+        /// Gets the ID of Team B's Role.
+        /// </summary>
+        public ulong BRole { get; }
 
         /// <summary>
         /// Construct a new Match Channel Object.
@@ -70,12 +82,27 @@ namespace Checkers.Components
             var channel = await guild.CreateTextChannelAsync("Test Channel", x => x.CategoryId = category.Id);
 
             var teamA_VC = await guild.CreateVoiceChannelAsync("Team A Voice", x => x.CategoryId = category.Id);
-            await teamA_VC.AddPermissionOverwriteAsync(role2, OverwritePermissions.DenyAll(category));
+            await teamA_VC.AddPermissionOverwriteAsync(role1, OverwritePermissions.DenyAll(category));
 
             var teamB_VC = await guild.CreateVoiceChannelAsync("Team B Voice", x => x.CategoryId = category.Id);
-            await teamB_VC.AddPermissionOverwriteAsync(role1, OverwritePermissions.DenyAll(category));
+            await teamB_VC.AddPermissionOverwriteAsync(role2, OverwritePermissions.DenyAll(category));
 
-            return new MatchChannels(category.Id, channel.Id, teamA_VC.Id, teamB_VC.Id);
+            return new MatchChannels(category.Id, channel.Id, teamA_VC.Id, teamB_VC.Id, role1.Id, role2.Id);
+        }
+
+        /// <summary>
+        /// Deletes Match channels from Guild.
+        /// </summary>
+        /// <param name="guild"> The Checkers Guild. </param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public async Task RemoveChannels(SocketGuild guild)
+        {
+            await guild.GetChannel(this.MatchCategoryID).DeleteAsync();
+            await guild.GetChannel(this.MatchText).DeleteAsync();
+            await guild.GetChannel(this.AVc).DeleteAsync();
+            await guild.GetChannel(this.BVc).DeleteAsync();
+            await guild.GetRole(this.ARole).DeleteAsync();
+            await guild.GetRole(this.BRole).DeleteAsync();
         }
     }
 }

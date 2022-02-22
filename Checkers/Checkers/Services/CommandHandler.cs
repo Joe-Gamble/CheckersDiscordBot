@@ -67,6 +67,7 @@ namespace Checkers.Services
 
         private async Task OnUserJoin(SocketUser user)
         {
+            #region editname
             /*
              player.Registered = true;
 
@@ -92,6 +93,8 @@ namespace Checkers.Services
                             return;
                         }
             */
+            #endregion
+
             if (user is not SocketGuildUser)
             {
                 return;

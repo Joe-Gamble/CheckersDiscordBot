@@ -20,8 +20,6 @@
         private readonly List<Player> players = new ();
         private readonly int gameSize = 12;
 
-        //public delegate 
-        
         /// <summary>
         /// Add a player to the Queue.
         /// </summary>
@@ -29,9 +27,10 @@
         /// <returns> True if there's enough players for a game. </returns>
         public bool AddToQueue(Player player)
         {
+            player.IsQueued = true;
             this.players.Add(player);
 
-            if (this.players.Count >= this.gameSize)
+            if (this.HasEnoughPlayers())
             {
                 return true;
             }
@@ -56,6 +55,7 @@
         /// <param name="player"> The Player to be removed. </param>
         public void RemoveFromQueue(Player player)
         {
+            player.IsQueued = false;
             this.players.Remove(player);
         }
 

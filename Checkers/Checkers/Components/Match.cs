@@ -4,6 +4,7 @@
 
 namespace Checkers.Components
 {
+    using Checkers.Data.Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -20,15 +21,60 @@ namespace Checkers.Components
         /// </summary>
         /// <param name="teamA"> The first team to be injected. </param>
         /// <param name="teamB"> The second team to be injected. </param>
-        /// <param name="catID"> The CategoryID of the Match. </param>
-        /// <param name="textID"> The Text Channel ID of the Match. </param>
-        public Match(Team teamA, Team teamB, ulong catID, ulong textID)
+        /// <param name="channels"> The MatchChannels for the match. </param>
+        public Match(Team teamA, Team teamB, MatchChannels channels)
         {
             this.TeamA = teamA;
             this.TeamB = teamB;
-            this.CategoryID = catID;
-            this.TectChannelID = textID;
+
+            this.Channels = channels;
+
+            this.TeamA.VoiceID = channels.AVc;
+            this.TeamB.VoiceID = channels.BVc;
+
             this.TimeStarted = DateTime.UtcNow;
+        }
+
+        /// <summary>
+        /// Return all players
+        /// </summary>
+        /// <returns> A list of players. </returns>
+        public List<Player> GetPlayers()
+        {
+            var players = new List<Player>();
+
+            players.AddRange(this.TeamA.Players);
+            players.AddRange(this.TeamB.Players);
+
+            return players;
+        }
+
+        public bool HasPlayer(Player player)
+        {
+            if (this.TeamA.Players.Contains(player) || this.TeamB.Players.Contains(player))
+            {
+                return true;
+            }
+            else
+            {
+                return false; 
+            }
+        }
+
+        public Team? GetTeamOfPlayer(Player player)
+        {
+            if (this.TeamA.Players.Contains(player))
+            {
+                return this.TeamA;
+            }
+            else if (this.TeamB.Players.Contains(player))
+            {
+                return this.TeamB;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         // TODO: Get Player Ids into this class to be passed into Team constructors.
@@ -44,14 +90,9 @@ namespace Checkers.Components
         public Team TeamB { get; set; }
 
         /// <summary>
-        /// Gets the CategoryID for this match.
+        /// The Channels associated with the match.
         /// </summary>
-        public ulong CategoryID { get; }
-
-        /// <summary>
-        /// Gets the Text CHannel ID for this match.
-        /// </summary>
-        public ulong TectChannelID { get; }
+        public MatchChannels Channels { get; }
 
         /// <summary>
         /// Gets the start time of the Match.

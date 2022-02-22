@@ -27,6 +27,8 @@ namespace Checkers
     /// </summary>
     internal class Program
     {
+        public int test = 9;
+
         private static async Task Main()
         {
             string dir = Directory.GetCurrentDirectory();

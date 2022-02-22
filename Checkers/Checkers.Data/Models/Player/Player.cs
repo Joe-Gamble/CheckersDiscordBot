@@ -34,6 +34,22 @@ namespace Checkers.Data.Models
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Player"/> class.
+        /// </summary>
+        /// <param name="player"> The Player to copy data from. </param>
+        public Player(Player player)
+        {
+            this.Id = player.Id;
+            this.Username = player.Username;
+            this.IsActive = player.IsActive;
+            this.IsQueued = player.IsQueued;
+            this.IsPlaying = player.IsPlaying;
+
+            this.Rating = player.Rating;
+            this.CurrentTier = player.CurrentTier;
+        }
+
+        /// <summary>
         /// Gets or sets the ID for the player.
         /// </summary>
         public ulong Id { get; set; }

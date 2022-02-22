@@ -22,11 +22,13 @@ namespace Checkers.Components
         /// </summary>
         /// <param name="players"> The players for this Team. </param>
         /// <param name="vcID"> The Voice Channel ID for Team VC. </param>
-        public Team(List<Player> players)
+        public Team(List<Player> players, ulong vcID, ulong roleID)
         {
             this.Players = players;
 
-            // this.VoiceID = vcID;
+            this.VoiceID = vcID;
+            this.RoleID = roleID;
+
             this.AverageRating = this.GetAverageRating();
         }
 
@@ -36,9 +38,14 @@ namespace Checkers.Components
         public List<Player> Players { get; }
 
         /// <summary>
-        /// Gets the UId of this Teams voice channel.
+        /// Gets or Sets the UId of this Teams voice channel.
         /// </summary>
-        public ulong VoiceID { get; }
+        public ulong VoiceID { get; set; }
+
+        /// <summary>
+        /// Gets or Sets the UId of this Teams role.
+        /// </summary>
+        public ulong RoleID { get; set; }
 
         /// <summary>
         /// Gets the Average <see cref="RatingUtils"/> of this Team.
