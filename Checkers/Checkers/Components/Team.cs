@@ -11,6 +11,8 @@ namespace Checkers.Components
     using System.Threading.Tasks;
     using Checkers.Data.Models;
     using Checkers.Data.Models.Ranked;
+    using Checkers.Services;
+    using Discord.WebSocket;
 
     /// <summary>
     /// Team class defining a standard Checkers team.
@@ -22,12 +24,9 @@ namespace Checkers.Components
         /// </summary>
         /// <param name="players"> The players for this Team. </param>
         /// <param name="vcID"> The Voice Channel ID for Team VC. </param>
-        public Team(List<Player> players, ulong vcID, ulong roleID)
+        public Team(List<Player> players)
         {
             this.Players = players;
-
-            this.VoiceID = vcID;
-            this.RoleID = roleID;
 
             this.AverageRating = this.GetAverageRating();
         }
@@ -43,6 +42,11 @@ namespace Checkers.Components
         public ulong VoiceID { get; set; }
 
         /// <summary>
+        /// Gets or Sets the UId of this Teams text channel.
+        /// </summary>
+        public ulong TextID { get; set; }
+
+        /// <summary>
         /// Gets or Sets the UId of this Teams role.
         /// </summary>
         public ulong RoleID { get; set; }
@@ -55,15 +59,19 @@ namespace Checkers.Components
         private int GetAverageRating()
         {
             int skillRating = 0;
-
-            foreach (Player player in this.Players)
+            if (this.Players.Count != 0)
             {
-                skillRating += player.GetCurrentRanting();
+                foreach (Player player in this.Players)
+                {
+                    skillRating += player.GetCurrentRanting();
+                }
+
+                int skillAverage = skillRating / this.Players.Count;
+
+                return skillAverage;
             }
 
-            int skillAverage = skillRating / this.Players.Count;
-
-            return skillAverage;
+            return skillRating;
         }
     }
 }

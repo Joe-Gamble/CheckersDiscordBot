@@ -27,7 +27,6 @@ namespace Checkers
     /// </summary>
     internal class Program
     {
-        public int test = 9;
 
         private static async Task Main()
         {
@@ -67,7 +66,7 @@ namespace Checkers
             .ConfigureServices((context, services) =>
             {
                 services
-                .AddHostedService<CommandHandler>().AddHttpClient().AddDbContextFactory<CheckersDbContext>(options =>
+                .AddSingleton<MatchManager>().AddHostedService<CommandHandler>().AddHttpClient().AddDbContextFactory<CheckersDbContext>(options =>
                     options.UseMySql(
                         connectionString:
                     context.Configuration.GetConnectionString("Default"),

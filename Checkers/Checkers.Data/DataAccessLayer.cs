@@ -165,6 +165,17 @@ namespace Checkers.Data
         }
 
         /// <summary>
+        /// Update the database.
+        /// </summary>
+        /// <returns> A <see cref="Task"/> representing the asynchronous operation. </returns>
+        public async Task UpdateDatabase()
+        {
+            using var context = this.contextFactory.CreateDbContext();
+
+            await context.SaveChangesAsync();
+        }
+
+        /// <summary>
         /// Insert a player into the Queue.
         /// </summary>
         /// <param name="id"> The ID of the player. </param>
@@ -184,7 +195,6 @@ namespace Checkers.Data
                     //context.CheckersQueue.AddToQueue(player);
                     player.IsQueued = true;
                 }
-                
             }
 
             await context.SaveChangesAsync();

@@ -114,6 +114,8 @@ namespace Checkers.Modules
                         {
                             await this.DataAccessLayer.RegisterPlayer(name, id);
                             await this.Context.Message.ReplyAsync($"Account registered! Welcome to Checkers!");
+
+                            await user.ModifyAsync(x => x.Nickname = name);
                         }
                         else
                         {

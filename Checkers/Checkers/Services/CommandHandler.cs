@@ -51,7 +51,32 @@ namespace Checkers.Services
             this.service.CommandExecuted += this.OnCommandExcecuted;
             this.Client.UserJoined += this.OnUserJoin;
             this.Client.UserLeft += this.OnUserLeave;
+            this.Client.PresenceUpdated += this.OnUserUpdate;
             await this.service.AddModulesAsync(Assembly.GetEntryAssembly(), this.provider);
+        }
+
+        private async Task OnUserUpdate(SocketUser user, SocketPresence oldStatus, SocketPresence newStatus)
+        {
+            if (newStatus.Status == UserStatus.Offline)
+            {
+                var player = this.DataAccessLayer.HasPlayer(user.Id);
+
+                if (player != null)
+                {
+                    player.IsActive = false;
+                    await this.DataAccessLayer.UpdatePlayer(player);
+                }
+            }
+            else if (oldStatus.Status == UserStatus.Offline)
+            {
+                var player = this.DataAccessLayer.HasPlayer(user.Id);
+
+                if (player != null)
+                {
+                    player.IsActive = true;
+                    await this.DataAccessLayer.UpdatePlayer(player);
+                }
+            }
         }
 
         private async Task OnCommandExcecuted(Optional<CommandInfo> commandInfo, ICommandContext commandContext, IResult result)

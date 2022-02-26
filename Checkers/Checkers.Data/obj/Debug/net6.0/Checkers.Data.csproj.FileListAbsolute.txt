@@ -1,7 +1,6 @@
 C:\Users\joemi\Documents\Dev\DiscordBots\Checkers\CheckersDiscordBot\Checkers\Checkers.Data\bin\Debug\net6.0\Checkers.Data.deps.json
 C:\Users\joemi\Documents\Dev\DiscordBots\Checkers\CheckersDiscordBot\Checkers\Checkers.Data\bin\Debug\net6.0\Checkers.Data.runtimeconfig.json
 C:\Users\joemi\Documents\Dev\DiscordBots\Checkers\CheckersDiscordBot\Checkers\Checkers.Data\bin\Debug\net6.0\Checkers.Data.dll
-C:\Users\joemi\Documents\Dev\DiscordBots\Checkers\CheckersDiscordBot\Checkers\Checkers.Data\bin\Debug\net6.0\ref\Checkers.Data.dll
 C:\Users\joemi\Documents\Dev\DiscordBots\Checkers\CheckersDiscordBot\Checkers\Checkers.Data\bin\Debug\net6.0\Checkers.Data.pdb
 C:\Users\joemi\Documents\Dev\DiscordBots\Checkers\CheckersDiscordBot\Checkers\Checkers.Data\obj\Debug\net6.0\Checkers.Data.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\joemi\Documents\Dev\DiscordBots\Checkers\CheckersDiscordBot\Checkers\Checkers.Data\obj\Debug\net6.0\Checkers.Data.AssemblyInfoInputs.cache
@@ -12,3 +11,4 @@ C:\Users\joemi\Documents\Dev\DiscordBots\Checkers\CheckersDiscordBot\Checkers\Ch
 C:\Users\joemi\Documents\Dev\DiscordBots\Checkers\CheckersDiscordBot\Checkers\Checkers.Data\obj\Debug\net6.0\Checkers.Data.pdb
 C:\Users\joemi\Documents\Dev\DiscordBots\Checkers\CheckersDiscordBot\Checkers\Checkers.Data\obj\Debug\net6.0\Checkers.Data.genruntimeconfig.cache
 C:\Users\joemi\Documents\Dev\DiscordBots\Checkers\CheckersDiscordBot\Checkers\Checkers.Data\obj\Debug\net6.0\Checkers.Data.csproj.AssemblyReference.cache
+C:\Users\joemi\Documents\Dev\DiscordBots\Checkers\CheckersDiscordBot\Checkers\Checkers.Data\obj\Debug\net6.0\refint\Checkers.Data.dll

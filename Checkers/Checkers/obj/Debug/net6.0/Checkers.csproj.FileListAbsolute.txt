@@ -5,7 +5,6 @@ C:\Users\joemi\Documents\Dev\DiscordBots\Checkers\CheckersDiscordBot\Checkers\Ch
 C:\Users\joemi\Documents\Dev\DiscordBots\Checkers\CheckersDiscordBot\Checkers\Checkers\bin\Debug\net6.0\Checkers.deps.json
 C:\Users\joemi\Documents\Dev\DiscordBots\Checkers\CheckersDiscordBot\Checkers\Checkers\bin\Debug\net6.0\Checkers.runtimeconfig.json
 C:\Users\joemi\Documents\Dev\DiscordBots\Checkers\CheckersDiscordBot\Checkers\Checkers\bin\Debug\net6.0\Checkers.dll
-C:\Users\joemi\Documents\Dev\DiscordBots\Checkers\CheckersDiscordBot\Checkers\Checkers\bin\Debug\net6.0\ref\Checkers.dll
 C:\Users\joemi\Documents\Dev\DiscordBots\Checkers\CheckersDiscordBot\Checkers\Checkers\bin\Debug\net6.0\Checkers.pdb
 C:\Users\joemi\Documents\Dev\DiscordBots\Checkers\CheckersDiscordBot\Checkers\Checkers\bin\Debug\net6.0\Discord.Addons.Hosting.dll
 C:\Users\joemi\Documents\Dev\DiscordBots\Checkers\CheckersDiscordBot\Checkers\Checkers\bin\Debug\net6.0\Discord.Net.Commands.dll
@@ -67,3 +66,4 @@ C:\Users\joemi\Documents\Dev\DiscordBots\Checkers\CheckersDiscordBot\Checkers\Ch
 C:\Users\joemi\Documents\Dev\DiscordBots\Checkers\CheckersDiscordBot\Checkers\Checkers\obj\Debug\net6.0\ref\Checkers.dll
 C:\Users\joemi\Documents\Dev\DiscordBots\Checkers\CheckersDiscordBot\Checkers\Checkers\obj\Debug\net6.0\Checkers.pdb
 C:\Users\joemi\Documents\Dev\DiscordBots\Checkers\CheckersDiscordBot\Checkers\Checkers\obj\Debug\net6.0\Checkers.genruntimeconfig.cache
+C:\Users\joemi\Documents\Dev\DiscordBots\Checkers\CheckersDiscordBot\Checkers\Checkers\obj\Debug\net6.0\refint\Checkers.dll

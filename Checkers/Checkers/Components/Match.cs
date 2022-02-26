@@ -22,15 +22,10 @@ namespace Checkers.Components
         /// <param name="teamA"> The first team to be injected. </param>
         /// <param name="teamB"> The second team to be injected. </param>
         /// <param name="channels"> The MatchChannels for the match. </param>
-        public Match(Team teamA, Team teamB, MatchChannels channels)
+        public Match(Team teamA, Team teamB)
         {
             this.TeamA = teamA;
             this.TeamB = teamB;
-
-            this.Channels = channels;
-
-            this.TeamA.VoiceID = channels.AVc;
-            this.TeamB.VoiceID = channels.BVc;
 
             this.TimeStarted = DateTime.UtcNow;
         }
@@ -77,8 +72,6 @@ namespace Checkers.Components
             }
         }
 
-        // TODO: Get Player Ids into this class to be passed into Team constructors.
-
         /// <summary>
         /// Gets or Sets team A in the match.
         /// </summary>
@@ -90,9 +83,9 @@ namespace Checkers.Components
         public Team TeamB { get; set; }
 
         /// <summary>
-        /// The Channels associated with the match.
+        /// Gets or Sets Channels associated with the match.
         /// </summary>
-        public MatchChannels Channels { get; }
+        public MatchChannels Channels { get; set; }
 
         /// <summary>
         /// Gets the start time of the Match.

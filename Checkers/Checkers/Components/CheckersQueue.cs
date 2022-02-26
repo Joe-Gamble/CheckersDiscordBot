@@ -18,7 +18,7 @@
         /// List of Players currently in Queue.
         /// </summary>
         private readonly List<Player> players = new ();
-        private readonly int gameSize = 12;
+        private readonly int gameSize = 2;
 
         /// <summary>
         /// Add a player to the Queue.
@@ -27,8 +27,10 @@
         /// <returns> True if there's enough players for a game. </returns>
         public bool AddToQueue(Player player)
         {
-            player.IsQueued = true;
-            this.players.Add(player);
+            if (!this.players.Contains(player))
+            {
+                this.players.Add(player);
+            }
 
             if (this.HasEnoughPlayers())
             {
@@ -55,8 +57,11 @@
         /// <param name="player"> The Player to be removed. </param>
         public void RemoveFromQueue(Player player)
         {
-            player.IsQueued = false;
-            this.players.Remove(player);
+            if (this.players.Any(x => x.Id == player.Id))
+            {
+                player = this.players.First(x => x.Id == player.Id);
+                this.players.Remove(player);
+            }
         }
 
         /// <summary>
@@ -65,7 +70,19 @@
         /// <returns> A list containing the closest 12 players to the average currently in the Queue. </returns>
         public List<Player> Pop()
         {
-            return this.GetPlayersClosestToAverage();
+            List<Player> bestplayers = this.GetPlayersClosestToAverage();
+
+            foreach (Player player in bestplayers)
+            {
+                this.players.Remove(player);
+            }
+
+            return bestplayers;
+        }
+
+        public List<Player> GetAllPlayersInQueue()
+        {
+            return players;
         }
 
         private List<Player> GetPlayersClosestToAverage()
@@ -78,7 +95,7 @@
              .ThenBy(i => i.GetCurrentRanting() < avRating)
              .ToArray();
 
-            closestPlayers.AddRange(this.players.GetRange(0, 12));
+            closestPlayers.AddRange(this.players.GetRange(0, this.gameSize));
 
             return closestPlayers;
         }
