@@ -2,7 +2,7 @@
 // Copyright (c) GambleDev. All rights reserved.
 // </copyright>
 
-namespace Checkers.Data.Models.Ranked
+namespace Checkers.Components
 {
     /// <summary>
     /// Tier Definitions for Skill Rating.

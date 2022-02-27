@@ -42,7 +42,7 @@ namespace Checkers.Modules
         /// <param name="prefix"> If null retrieves the current prefix. If not, attempts to assign it to the database. </param>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         [Command("Prefix")]
-        public async Task GetPrefix(string prefix = null)
+        public async Task GetPrefix(string? prefix = null)
         {
             if (this.Context.IsPrivate)
             {
@@ -63,12 +63,12 @@ namespace Checkers.Modules
 
         /// <summary>
         /// Register function for new Players.
-        /// TODO: Move Register function into another sub instead of General?
+        /// TODO: Move Register function into another sub instead of General?.
         /// </summary>
-        /// <param name="args"> Optional arguments that users can pass while registering. </param>
+        /// <param name="customName"> Optional arguments that users can pass while registering. </param>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         [Command("Register")]
-        public async Task RegisterPlayer(string customName = null)
+        public async Task RegisterPlayer(string? customName = null)
         {
             if (this.Context.IsPrivate)
             {
@@ -115,7 +115,10 @@ namespace Checkers.Modules
                             await this.DataAccessLayer.RegisterPlayer(name, id);
                             await this.Context.Message.ReplyAsync($"Account registered! Welcome to Checkers!");
 
-                            await user.ModifyAsync(x => x.Nickname = name);
+                            if (user != this.Context.Guild.Owner)
+                            {
+                                await user.ModifyAsync(x => x.Nickname = name);
+                            }
                         }
                         else
                         {
@@ -163,31 +166,6 @@ namespace Checkers.Modules
             }
         }
 
-        [Command("Group")]
-        public async Task UpdatePlayer()
-        {
-            var role = this.Context.Guild.GetRole(942533679027200051);
-
-            var role1 = await this.Context.Guild.CreateRoleAsync(name: "Role1", permissions: GuildPermissions.None, isMentionable: false);
-            var role2 = await this.Context.Guild.CreateRoleAsync(name: "Role2", permissions: GuildPermissions.None, isMentionable: false);
-
-            var basePermissions = new GuildPermissions(role.Permissions.RawValue);
-
-            // THIS IS A VERY GOOD IDEA. CREATE CATEGORTY & CHANNELS PER MATCH.
-            var category = await this.Context.Guild.CreateCategoryChannelAsync("Test Category");
-            await category.AddPermissionOverwriteAsync(this.Context.Guild.EveryoneRole, OverwritePermissions.DenyAll(category));
-
-            await category.AddPermissionOverwriteAsync(role1, OverwritePermissions.DenyAll(category).Modify(viewChannel: PermValue.Allow, sendMessages: PermValue.Allow, addReactions: PermValue.Allow, speak: PermValue.Allow, connect: PermValue.Allow));
-            await category.AddPermissionOverwriteAsync(role2, OverwritePermissions.DenyAll(category).Modify(viewChannel: PermValue.Allow, sendMessages: PermValue.Allow, addReactions: PermValue.Allow, speak: PermValue.Allow, connect: PermValue.Allow));
-
-            var channel = await this.Context.Guild.CreateTextChannelAsync("Test Channel", x => x.CategoryId = category.Id);
-
-            var teamA_VC = await this.Context.Guild.CreateVoiceChannelAsync("Team A Voice", x => x.CategoryId = category.Id);
-            await teamA_VC.AddPermissionOverwriteAsync(role2, OverwritePermissions.DenyAll(category));
-
-            var teamB_VC = await this.Context.Guild.CreateVoiceChannelAsync("Team B Voice", x => x.CategoryId = category.Id);
-            await teamB_VC.AddPermissionOverwriteAsync(role1, OverwritePermissions.DenyAll(category));
-        }
 
         /// <summary>
         /// Test event function to see how it works.
@@ -224,12 +202,10 @@ namespace Checkers.Modules
             }
         }
 
-        //TEST FUNCTION CAN I UPDATE EMBEDS LIKE THIS?
+        // TEST FUNCTION CAN I UPDATE EMBEDS LIKE THIS?
         public async Task EditEmbed(ulong id)
         {
             var message = await this.Context.Channel.GetMessageAsync(id) as IUserMessage;
-
-
 
             var embed = new EmbedBuilder()
                 .WithDescription("test edit")

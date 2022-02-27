@@ -10,7 +10,6 @@ namespace Checkers.Components
     using System.Text;
     using System.Threading.Tasks;
     using Checkers.Data.Models;
-    using Checkers.Data.Models.Ranked;
     using Checkers.Services;
     using Discord.WebSocket;
 

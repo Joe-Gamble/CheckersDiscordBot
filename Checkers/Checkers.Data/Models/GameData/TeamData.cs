@@ -9,7 +9,6 @@ namespace Checkers.Data.Models.Game
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-    using Checkers.Data.Models.Ranked;
 
     /// <summary>
     /// Team class defining a standard Checkers team.

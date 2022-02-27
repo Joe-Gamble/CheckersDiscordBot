@@ -1,18 +1,18 @@
-﻿// <copyright file="CheckersDbContextFactory.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="CheckersDbContextFactory.cs" company="GambleDev">
+// Copyright (c) GambleDev. All rights reserved.
 // </copyright>
-
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Checkers.Data.Context
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Design;
+    using Microsoft.Extensions.Configuration;
+
     public class CheckersDbContextFactory : IDesignTimeDbContextFactory<CheckersDbContext>
     {
         public CheckersDbContext CreateDbContext(string[] args)

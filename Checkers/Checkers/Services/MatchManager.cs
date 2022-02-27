@@ -24,6 +24,7 @@
         private readonly IServiceProvider provider;
         private readonly CommandService service;
         private readonly IConfiguration configuration;
+        private readonly RankedManager rankManager;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandHandler"/> class.
@@ -34,12 +35,13 @@
         /// <param name="service"> The <see cref="CommandService"/> that should be injected. </param>
         /// <param name="configuration"> The <see cref="IConfiguration"/> that should be injected. </param>
         /// <param name="dataAccessLayer"> The <see cref="DataAccessLayer"/> that should be injected. </param>
-        public MatchManager(IServiceProvider provider, DiscordSocketClient client, ILogger<DiscordClientService> logger, CommandService service, IConfiguration configuration, DataAccessLayer dataAccessLayer)
+        public MatchManager(IServiceProvider provider, DiscordSocketClient client, ILogger<DiscordClientService> logger, CommandService service, IConfiguration configuration, DataAccessLayer dataAccessLayer, RankedManager rm)
             : base(client, logger, configuration, dataAccessLayer)
         {
             this.provider = provider;
             this.service = service;
             this.configuration = configuration;
+            this.rankManager = rm;
 
             this.Queue = new CheckersQueue();
             this.Matches = new List<Match>();
@@ -50,11 +52,7 @@
         /// </summary>
         public CheckersQueue Queue { get; }
 
-
         private List<Match> Matches { get; set; }
-
-
-
 
         public async Task<List<Player>> QueuePlayer(SocketCommandContext context, Player player)
         {
@@ -72,7 +70,7 @@
             return players;
         }
 
-        public async Task UnQueuePlayer(SocketCommandContext context, Player player)
+        public void UnQueuePlayer(SocketCommandContext context, Player player)
         {
             if (player.IsActive)
             {
@@ -140,15 +138,24 @@
 
             // FInally clean-up the match channels from the guild.
             await match.Channels.RemoveChannels(context.Guild);
+
+            CheckersMatchResult result = new CheckersMatchResult(match, MatchOutcome.TeamA);
+
+            await this.rankManager.ProcessMatchResult(result);
+
             this.Matches.Remove(match);
 
             return players;
         }
 
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        {
+            await this.service.AddModulesAsync(Assembly.GetEntryAssembly(), this.provider);
+        }
+
         /// <summary>
         /// Make a Checkers match.
         /// </summary>
-        /// <param name="channels"> The <see cref="MatchChannels"/> struct. </param>
         /// <returns> A new Match. </returns>
         private Match MakeMatch()
         {
@@ -189,10 +196,6 @@
             }
 
             return null;
-        }
-
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-        {
         }
 
         private void MakeTeams(out Team teamA, out Team teamB)

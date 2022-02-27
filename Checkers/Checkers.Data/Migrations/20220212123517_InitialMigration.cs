@@ -1,5 +1,5 @@
-﻿// <copyright file="20220212123517_InitialMigration.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="20220212123517_InitialMigration.cs" company="GambleDev">
+// Copyright (c) GambleDev. All rights reserved.
 // </copyright>
 
 using Microsoft.EntityFrameworkCore.Metadata;

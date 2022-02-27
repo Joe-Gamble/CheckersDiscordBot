@@ -30,7 +30,7 @@ namespace Checkers.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Guilds");
+                    b.ToTable("Guilds", (string)null);
                 });
 
             modelBuilder.Entity("Checkers.Data.Models.Player", b =>
@@ -66,7 +66,7 @@ namespace Checkers.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Players");
+                    b.ToTable("Players", (string)null);
                 });
 #pragma warning restore 612, 618
         }

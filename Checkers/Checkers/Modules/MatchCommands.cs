@@ -1,4 +1,8 @@
-﻿namespace Checkers.Modules
+﻿// <copyright file="MatchCommands.cs" company="GambleDev">
+// Copyright (c) GambleDev. All rights reserved.
+// </copyright>
+
+namespace Checkers.Modules
 {
     using System;
     using System.Collections.Generic;
@@ -24,6 +28,7 @@
         /// </summary>
         /// <param name="httpClientFactory"> The <see cref="IHttpClientFactory"/> to be used. </param>
         /// <param name=dataAccessLayer"> The <see cref="DataAccessLayer"/> to be used. </param>
+        /// <param name="manager"> The <see cref="MatchManager"/> to be used. </param>
         public MatchCommands(IHttpClientFactory httpClientFactory, DataAccessLayer dataAccessLayer, MatchManager manager)
             : base(dataAccessLayer)
         {
@@ -77,11 +82,10 @@
                 }
 
                 // UnQueue Player
-                await this.matchManager.UnQueuePlayer(this.Context, player);
+                this.matchManager.UnQueuePlayer(this.Context, player);
 
                 player.IsQueued = false;
                 await this.DataAccessLayer.UpdatePlayer(player);
-
             }
         }
 

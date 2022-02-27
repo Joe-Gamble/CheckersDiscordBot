@@ -4,7 +4,6 @@
 
 namespace Checkers.Data.Models
 {
-    using Checkers.Data.Models.Ranked;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -30,7 +29,7 @@ namespace Checkers.Data.Models
             this.IsPlaying = false;
 
             this.Rating = 0;
-            this.CurrentTier = SkillTier.Undefined;
+            this.CurrentTier = -1;
         }
 
         /// <summary>
@@ -87,7 +86,7 @@ namespace Checkers.Data.Models
         /// <summary>
         /// Gets or Sets the current Tier.
         /// </summary>
-        public SkillTier CurrentTier { get; set; }
+        public int CurrentTier { get; set; }
 
         /// <summary>
         /// Gets or Sets the players current games out of their division.

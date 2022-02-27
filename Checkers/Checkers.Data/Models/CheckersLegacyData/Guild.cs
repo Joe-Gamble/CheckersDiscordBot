@@ -1,5 +1,5 @@
-﻿// <copyright file="Guild.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="Guild.cs" company="GambleDev">
+// Copyright (c) GambleDev. All rights reserved.
 // </copyright>
 
 namespace Checkers.Data.Models

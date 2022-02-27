@@ -1,14 +1,15 @@
-﻿// <copyright file="SkillRating.cs" company="GambleDev">
+﻿// <copyright file="RatingUtils.cs" company="GambleDev">
 // Copyright (c) GambleDev. All rights reserved.
 // </copyright>
 
-namespace Checkers.Data.Models.Ranked
+namespace Checkers.Components
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using Checkers.Data.Models;
 
     /// <summary>
     /// Util CLass for handling skill rating data.
@@ -65,10 +66,10 @@ namespace Checkers.Data.Models.Ranked
 
             SkillTier tier = GetTierAt(player.Rating);
 
-            if (player.CurrentTier != tier)
+            if (player.CurrentTier != (int)tier)
             {
                 // promoted
-                player.CurrentTier = GetTierAt(player.Rating);
+                player.CurrentTier = (int)GetTierAt(player.Rating);
             }
         }
 
@@ -81,13 +82,13 @@ namespace Checkers.Data.Models.Ranked
         {
             player.Rating -= total;
 
-            if (GetTierAt(player.Rating) != player.CurrentTier)
+            if ((int)GetTierAt(player.Rating) != player.CurrentTier)
             {
                 player.GamesOutOfDivision++;
 
                 if (player.GamesOutOfDivision >= 5)
                 {
-                    player.CurrentTier = GetTierAt(player.Rating);
+                    player.CurrentTier = (int)GetTierAt(player.Rating);
                     player.GamesOutOfDivision = 0;
                 }
             }

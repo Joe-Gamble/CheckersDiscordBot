@@ -1,5 +1,5 @@
-﻿// <copyright file="CheckersDbContext.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="CheckersDbContext.cs" company="GambleDev">
+// Copyright (c) GambleDev. All rights reserved.
 // </copyright>
 
 namespace Checkers.Data.Context
@@ -10,7 +10,6 @@ namespace Checkers.Data.Context
     using System.Text;
     using System.Threading.Tasks;
     using Checkers.Data.Models;
-    using Checkers.Data.Models.Ranked;
     using Microsoft.EntityFrameworkCore;
 
     public class CheckersDbContext : DbContext

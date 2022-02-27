@@ -1,4 +1,8 @@
-﻿namespace Checkers.Components
+﻿// <copyright file="CheckersQueue.cs" company="GambleDev">
+// Copyright (c) GambleDev. All rights reserved.
+// </copyright>
+
+namespace Checkers.Components
 {
     using System;
     using System.Collections.Generic;
@@ -80,9 +84,13 @@
             return bestplayers;
         }
 
+        /// <summary>
+        /// Get all Players in Queue.
+        /// </summary>
+        /// <returns> A list of all players in queue. </returns>
         public List<Player> GetAllPlayersInQueue()
         {
-            return players;
+            return this.players;
         }
 
         private List<Player> GetPlayersClosestToAverage()

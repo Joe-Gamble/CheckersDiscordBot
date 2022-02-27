@@ -76,6 +76,7 @@ namespace Checkers.Components
         /// Construct a new Match Channel Object.
         /// </summary>
         /// <param name="guild"> The Checkers Guild. </param>
+        ///  /// <param name="match"> The Checkers Match. </param>
         /// <returns> A match channel object containing the Id's of the newly created channels.</returns>
         public static async Task<MatchChannels> BuildMatchChannel(SocketGuild guild, Match match)
         {

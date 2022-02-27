@@ -4,12 +4,12 @@
 
 namespace Checkers.Components
 {
-    using Checkers.Data.Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using Checkers.Data.Models;
 
     /// <summary>
     /// Checkers Match class for initialising new matches.
@@ -31,48 +31,6 @@ namespace Checkers.Components
         }
 
         /// <summary>
-        /// Return all players
-        /// </summary>
-        /// <returns> A list of players. </returns>
-        public List<Player> GetPlayers()
-        {
-            var players = new List<Player>();
-
-            players.AddRange(this.TeamA.Players);
-            players.AddRange(this.TeamB.Players);
-
-            return players;
-        }
-
-        public bool HasPlayer(Player player)
-        {
-            if (this.TeamA.Players.Contains(player) || this.TeamB.Players.Contains(player))
-            {
-                return true;
-            }
-            else
-            {
-                return false; 
-            }
-        }
-
-        public Team? GetTeamOfPlayer(Player player)
-        {
-            if (this.TeamA.Players.Contains(player))
-            {
-                return this.TeamA;
-            }
-            else if (this.TeamB.Players.Contains(player))
-            {
-                return this.TeamB;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
         /// Gets or Sets team A in the match.
         /// </summary>
         public Team TeamA { get; set; }
@@ -91,5 +49,57 @@ namespace Checkers.Components
         /// Gets the start time of the Match.
         /// </summary>
         public DateTimeOffset TimeStarted { get; }
+
+        /// <summary>
+        /// Return all players.
+        /// </summary>
+        /// <returns> A list of players. </returns>
+        public List<Player> GetPlayers()
+        {
+            var players = new List<Player>();
+
+            players.AddRange(this.TeamA.Players);
+            players.AddRange(this.TeamB.Players);
+
+            return players;
+        }
+
+        /// <summary>
+        /// Checks if a match contains a player.
+        /// </summary>
+        /// <param name="player"> The player. </param>
+        /// <returns>True if the player exists in the match.</returns>
+        public bool HasPlayer(Player player)
+        {
+            if (this.TeamA.Players.Contains(player) || this.TeamB.Players.Contains(player))
+            {
+                return true;
+            }
+            else
+            {
+                return false; 
+            }
+        }
+
+        /// <summary>
+        /// Get the team of a player.
+        /// </summary>
+        /// <param name="player"> The player. </param>
+        /// <returns> The team of the player. </returns>
+        public Team? GetTeamOfPlayer(Player player)
+        {
+            if (this.TeamA.Players.Contains(player))
+            {
+                return this.TeamA;
+            }
+            else if (this.TeamB.Players.Contains(player))
+            {
+                return this.TeamB;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }
