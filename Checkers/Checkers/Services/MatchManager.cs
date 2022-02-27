@@ -201,22 +201,49 @@
         private void MakeTeams(out Team teamA, out Team teamB)
         {
             var players = this.Queue.Pop();
+            players.OrderBy(player => player.Rating).ToList();
 
             List<Player> playersA = new List<Player>();
             List<Player> playersB = new List<Player>();
 
-            for (int i = 0; i < players.Count; i++)
-            {
-                players[i].IsQueued = false;
-                players[i].IsPlaying = true;
+            var playersLeft = players.Count;
 
-                if ((i + 1) % 2 == 0)
+            bool takeFromTop = true;
+
+            for (int i = 0; i < playersLeft; i++)
+            {
+                if (takeFromTop)
                 {
-                    playersA.Add(players[i]);
+                    players[i].IsQueued = false;
+                    players[i].IsPlaying = true;
+
+                    if ((i + 1) % 2 != 0)
+                    {
+                        playersA.Add(players[i]);
+                    }
+                    else
+                    {
+                        playersB.Add(players[i]);
+                        takeFromTop = false;
+                    }
                 }
                 else
                 {
-                    playersB.Add(players[i]);
+                    players[playersLeft - 1].IsQueued = false;
+                    players[playersLeft - 1].IsPlaying = true;
+
+                    if (playersLeft % 2 == 0)
+                    {
+                        playersA.Add(players[playersLeft - 1]);
+                    }
+                    else
+                    {
+                        playersB.Add(players[playersLeft - 1]);
+                        takeFromTop = true;
+                    }
+
+                    playersLeft--;
+                    i--;
                 }
             }
 

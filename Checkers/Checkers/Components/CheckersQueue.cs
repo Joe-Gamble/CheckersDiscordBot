@@ -22,7 +22,7 @@ namespace Checkers.Components
         /// List of Players currently in Queue.
         /// </summary>
         private readonly List<Player> players = new ();
-        private readonly int gameSize = 2;
+        private readonly int gameSize = 4;
 
         /// <summary>
         /// Add a player to the Queue.

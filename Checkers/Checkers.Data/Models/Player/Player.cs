@@ -46,6 +46,7 @@ namespace Checkers.Data.Models
 
             this.Rating = player.Rating;
             this.CurrentTier = player.CurrentTier;
+            this.InPlacements = player.InPlacements;
         }
 
         /// <summary>
@@ -74,6 +75,11 @@ namespace Checkers.Data.Models
         public bool IsPlaying { get; set; } = false;
 
         /// <summary>
+        /// Gets or sets a value indicating whether the Player's account is currently in placements.
+        /// </summary>
+        public bool InPlacements { get; set; } = false;
+
+        /// <summary>
         /// Gets or Sets the Players current rating.
         /// </summary>
         public int Rating { get; set; }
@@ -82,6 +88,21 @@ namespace Checkers.Data.Models
         /// Gets or Sets the Players Winrate.
         /// </summary>
         public int WinRate { get; set; }
+
+        /// <summary>
+        /// Gets or Sets the games the Player has played.
+        /// </summary>
+        public int GamesPlayed { get; set; }
+
+        /// <summary>
+        /// Gets or Sets the games won.
+        /// </summary>
+        public int GamesWon { get; set; }
+
+        /// <summary>
+        /// Gets or Sets the games lost.
+        /// </summary>
+        public int GamesLost { get; set; }
 
         /// <summary>
         /// Gets or Sets the current Tier.
@@ -109,6 +130,34 @@ namespace Checkers.Data.Models
         public int GetStats()
         {
             return this.Rating;
+        }
+
+        /// <summary>
+        /// Add a game to the players stat.
+        /// </summary>
+        /// <param name="win"> If a win state of the game. Null = Draw. </param>
+        public void AddGamePlayed(bool? win = null)
+        {
+            this.GamesPlayed++;
+            if (win != null)
+            {
+                if (win == true)
+                {
+                    this.GamesWon++;
+                }
+                else
+                {
+                    this.GamesLost++;
+                }
+
+                this.UpdateWinRate();
+            }
+        }
+
+        private void UpdateWinRate()
+        {
+            var totalApplicableGames = this.GamesWon + this.GamesLost;
+            this.WinRate = (int)((double)(this.GamesWon / totalApplicableGames) * 100);
         }
     }
 }

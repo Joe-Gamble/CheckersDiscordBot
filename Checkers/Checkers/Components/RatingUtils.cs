@@ -10,6 +10,7 @@ namespace Checkers.Components
     using System.Text;
     using System.Threading.Tasks;
     using Checkers.Data.Models;
+    using Checkers.Services;
 
     /// <summary>
     /// Util CLass for handling skill rating data.
@@ -60,9 +61,12 @@ namespace Checkers.Components
         /// </summary>
         /// <param name="player"> The Player to add points to. </param>
         /// <param name="total"> The total to be added. </param>
-        public static void Gain(Player player, int total)
+        /// <returns> True if promoted. </returns>
+        public static bool Gain(Player player, int total)
         {
             player.Rating += total;
+
+            ClampRating(player.Rating);
 
             SkillTier tier = GetTierAt(player.Rating);
 
@@ -70,7 +74,11 @@ namespace Checkers.Components
             {
                 // promoted
                 player.CurrentTier = (int)GetTierAt(player.Rating);
+                player.GamesOutOfDivision = 0;
+                return true;
             }
+
+            return false;
         }
 
         /// <summary>
@@ -78,9 +86,12 @@ namespace Checkers.Components
         /// </summary>
         /// <param name="player"> The Player to add points to. </param>
         /// <param name="total"> The amount to subtract. </param>
-        public static void Lose(Player player, int total)
+        /// <returns> True if demoted. </returns>
+        public static bool Lose(Player player, int total)
         {
             player.Rating -= total;
+
+            ClampRating(player.Rating);
 
             if ((int)GetTierAt(player.Rating) != player.CurrentTier)
             {
@@ -90,8 +101,16 @@ namespace Checkers.Components
                 {
                     player.CurrentTier = (int)GetTierAt(player.Rating);
                     player.GamesOutOfDivision = 0;
+                    return true;
                 }
             }
+
+            return false;
+        }
+
+        private static void ClampRating(int rating)
+        {
+            Math.Clamp(rating, 0, CheckersConstants.MaxRank);
         }
     }
 }

@@ -54,7 +54,7 @@ namespace Checkers.Services
 
                 case MatchOutcome.Draw:
                     {
-                        // Add a game played to all users?
+                        this.ProcessDraw(result.GetAllPlayers());
                         break;
                     }
 
@@ -79,17 +79,22 @@ namespace Checkers.Services
             await this.service.AddModulesAsync(Assembly.GetEntryAssembly(), this.provider);
         }
 
-        private void CalculateTeamAPoints(Team team, SkillFavors favors, int multiplier, bool win)
+        private void ProcessDraw(List<Player> players)
+        {
+            foreach (Player player in players)
+            {
+                player.AddGamePlayed();
+            }
+        }
+
+        private void CalculateTeamAPoints(Team team, SkillFavors favors, double multiplier, bool win)
         {
             var average = team.AverageRating;
+            var ratingBase = CheckersConstants.StandardWin;
 
             foreach (Player player in team.Players)
             {
-                // The bigger the player weighting the smaller the multiplier should be
-                // Higher weightings should always be punished more.
-
-                var playerWeighting = player.Rating / average;
-                var ratingBase = CheckersConstants.StandardWin;
+                double playerWeighting = (double)(player.Rating / (double)average);
 
                 if (favors != SkillFavors.Equal)
                 {
@@ -97,59 +102,65 @@ namespace Checkers.Services
                     {
                         if (favors == SkillFavors.TeamA)
                         {
-                            var teamBase = ratingBase - (ratingBase / multiplier);
+                            double playerRating = ratingBase - (ratingBase * multiplier);
+                            playerRating /= playerWeighting;
 
-                            var playerMultiplier = multiplier / playerWeighting;
-                            var playerRating = teamBase - playerMultiplier;
-
-                            RatingUtils.Gain(player, playerRating);
+                            if (RatingUtils.Gain(player, (int)playerRating))
+                            {
+                                // Promoted
+                            }
                         }
                         else if (favors == SkillFavors.TeamB)
                         {
-                            var teamBase = ratingBase + (ratingBase / multiplier);
+                            double playerRating = ratingBase + (ratingBase * multiplier);
+                            playerRating /= playerWeighting;
 
-                            var playerMultiplier = multiplier / playerWeighting;
-                            var playerRating = teamBase - playerMultiplier;
-
-                            RatingUtils.Gain(player, playerRating);
+                            if (RatingUtils.Gain(player, (int)playerRating))
+                            {
+                                // Promoted
+                            }
                         }
                     }
                     else
                     {
                         if (favors == SkillFavors.TeamA)
                         {
-                            var teamBase = ratingBase + (ratingBase / multiplier);
+                            double playerRating = ratingBase + (ratingBase * multiplier);
+                            playerRating *= playerWeighting;
 
-                            var playerMultiplier = multiplier / playerWeighting;
-                            var playerRating = teamBase - playerMultiplier;
-
-                            RatingUtils.Lose(player, playerRating);
+                            if (RatingUtils.Lose(player, (int)playerRating))
+                            {
+                                // Demoted
+                            }
                         }
                         else if (favors == SkillFavors.TeamB)
                         {
-                            var teamBase = ratingBase - (ratingBase / multiplier);
+                            double playerRating = ratingBase - (ratingBase * multiplier);
+                            playerRating *= playerWeighting;
 
-                            var playerMultiplier = multiplier / playerWeighting;
-                            var playerRating = teamBase - playerMultiplier;
-
-                            RatingUtils.Lose(player, playerRating);
+                            if (RatingUtils.Lose(player, (int)playerRating))
+                            {
+                                // Demoted
+                            }
                         }
                     }
+
+                    player.AddGamePlayed(win);
                 }
             }
         }
 
-        private void CalculateTeamBPoints(Team team, SkillFavors favors, int multiplier, bool win)
+        private void CalculateTeamBPoints(Team team, SkillFavors favors, double multiplier, bool win)
         {
             var average = team.AverageRating;
+            var ratingBase = CheckersConstants.StandardWin;
 
             foreach (Player player in team.Players)
             {
                 // The bigger the player weighting the smaller the multiplier should be
                 // Higher weightings should always be punished more.
 
-                var playerWeighting = player.Rating / average;
-                var ratingBase = CheckersConstants.StandardWin;
+                double playerWeighting = (double)(player.Rating / (double)average);
 
                 if (favors != SkillFavors.Equal)
                 {
@@ -157,44 +168,50 @@ namespace Checkers.Services
                     {
                         if (favors == SkillFavors.TeamB)
                         {
-                            var teamBase = ratingBase - (ratingBase / multiplier);
+                            double playerRating = ratingBase - (ratingBase * multiplier);
+                            playerRating /= playerWeighting;
 
-                            var playerMultiplier = multiplier / playerWeighting;
-                            var playerRating = teamBase - playerMultiplier;
-
-                            RatingUtils.Gain(player, playerRating);
+                            if (RatingUtils.Gain(player, (int)playerRating))
+                            {
+                                // Promoted
+                            }
                         }
                         else if (favors == SkillFavors.TeamA)
                         {
-                            var teamBase = ratingBase + (ratingBase / multiplier);
+                            double playerRating = ratingBase + (ratingBase * multiplier);
+                            playerRating /= playerWeighting;
 
-                            var playerMultiplier = multiplier / playerWeighting;
-                            var playerRating = teamBase - playerMultiplier;
-
-                            RatingUtils.Gain(player, playerRating);
+                            if (RatingUtils.Gain(player, (int)playerRating))
+                            {
+                                // Promoted
+                            }
                         }
                     }
                     else
                     {
                         if (favors == SkillFavors.TeamB)
                         {
-                            var teamBase = ratingBase + (ratingBase / multiplier);
+                            double playerRating = ratingBase + (ratingBase * multiplier);
+                            playerRating *= playerWeighting;
 
-                            var playerMultiplier = multiplier / playerWeighting;
-                            var playerRating = teamBase - playerMultiplier;
-
-                            RatingUtils.Lose(player, playerRating);
+                            if (RatingUtils.Lose(player, (int)playerRating))
+                            {
+                                // Demoted
+                            }
                         }
                         else if (favors == SkillFavors.TeamA)
                         {
-                            var teamBase = ratingBase - (ratingBase / multiplier);
+                            double playerRating = ratingBase - (ratingBase * multiplier);
+                            playerRating *= playerWeighting;
 
-                            var playerMultiplier = multiplier / playerWeighting;
-                            var playerRating = teamBase - playerMultiplier;
-
-                            RatingUtils.Lose(player, playerRating);
+                            if (RatingUtils.Lose(player, (int)playerRating))
+                            {
+                                // Demoted
+                            }
                         }
                     }
+
+                    player.AddGamePlayed(win);
                 }
             }
         }

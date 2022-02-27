@@ -23,32 +23,24 @@ namespace Checkers.Components
             this.Multiplier = this.CalculateMultiplier();
         }
 
-        private SkillFavors CalculateFavor()
+        /// <summary>
+        /// Get all Players from this match.
+        /// </summary>
+        /// <returns> A list of all players. </returns>
+        public List<Player> GetAllPlayers()
         {
-            if (this.TeamA.AverageRating == this.TeamB.AverageRating)
-            {
-                return SkillFavors.Equal;
-            }
-            else if (this.TeamA.AverageRating > this.TeamB.AverageRating)
-            {
-                return SkillFavors.TeamA;
-            }
-            else
-            {
-                return SkillFavors.TeamB;
-            }
-        }
+            var players = new List<Player>();
 
-        private int CalculateMultiplier()
-        {
-            int skillDifference = Math.Abs(this.TeamA.AverageRating - this.TeamB.AverageRating);
-            return skillDifference / CheckersConstants.StandardWin;
+            players.AddRange(this.TeamA.Players);
+            players.AddRange(this.TeamB.Players);
+
+            return players;
         }
 
         /// <summary>
         /// Gets or Sets the multiplier for elo dissparities.
         /// </summary>
-        public int Multiplier { get; set; }
+        public double Multiplier { get; set; }
 
         /// <summary>
         /// Gets the Outcome of the match.
@@ -69,5 +61,27 @@ namespace Checkers.Components
         /// Gets or Sets the Skill Favor from this match.
         /// </summary>
         public SkillFavors SkillFavor { get; set; }
+
+        private SkillFavors CalculateFavor()
+        {
+            if (this.TeamA.AverageRating == this.TeamB.AverageRating)
+            {
+                return SkillFavors.Equal;
+            }
+            else if (this.TeamA.AverageRating > this.TeamB.AverageRating)
+            {
+                return SkillFavors.TeamA;
+            }
+            else
+            {
+                return SkillFavors.TeamB;
+            }
+        }
+
+        private double CalculateMultiplier()
+        {
+            int skillDifference = Math.Abs(this.TeamA.AverageRating - this.TeamB.AverageRating);
+            return (double)skillDifference / CheckersConstants.MaxRank;
+        }
     }
 }
