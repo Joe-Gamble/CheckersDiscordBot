@@ -23,11 +23,12 @@ namespace Checkers.Components
         /// </summary>
         /// <param name="players"> The players for this Team. </param>
         /// <param name="vcID"> The Voice Channel ID for Team VC. </param>
-        public Team(List<Player> players)
+        public Team(List<Player> players, bool isA)
         {
             this.Players = players;
 
             this.AverageRating = this.GetAverageRating();
+            this.IsTeamA = isA;
         }
 
         /// <summary>
@@ -54,6 +55,11 @@ namespace Checkers.Components
         /// Gets the Average <see cref="RatingUtils"/> of this Team.
         /// </summary>
         public int AverageRating { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether this Team is teamA.
+        /// </summary>
+        public bool IsTeamA { get; } = false;
 
         private int GetAverageRating()
         {

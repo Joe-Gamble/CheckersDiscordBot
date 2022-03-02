@@ -71,7 +71,7 @@ namespace Checkers.Components
         /// <returns>True if the player exists in the match.</returns>
         public bool HasPlayer(Player player)
         {
-            if (this.TeamA.Players.Contains(player) || this.TeamB.Players.Contains(player))
+            if (this.TeamA.Players.Any(x => x.Id == player.Id) || this.TeamB.Players.Any(x => x.Id == player.Id))
             {
                 return true;
             }
@@ -88,17 +88,34 @@ namespace Checkers.Components
         /// <returns> The team of the player. </returns>
         public Team? GetTeamOfPlayer(Player player)
         {
-            if (this.TeamA.Players.Contains(player))
+            if (this.TeamA.Players.Any(x => x.Id == player.Id))
             {
                 return this.TeamA;
             }
-            else if (this.TeamB.Players.Contains(player))
+            else if (this.TeamB.Players.Any(x => x.Id == player.Id))
             {
                 return this.TeamB;
             }
             else
             {
                 return null;
+            }
+        }
+
+        /// <summary>
+        /// Checks if the team is team A of this match
+        /// </summary>
+        /// <param name="team"> The team. </param>
+        /// <returns> True if the team is TeamA. </returns>
+        public bool IsTeamA(Team team)
+        {
+            if (team == this.TeamA)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }

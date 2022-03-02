@@ -9,11 +9,14 @@ namespace Checkers.Modules
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using Checkers.Common;
     using Checkers.Components;
+    using Checkers.Components.Voting;
     using Checkers.Data;
     using Checkers.Data.Models;
     using Checkers.Services;
     using Discord.Commands;
+    using Discord.WebSocket;
 
     /// <summary>
     /// MatchMaker module for Checkers.
@@ -103,9 +106,35 @@ namespace Checkers.Modules
         }
 
         [Command("EndMatch")]
-        public async Task EndMatch()
+        public async Task EndMatch(string? arg = null)
         {
-            var players = await this.matchManager.OnMatchEnd(this.Context);
+            if (arg != null)
+            {
+                var result = arg.ToLower();
+
+                await this.matchManager.StartMatchVote(result, this.Context);
+
+                var player = this.DataAccessLayer.HasPlayer(this.Context.User.Id);
+
+                if (player != null)
+                {
+                    var message = new CheckersComponentBuilder(VoteType.EndMatch).Build();
+                    var embed = new CheckersEmbedBuilder().WithTitle("Match Vote:").AddField("Created By", player.Username).Build();
+
+                    await this.ReplyAsync(components: message, embed: embed);
+                }
+            }
+            else
+            {
+                await this.ReplyAsync("Please specify the outcome of the match. For example, !EndMatch win");
+            }
+        }
+
+
+        [Command("Destroy")]
+        public async Task Destroy()
+        {
+            var players = await this.matchManager.MatchEnd(this.Context);
 
             if (players != null)
             {

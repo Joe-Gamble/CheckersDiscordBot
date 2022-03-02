@@ -11,6 +11,7 @@ namespace Checkers
     using Checkers.Data.Context;
     using Checkers.Modules;
     using Checkers.Services;
+    using Checkers.Services.Generic;
     using Discord;
     using Discord.Addons.Hosting;
     using Discord.Commands;
@@ -66,7 +67,9 @@ namespace Checkers
             .ConfigureServices((context, services) =>
             {
                 services
-                .AddSingleton<MatchManager>().AddSingleton<RankedManager>().AddHostedService<CommandHandler>().AddHttpClient().AddDbContextFactory<CheckersDbContext>(options =>
+                .AddSingleton<MatchManager>().AddSingleton<RankedManager>().
+                    AddHostedService<ComponentHandler>().AddHostedService<CommandHandler>().
+                    AddHttpClient().AddDbContextFactory<CheckersDbContext>(options =>
                     options.UseMySql(
                         connectionString:
                     context.Configuration.GetConnectionString("Default"),

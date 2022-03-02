@@ -171,6 +171,56 @@ namespace Checkers.Components
             return new MatchChannels(category.Id, matchChannel.Id, teamA_VC.Id, teamB_VC.Id, teamA_TC.Id, teamB_TC.Id, role1.Id, role2.Id);
         }
 
+        public async Task ChangeTextPerms(SocketGuild guild, ulong channelID, bool enabled)
+        {
+            PermValue permValue = PermValue.Allow;
+
+            if (!enabled)
+            {
+                permValue = PermValue.Deny;
+            }
+
+            if (channelID == this.ATc)
+            {
+                var teamAChannel = guild.GetChannel(channelID);
+                if (teamAChannel != null)
+                {
+                    var role = guild.GetRole(this.ARole);
+                    if (role != null)
+                    {
+                        await teamAChannel.AddPermissionOverwriteAsync(role, OverwritePermissions.DenyAll(teamAChannel).Modify(viewChannel: PermValue.Allow, sendMessages: permValue, addReactions: PermValue.Allow, speak: PermValue.Allow, connect: PermValue.Allow));
+                    }
+                }
+            }
+            else if (channelID == this.BTc)
+            {
+                var teamBChannel = guild.GetChannel(channelID);
+                if (teamBChannel != null)
+                {
+                    var role = guild.GetRole(this.BRole);
+                    if (role != null)
+                    {
+                        await teamBChannel.AddPermissionOverwriteAsync(role, OverwritePermissions.DenyAll(teamBChannel).Modify(viewChannel: PermValue.Allow, sendMessages: permValue, addReactions: PermValue.Allow, speak: PermValue.Allow, connect: PermValue.Allow));
+                    }
+                }
+            }
+            else if (channelID == this.MatchText)
+            {
+                var teamMatchChannel = guild.GetChannel(this.MatchText);
+                if (teamMatchChannel != null)
+                {
+                    var roleA = guild.GetRole(this.ARole);
+                    var roleB = guild.GetRole(this.BRole);
+
+                    if (roleA != null && roleB != null)
+                    {
+                        await teamMatchChannel.AddPermissionOverwriteAsync(roleA, OverwritePermissions.DenyAll(teamMatchChannel).Modify(viewChannel: PermValue.Allow, sendMessages: permValue, addReactions: PermValue.Allow, speak: PermValue.Allow, connect: PermValue.Allow));
+                        await teamMatchChannel.AddPermissionOverwriteAsync(roleB, OverwritePermissions.DenyAll(teamMatchChannel).Modify(viewChannel: PermValue.Allow, sendMessages: permValue, addReactions: PermValue.Allow, speak: PermValue.Allow, connect: PermValue.Allow));
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// Deletes Match channels from Guild.
         /// </summary>

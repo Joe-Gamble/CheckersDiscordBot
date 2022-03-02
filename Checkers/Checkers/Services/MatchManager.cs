@@ -7,8 +7,10 @@
     using System.Text;
     using System.Threading.Tasks;
     using Checkers.Components;
+    using Checkers.Components.Voting;
     using Checkers.Data;
     using Checkers.Data.Models;
+    using Checkers.Services.Generic;
     using Discord;
     using Discord.Addons.Hosting;
     using Discord.Commands;
@@ -25,6 +27,7 @@
         private readonly CommandService service;
         private readonly IConfiguration configuration;
         private readonly RankedManager rankManager;
+        private readonly ComponentHandler componentHandler;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandHandler"/> class.
@@ -42,6 +45,9 @@
             this.service = service;
             this.configuration = configuration;
             this.rankManager = rm;
+            //this.componentHandler = ch;
+
+            client.ChannelCreated += this.OnChannelCreated;
 
             this.Queue = new CheckersQueue();
             this.Matches = new List<Match>();
@@ -53,6 +59,22 @@
         public CheckersQueue Queue { get; }
 
         private List<Match> Matches { get; set; }
+
+        private async Task OnChannelCreated(SocketChannel channel)
+        {
+            var match = this.Matches.Last();
+
+            if (channel.Id == match.Channels.MatchText)
+            {
+                if (channel is ISocketMessageChannel)
+                {
+                    ISocketMessageChannel? socketchannel = (ISocketMessageChannel)channel;
+
+                    // Match introductyion here.
+                    await socketchannel.SendMessageAsync("This is a test.");
+                }
+            }
+        }
 
         public async Task<List<Player>> QueuePlayer(SocketCommandContext context, Player player)
         {
@@ -81,19 +103,85 @@
             }
         }
 
-        public async Task<Match> InitialiseMatch(SocketGuild guild)
+        public async Task StartMatchVote(string state, SocketCommandContext context)
         {
-            var match = this.MakeMatch();
+            var player = this.DataAccessLayer.HasPlayer(context.User.Id);
+            if (player != null)
+            {
+                var match = this.GetMatchFromMatchChannel(context.Channel.Id);
 
-            match.Channels = await MatchChannels.BuildMatchChannel(guild, match);
-            this.Matches.Add(match);
-
-            return match;
+                if (match != null)
+                {
+                    if (state == "win")
+                    {
+                        Team? team = match.GetTeamOfPlayer(player);
+                        if (team != null)
+                        {
+                            if (team.IsTeamA)
+                            {
+                                await match.Channels.ChangeTextPerms(context.Guild, match.Channels.MatchText, false);
+                                // Team A win vote.
+                            }
+                            else
+                            {
+                                // Team B win vote.
+                            }
+                        }
+                    }
+                    else if (state == "loss")
+                    {
+                        Team? team = match.GetTeamOfPlayer(player);
+                        if (team != null)
+                        {
+                            if (team.IsTeamA)
+                            {
+                                // Team B win vote.
+                            }
+                            else
+                            {
+                                // Team A win vote.
+                            }
+                        }
+                    }
+                    else if (state == "draw")
+                    {
+                        // Draw vote.
+                    }
+                    else
+                    {
+                        await context.Message.ReplyAsync("Invalid argument for ending a match. EndMatch commands must state whether the player registering the result has won, lost or drawn their match.");
+                    }
+                }
+            }
         }
 
-        public async Task<List<Player>?> OnMatchEnd(SocketCommandContext context)
+        public async Task CancelMatch(Match match)
         {
-            var match = this.GetMatchFromChannel(context.Channel.Id);
+            if (match != null)
+            {
+                CheckersMatchResult result = new CheckersMatchResult(match, MatchOutcome.Cancelled);
+                await this.rankManager.ProcessMatchResult(result);
+            }
+        }
+
+        public async Task ProcessMatch(MatchOutcome outcome, SocketCommandContext context)
+        {
+            var match = this.GetMatchFromMatchChannel(context.Channel.Id);
+
+            if (match != null)
+            {
+                CheckersMatchResult result = new CheckersMatchResult(match, MatchOutcome.TeamA);
+                await this.rankManager.ProcessMatchResult(result);
+            }
+            else
+            {
+                await context.Message.ReplyAsync("Invalid Match.");
+            }
+        }
+
+        public async Task<List<Player>?> MatchEnd(SocketCommandContext context)
+        {
+            var match = this.GetMatchFromMatchChannel(context.Channel.Id);
 
             if (match == null)
             {
@@ -139,10 +227,6 @@
             // FInally clean-up the match channels from the guild.
             await match.Channels.RemoveChannels(context.Guild);
 
-            CheckersMatchResult result = new CheckersMatchResult(match, MatchOutcome.TeamA);
-
-            await this.rankManager.ProcessMatchResult(result);
-
             this.Matches.Remove(match);
 
             return players;
@@ -151,6 +235,16 @@
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             await this.service.AddModulesAsync(Assembly.GetEntryAssembly(), this.provider);
+        }
+
+        private async Task<Match> InitialiseMatch(SocketGuild guild)
+        {
+            var match = this.MakeMatch();
+
+            match.Channels = await MatchChannels.BuildMatchChannel(guild, match);
+            this.Matches.Add(match);
+
+            return match;
         }
 
         /// <summary>
@@ -172,7 +266,7 @@
             return match;
         }
 
-        private Match? GetMatchOfPLayer(Player player)
+        public Match? GetMatchOfPLayer(Player player)
         {
             foreach (Match match in this.Matches)
             {
@@ -185,11 +279,24 @@
             return null;
         }
 
-        private Match? GetMatchFromChannel(ulong channelID)
+        public Match? GetMatchFromMatchChannel(ulong channelID)
         {
             foreach (Match match in this.Matches)
             {
                 if (match.Channels.MatchText == channelID)
+                {
+                    return match;
+                }
+            }
+
+            return null;
+        }
+
+        public Match? GetMatchFromTeamChannel(ulong channelID)
+        {
+            foreach (Match match in this.Matches)
+            {
+                if (match.Channels.ATc == channelID || match.Channels.BTc == channelID)
                 {
                     return match;
                 }
@@ -247,8 +354,8 @@
                 }
             }
 
-            teamA = new Team(playersA);
-            teamB = new Team(playersB);
+            teamA = new Team(playersA, true);
+            teamB = new Team(playersB, false);
         }
     }
 }

@@ -30,7 +30,7 @@ namespace Checkers.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Guilds", (string)null);
+                    b.ToTable("Guilds");
                 });
 
             modelBuilder.Entity("Checkers.Data.Models.Player", b =>
@@ -42,8 +42,20 @@ namespace Checkers.Data.Migrations
                     b.Property<int>("CurrentTier")
                         .HasColumnType("int");
 
+                    b.Property<int>("GamesLost")
+                        .HasColumnType("int");
+
                     b.Property<int>("GamesOutOfDivision")
                         .HasColumnType("int");
+
+                    b.Property<int>("GamesPlayed")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GamesWon")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("InPlacements")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("tinyint(1)");
@@ -66,7 +78,7 @@ namespace Checkers.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Players", (string)null);
+                    b.ToTable("Players");
                 });
 #pragma warning restore 612, 618
         }
