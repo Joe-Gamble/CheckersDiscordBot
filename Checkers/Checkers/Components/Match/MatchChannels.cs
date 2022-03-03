@@ -90,8 +90,8 @@ namespace Checkers.Components
             var category = await guild.CreateCategoryChannelAsync("Test Category");
             await category.AddPermissionOverwriteAsync(guild.EveryoneRole, OverwritePermissions.DenyAll(category));
 
-            await category.AddPermissionOverwriteAsync(role1, OverwritePermissions.DenyAll(category).Modify(viewChannel: PermValue.Allow, sendMessages: PermValue.Allow, addReactions: PermValue.Allow, speak: PermValue.Allow, connect: PermValue.Allow));
-            await category.AddPermissionOverwriteAsync(role2, OverwritePermissions.DenyAll(category).Modify(viewChannel: PermValue.Allow, sendMessages: PermValue.Allow, addReactions: PermValue.Allow, speak: PermValue.Allow, connect: PermValue.Allow));
+            await category.AddPermissionOverwriteAsync(role1, OverwritePermissions.DenyAll(category).Modify(viewChannel: PermValue.Allow, sendMessages: PermValue.Allow, addReactions: PermValue.Allow, speak: PermValue.Allow, connect: PermValue.Allow, useVoiceActivation: PermValue.Allow, readMessageHistory: PermValue.Allow));
+            await category.AddPermissionOverwriteAsync(role2, OverwritePermissions.DenyAll(category).Modify(viewChannel: PermValue.Allow, sendMessages: PermValue.Allow, addReactions: PermValue.Allow, speak: PermValue.Allow, connect: PermValue.Allow, useVoiceActivation: PermValue.Allow, readMessageHistory: PermValue.Allow));
 
 
             var matchChannel = await guild.CreateTextChannelAsync("Match-Chat", x => x.CategoryId = category.Id);
@@ -188,7 +188,7 @@ namespace Checkers.Components
                     var role = guild.GetRole(this.ARole);
                     if (role != null)
                     {
-                        await teamAChannel.AddPermissionOverwriteAsync(role, OverwritePermissions.DenyAll(teamAChannel).Modify(viewChannel: PermValue.Allow, sendMessages: permValue, addReactions: PermValue.Allow, speak: PermValue.Allow, connect: PermValue.Allow));
+                        await teamAChannel.AddPermissionOverwriteAsync(role, OverwritePermissions.DenyAll(teamAChannel).Modify(viewChannel: PermValue.Allow, sendMessages: permValue, addReactions: PermValue.Allow, speak: PermValue.Allow, connect: PermValue.Allow, useVoiceActivation: PermValue.Allow, readMessageHistory: PermValue.Allow));
                     }
                 }
             }
@@ -200,7 +200,7 @@ namespace Checkers.Components
                     var role = guild.GetRole(this.BRole);
                     if (role != null)
                     {
-                        await teamBChannel.AddPermissionOverwriteAsync(role, OverwritePermissions.DenyAll(teamBChannel).Modify(viewChannel: PermValue.Allow, sendMessages: permValue, addReactions: PermValue.Allow, speak: PermValue.Allow, connect: PermValue.Allow));
+                        await teamBChannel.AddPermissionOverwriteAsync(role, OverwritePermissions.DenyAll(teamBChannel).Modify(viewChannel: PermValue.Allow, sendMessages: permValue, addReactions: PermValue.Allow, speak: PermValue.Allow, connect: PermValue.Allow, useVoiceActivation: PermValue.Allow, readMessageHistory: PermValue.Allow));
                     }
                 }
             }
@@ -214,8 +214,8 @@ namespace Checkers.Components
 
                     if (roleA != null && roleB != null)
                     {
-                        await teamMatchChannel.AddPermissionOverwriteAsync(roleA, OverwritePermissions.DenyAll(teamMatchChannel).Modify(viewChannel: PermValue.Allow, sendMessages: permValue, addReactions: PermValue.Allow, speak: PermValue.Allow, connect: PermValue.Allow));
-                        await teamMatchChannel.AddPermissionOverwriteAsync(roleB, OverwritePermissions.DenyAll(teamMatchChannel).Modify(viewChannel: PermValue.Allow, sendMessages: permValue, addReactions: PermValue.Allow, speak: PermValue.Allow, connect: PermValue.Allow));
+                        await teamMatchChannel.AddPermissionOverwriteAsync(roleA, OverwritePermissions.DenyAll(teamMatchChannel).Modify(viewChannel: PermValue.Allow, sendMessages: permValue, addReactions: PermValue.Allow, speak: PermValue.Allow, connect: PermValue.Allow, useVoiceActivation: PermValue.Allow, readMessageHistory: PermValue.Allow));
+                        await teamMatchChannel.AddPermissionOverwriteAsync(roleB, OverwritePermissions.DenyAll(teamMatchChannel).Modify(viewChannel: PermValue.Allow, sendMessages: permValue, addReactions: PermValue.Allow, speak: PermValue.Allow, connect: PermValue.Allow, useVoiceActivation: PermValue.Allow, readMessageHistory: PermValue.Allow));
                     }
                 }
             }

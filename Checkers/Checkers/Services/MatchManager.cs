@@ -6,6 +6,7 @@
     using System.Reflection;
     using System.Text;
     using System.Threading.Tasks;
+    using Checkers.Common;
     using Checkers.Components;
     using Checkers.Components.Voting;
     using Checkers.Data;
@@ -117,15 +118,28 @@
                         Team? team = match.GetTeamOfPlayer(player);
                         if (team != null)
                         {
+                            Vote matchVote = new Vote(player, context.Channel.Id, VoteType.EndMatch, match);
+
                             if (team.IsTeamA)
                             {
-                                await match.Channels.ChangeTextPerms(context.Guild, match.Channels.MatchText, false);
-                                // Team A win vote.
+                                if (await match.MakeVote(context.Guild, context.Channel.Id, matchVote))
+                                {
+                                    var vote = new CheckersComponentBuilder(VoteType.EndMatch, false).Build();
+                                    var embed = new CheckersEmbedBuilder().WithTitle($"Match Vote:      {matchVote.TotalVotes} / {matchVote.RequiredVotes}").AddField("Created By", player.Username, true).AddField("Proposal:", "Team A Win", true).Build();
+                                    await context.Message.ReplyAsync(components: vote, embed: embed);
+                                }
                             }
                             else
                             {
-                                // Team B win vote.
+                                if (await match.MakeVote(context.Guild, context.Channel.Id, matchVote))
+                                {
+                                    var vote = new CheckersComponentBuilder(VoteType.EndMatch, false).Build();
+                                    var embed = new CheckersEmbedBuilder().WithTitle($"Match Vote:      {matchVote.TotalVotes} / {matchVote.RequiredVotes}").AddField("Created By", player.Username, true).AddField("Proposal:", "Team  Win", true).Build();
+                                    await context.Message.ReplyAsync(components: vote, embed: embed);
+                                }
                             }
+
+                            await match.Channels.ChangeTextPerms(context.Guild, match.Channels.MatchText, false);
                         }
                     }
                     else if (state == "loss")

@@ -20,14 +20,14 @@ namespace Checkers.Common
         /// <summary>
         /// Initializes a new instance of the <see cref="CheckersComponentBuilder"/> class.
         /// </summary>
-        public CheckersComponentBuilder(VoteType type)
+        public CheckersComponentBuilder(VoteType type, bool disabled)
         {
             switch (type)
             {
                 case VoteType.EndMatch:
                     {
-                        this.WithButton("Vote Yes", "match_voteyes", ButtonStyle.Success, null, null, false, 0)
-                            .WithButton("Vote No", "match_voteno", ButtonStyle.Danger, null, null, false, 0);
+                        this.WithButton("Vote Yes", "match_voteyes", ButtonStyle.Success, null, null, disabled, 0)
+                            .WithButton("Vote No", "match_voteno", ButtonStyle.Danger, null, null, disabled, 0);
                         break;
                     }
             }

@@ -113,16 +113,6 @@ namespace Checkers.Modules
                 var result = arg.ToLower();
 
                 await this.matchManager.StartMatchVote(result, this.Context);
-
-                var player = this.DataAccessLayer.HasPlayer(this.Context.User.Id);
-
-                if (player != null)
-                {
-                    var message = new CheckersComponentBuilder(VoteType.EndMatch).Build();
-                    var embed = new CheckersEmbedBuilder().WithTitle("Match Vote:").AddField("Created By", player.Username).Build();
-
-                    await this.ReplyAsync(components: message, embed: embed);
-                }
             }
             else
             {

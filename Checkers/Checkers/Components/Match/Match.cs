@@ -9,7 +9,9 @@ namespace Checkers.Components
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using Checkers.Components.Voting;
     using Checkers.Data.Models;
+    using Discord.WebSocket;
 
     /// <summary>
     /// Checkers Match class for initialising new matches.
@@ -26,6 +28,8 @@ namespace Checkers.Components
         {
             this.TeamA = teamA;
             this.TeamB = teamB;
+
+            this.ActiveVotes = new List<Vote>();
 
             this.TimeStarted = DateTime.UtcNow;
         }
@@ -51,6 +55,11 @@ namespace Checkers.Components
         public DateTimeOffset TimeStarted { get; }
 
         /// <summary>
+        /// Gets thelist of Votes for this match.
+        /// </summary>
+        public List<Vote> ActiveVotes { get; }
+
+        /// <summary>
         /// Return all players.
         /// </summary>
         /// <returns> A list of players. </returns>
@@ -62,6 +71,33 @@ namespace Checkers.Components
             players.AddRange(this.TeamB.Players);
 
             return players;
+        }
+
+        public async Task<bool> MakeVote(SocketGuild guild, ulong channelID, Vote vote)
+        {
+            if (!this.ActiveVotes.Contains(vote))
+            {
+                this.ActiveVotes.Add(vote);
+                await this.Channels.ChangeTextPerms(guild, channelID, false);
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task RemoveVote(SocketGuild guild, ulong channelID, Vote vote)
+        {
+            if (this.ActiveVotes.Contains(vote))
+            {
+                this.ActiveVotes.Remove(vote);
+            }
+
+            await this.Channels.ChangeTextPerms(guild, channelID, true);
+        }
+
+        public async Task<Vote> GetVote(ulong channelID)
+        {
+            return this.ActiveVotes.First(x => x.VoteID == channelID);
         }
 
         /// <summary>
@@ -77,7 +113,7 @@ namespace Checkers.Components
             }
             else
             {
-                return false; 
+                return false;
             }
         }
 

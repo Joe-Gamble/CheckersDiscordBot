@@ -9,17 +9,20 @@ namespace Checkers.Components.Voting
 {
     public struct Vote
     {
-        public Vote(ulong created_by_player, ulong id, VoteType type, Match match)
+        public Vote(Player created_by_player, ulong id, VoteType type, Match match)
         {
-            this.match = match;
+            this.Match = match;
             this.VoteID = id;
-            this.CreatedByPlayer = created_by_player;
+            this.CreatedByPlayer = created_by_player.Username;
+            this.VoterIDs = new List<ulong>();
+
 
             switch (type)
             {
                 case VoteType.EndMatch:
                 {
-                        this.RequiredVotes = 8;
+                        this.RequiredVotes = (int)Math.Ceiling(match.GetPlayers().Count * 0.66);
+                        this.AddVote(created_by_player);
                         break;
                 }
 
@@ -33,12 +36,35 @@ namespace Checkers.Components.Voting
 
         public ulong VoteID { get; }
 
-        public Match match { get; }
+        public Match Match { get; }
 
-        public ulong CreatedByPlayer { get; set; }
+        public string CreatedByPlayer { get; set; }
 
         public int RequiredVotes { get; set; }
 
         public int TotalVotes { get; set; } = 0;
+
+        public List<ulong> VoterIDs { get; }
+
+        public bool AddVote(Player player)
+        {
+            if (this.Match.HasPlayer(player))
+            {
+                if (!this.VoterIDs.Contains(player.Id))
+                {
+                    this.TotalVotes++;
+                    if (this.TotalVotes < this.RequiredVotes)
+                    {
+                        this.VoterIDs.Add(player.Id);
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
     }
 }
