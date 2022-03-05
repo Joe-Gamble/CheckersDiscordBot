@@ -61,6 +61,17 @@ namespace Checkers.Components
         /// </summary>
         public bool IsTeamA { get; } = false;
 
+        public string GetPlayerNamesAndRanksString()
+        {
+            string names = string.Empty;
+            foreach (var player in this.Players)
+            {
+                names += $"{RatingUtils.GetTierEmoteAt((SkillTier)player.CurrentTier)} {player.Username}\n";
+            }
+
+            return names;
+        }
+
         private int GetAverageRating()
         {
             int skillRating = 0;

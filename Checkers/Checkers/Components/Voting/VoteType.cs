@@ -12,5 +12,6 @@ namespace Checkers.Components.Voting
         Forfeit,
         Disconnect,
         MapPick,
+        AcceptMatch,
     }
 }

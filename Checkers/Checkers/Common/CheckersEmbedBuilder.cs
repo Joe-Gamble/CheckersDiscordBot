@@ -9,6 +9,7 @@ namespace Checkers.Common
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using Checkers.Services;
     using Discord;
 
     /// <summary>
@@ -21,7 +22,7 @@ namespace Checkers.Common
         /// </summary>
         public CheckersEmbedBuilder()
         {
-            this.WithColor(new Color(87, 203, 147));
+            this.WithColor(CheckersConstants.CheckerBeige);
         }
 
         /// <summary>

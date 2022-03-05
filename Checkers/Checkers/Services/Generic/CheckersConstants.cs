@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Discord;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +14,9 @@ namespace Checkers.Services
         public static ulong RegisterRole = 942533679027200051;
         public static int StandardWin = 25;
         public static int MaxRank = 5000;
+
+        public static Color CheckerGreen = new Color(87, 203, 147);
+        public static Color CheckerBeige = new Color(249, 214, 150);
+        public static Color CheckerRed = Color.Red;
     }
 }

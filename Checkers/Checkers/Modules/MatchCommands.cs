@@ -85,7 +85,7 @@ namespace Checkers.Modules
                 }
 
                 // UnQueue Player
-                this.matchManager.UnQueuePlayer(this.Context, player);
+                await this.matchManager.UnQueuePlayer(this.Context, player);
 
                 player.IsQueued = false;
                 await this.DataAccessLayer.UpdatePlayer(player);
@@ -124,7 +124,7 @@ namespace Checkers.Modules
         [Command("Destroy")]
         public async Task Destroy()
         {
-            var players = await this.matchManager.MatchEnd(this.Context);
+            var players = await this.matchManager.CleanUpMatch(this.Context);
 
             if (players != null)
             {

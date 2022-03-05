@@ -1,6 +1,7 @@
 ﻿using Checkers.Common;
 using Checkers.Components.Voting;
 using Checkers.Data;
+using Discord;
 using Discord.Addons.Hosting;
 using Discord.Commands;
 using Discord.Interactions;
@@ -44,46 +45,76 @@ namespace Checkers.Services.Generic
 
         public async Task ButtonHandler(SocketMessageComponent component)
         {
-            // We can now check for our custom id
-            switch (component.Data.CustomId)
+            var player = this.DataAccessLayer.HasPlayer(component.User.Id);
+
+            if (player != null)
             {
-                // Since we set our buttons custom id as 'custom-id', we can check for it like this:
-                case "match_voteyes":
+                var match = this.matchManager.GetMatchOfPLayer(player);
+
+                if (match != null)
+                {
+                    Vote vote = await match.GetVote(component.Channel.Id);
+
+                    switch (component.Data.CustomId)
                     {
-                        var player = this.DataAccessLayer.HasPlayer(component.User.Id);
-
-                        if (player != null)
-                        {
-                            var match = this.matchManager.GetMatchOfPLayer(player);
-
-                            if (match != null)
+                        case "match_voteyes":
                             {
-                                Vote vote = await match.GetVote(component.Channel.Id);
-                                if (!vote.AddVote(player))
+                                var result = await CheckersMessageFactory.ModifyVote(vote, component, player, true);
+                                if (result)
                                 {
-                                    var embed = new CheckersEmbedBuilder().WithTitle($"Match Vote:      {vote.TotalVotes} / {vote.RequiredVotes}").AddField("Created By", vote.CreatedByPlayer, true).AddField("Proposal:", "Team A Win", true).Build();
-                                    await component.UpdateAsync(x => x.Embed = embed);
-                                }
-                                else
-                                {
-                                    var embed = new CheckersEmbedBuilder().WithTitle($"Match Vote:      {vote.TotalVotes} / {vote.RequiredVotes}").AddField("Created By", vote.CreatedByPlayer, true).AddField("Proposal:", "Team A Win", true).Build();
-                                    await component.UpdateAsync(x =>
-                                        {
-                                            x.Embed = embed;
-                                            x.Components = new CheckersComponentBuilder(VoteType.EndMatch, true).Build(); 
-                                        });
+                                    var guild = (component.Channel as IGuildChannel)?.Guild;
 
-                                    await component.Channel.SendMessageAsync("Vote Passed!");
+                                    if (guild != null)
+                                    {
+                                        await match.RemoveVote((SocketGuild)guild, component.Channel.Id, vote);
+                                        await match.Channels.ChangeTextPerms((SocketGuild)guild, component.Channel.Id, true);
+                                    }
+
+                                    EndMatchVote? matchvote = vote as EndMatchVote;
+
+                                    if (matchvote != null)
+                                    {
+                                        await this.matchManager.ProcessMatch(matchvote.MatchOutcome, component.Channel);
+                                    }
                                 }
 
-                                await component.DeferAsync();
+                                break;
                             }
-                        }
 
-                        break;
+                        case "match_voteno":
+                            {
+                                var result = await CheckersMessageFactory.ModifyVote(vote, component, player, false);
+                                if (result)
+                                {
+                                    var guild = (component.Channel as IGuildChannel)?.Guild;
+
+                                    if (guild != null)
+                                    {
+                                        await match.RemoveVote((SocketGuild)guild, component.Channel.Id, vote);
+                                        await match.Channels.ChangeTextPerms((SocketGuild)guild, component.Channel.Id, true);
+                                    }
+                                }
+
+                                break;
+                            }
+
+                        case "match_accept":
+                            {
+                                break;
+                            }
+
+                        case "match_decline":
+                            {
+                                break;
+                            }
+
+                        default:
+                            break;
                     }
+                }
             }
         }
+
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {

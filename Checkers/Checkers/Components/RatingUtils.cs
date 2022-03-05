@@ -11,6 +11,7 @@ namespace Checkers.Components
     using System.Threading.Tasks;
     using Checkers.Data.Models;
     using Checkers.Services;
+    using Discord;
 
     /// <summary>
     /// Util CLass for handling skill rating data.
@@ -54,6 +55,44 @@ namespace Checkers.Components
             }
 
             return SkillTier.Undefined;
+        }
+
+        public static Emote? GetTierEmoteAt(SkillTier tier)
+        {
+            Emote result;
+            string text = string.Empty;
+
+            if (tier == SkillTier.Silver)
+            {
+                text = "<:SilverIcon:943255400495583303>";
+            }
+            else if (tier == SkillTier.Gold)
+            {
+                text = "<:SilverIcon:943255400495583303>";
+            }
+            else if (tier == SkillTier.Platnium)
+            {
+                text = "<:SilverIcon:943255400495583303>";
+            }
+            else if (tier == SkillTier.Sapphire)
+            {
+                text = "<:SilverIcon:943255400495583303>";
+            }
+            else if (tier == SkillTier.Masters)
+            {
+                text = "<:SilverIcon:943255400495583303>";
+            }
+            else if (tier == SkillTier.Warlord)
+            {
+                text = "<:SilverIcon:943255400495583303>";
+            }
+
+            if (Emote.TryParse(text, out result))
+            {
+                return result;
+            }
+
+            return null;
         }
 
         /// <summary>

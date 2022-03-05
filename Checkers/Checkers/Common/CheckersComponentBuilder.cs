@@ -30,6 +30,21 @@ namespace Checkers.Common
                             .WithButton("Vote No", "match_voteno", ButtonStyle.Danger, null, null, disabled, 0);
                         break;
                     }
+
+                case VoteType.AcceptMatch:
+                    {
+                        this.WithButton("Accept", "match_accept", ButtonStyle.Success, null, null, disabled, 0)
+                            .WithButton("Decline", "match_decline", ButtonStyle.Danger, null, null, disabled, 0);
+                        break;
+                    }
+
+                case VoteType.MapPick:
+                    {
+                        this.WithButton("Pick A", "match_vote_a", ButtonStyle.Primary, null, null, disabled, 0)
+                            .WithButton("Pick B", "match_vote_b", ButtonStyle.Primary, null, null, disabled, 0)
+                            .WithButton("Pick C", "match_vote_c", ButtonStyle.Primary, null, null, disabled, 0);
+                        break;
+                    }
             }
         }
     }

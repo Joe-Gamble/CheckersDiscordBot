@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Checkers.Components.Voting
 {
-    public struct Vote
+    public abstract class Vote
     {
         public Vote(Player created_by_player, ulong id, VoteType type, Match match)
         {
@@ -15,22 +15,34 @@ namespace Checkers.Components.Voting
             this.VoteID = id;
             this.CreatedByPlayer = created_by_player.Username;
             this.VoterIDs = new List<ulong>();
-
+            this.MaxVotes = match.GetPlayers().Count;
+            this.Title = string.Empty;
+            this.Proposal = string.Empty;
 
             switch (type)
             {
                 case VoteType.EndMatch:
-                {
-                        this.RequiredVotes = (int)Math.Ceiling(match.GetPlayers().Count * 0.66);
-                        this.AddVote(created_by_player);
+                    {
+                        this.RequiredVotes = (int)Math.Ceiling(this.MaxVotes * 0.66);
+                        this.AddForVote(created_by_player);
+                        this.Title = "Match Vote";
                         break;
-                }
+                    }
+
+                case VoteType.Forfeit:
+                    {
+                        this.RequiredVotes = (int)Math.Ceiling(this.MaxVotes * 0.66);
+                        this.AddForVote(created_by_player);
+                        this.Title = "Forfeit";
+                        break;
+                    }
 
                 default:
-                {
+                    {
                         this.RequiredVotes = 0;
+                        this.Title = string.Empty;
                         break;
-                }
+                    }
             }
         }
 
@@ -40,13 +52,19 @@ namespace Checkers.Components.Voting
 
         public string CreatedByPlayer { get; set; }
 
+        public string Title { get; set; }
+
+        public string Proposal { get; set; }
+
         public int RequiredVotes { get; set; }
 
         public int TotalVotes { get; set; } = 0;
 
+        public int MaxVotes { get; set; }
+
         public List<ulong> VoterIDs { get; }
 
-        public bool AddVote(Player player)
+        public bool AddForVote(Player player)
         {
             if (this.Match.HasPlayer(player))
             {
@@ -65,6 +83,31 @@ namespace Checkers.Components.Voting
             }
 
             return false;
+        }
+
+        public bool AddAgainstVote(Player player)
+        {
+            if (this.Match.HasPlayer(player))
+            {
+                if (!this.VoterIDs.Contains(player.Id))
+                {
+                    this.VoterIDs.Add(player.Id);
+
+                    // If needed votes > votes left
+                    if ((this.RequiredVotes - this.TotalVotes) >= this.MaxVotes - this.VoterIDs.Count)
+                    {
+                        // Vote cannot pass.
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        public bool HasPlayer(ulong id)
+        {
+            return this.VoterIDs.Contains(id);
         }
     }
 }

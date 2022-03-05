@@ -12,8 +12,15 @@ namespace Checkers.Data.Context
     using Checkers.Data.Models;
     using Microsoft.EntityFrameworkCore;
 
+    /// <summary>
+    /// DataBase context for checkers.
+    /// </summary>
     public class CheckersDbContext : DbContext
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CheckersDbContext"/> class.
+        /// </summary>
+        /// <param name="options"> Options for the context.</param>
         public CheckersDbContext(DbContextOptions options)
             : base(options)
         {
