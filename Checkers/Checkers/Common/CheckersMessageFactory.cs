@@ -34,13 +34,35 @@
             await channel.SendMessageAsync(embed: embed);
         }
 
+        /// <summary>
+        /// Make a match results summary.
+        /// </summary>
+        /// <param name="channel"> The channel for this summary. </param>
+        /// <param name="match"> The match to detail. </param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public static async Task MakeMatchResultsSummary(ISocketMessageChannel channel, List<PlayerMatchData> playerData, EndMatchVote vote)
+        {
+            TimeSpan span = DateTime.UtcNow.Subtract(vote.Match.TimeStarted);
+
+            var duration = string.Format("{0} minutes, {1} seconds", span.Minutes, span.Seconds);
+
+            var embed = new CheckersEmbedBuilder().WithTitle("Match Report").WithTimestamp(DateTime.UtcNow)
+                .AddField("Outcome: ", vote.MatchOutcome, false)
+                .AddField("Duration: ", duration, false)
+                .AddField("Team A", vote.Match.TeamA.GetPlayerNamesRanksAndPointDifferences(playerData), true)
+                .AddField("Team B", vote.Match.TeamB.GetPlayerNamesRanksAndPointDifferences(playerData), true)
+                .Build();
+
+            await channel.SendMessageAsync(embed: embed);
+        }
+
         public static async Task MakeMatchVote(SocketCommandContext context, Match match)
         {
             var player = match.GetPlayers().First(x => x.Id == context.User.Id);
             var matchVote = await match.GetVote(context.Channel.Id);
 
             var voteModule = new CheckersComponentBuilder(VoteType.EndMatch, false).Build();
-            var embed = new CheckersEmbedBuilder().WithTitle($"Match Vote:      {matchVote.TotalVotes} / {matchVote.RequiredVotes}").AddField("Created By", player.Username, true).AddField("Proposal:", "Team B Win", true).Build();
+            var embed = new CheckersEmbedBuilder().WithTitle($"{matchVote.Title}:      {matchVote.TotalVotes} / {matchVote.RequiredVotes}").AddField("Created By", player.Username, true).AddField("Proposal:", matchVote.Proposal, true).Build();
             await context.Message.ReplyAsync(components: voteModule, embed: embed);
         }
 

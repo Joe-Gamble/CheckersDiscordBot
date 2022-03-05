@@ -111,47 +111,55 @@
 
                 if (match != null)
                 {
-                    if (state == "win")
+                    Vote? matchVote = null;
+
+                    if (state == "win" || state == "lose" || state == "draw")
                     {
                         Team? team = match.GetTeamOfPlayer(player);
                         if (team != null)
                         {
-                            Vote matchVote;
-                            if (team.IsTeamA)
+                            switch (state)
                             {
-                                matchVote = new EndMatchVote(player, context.Channel.Id, VoteType.EndMatch, match, MatchOutcome.TeamA);
-                            }
-                            else
-                            {
-                                matchVote = new EndMatchVote(player, context.Channel.Id, VoteType.EndMatch, match, MatchOutcome.TeamB);
-                            }
+                                case "win":
+                                    {
+                                        if (team.IsTeamA)
+                                        {
+                                            matchVote = new EndMatchVote(player, context.Channel.Id, VoteType.EndMatch, match, MatchOutcome.TeamA);
+                                        }
+                                        else
+                                        {
+                                            matchVote = new EndMatchVote(player, context.Channel.Id, VoteType.EndMatch, match, MatchOutcome.TeamB);
+                                        }
 
-                            if (await match.MakeVote(context.Guild, context.Channel.Id, matchVote))
-                            {
-                                await CheckersMessageFactory.MakeMatchVote(context, match);
-                            }
+                                        break;
+                                    }
 
-                            await match.Channels.ChangeTextPerms(context.Guild, match.Channels.MatchText, false);
+                                case "lose":
+                                    {
+                                        if (team.IsTeamA)
+                                        {
+                                            matchVote = new EndMatchVote(player, context.Channel.Id, VoteType.EndMatch, match, MatchOutcome.TeamB);
+                                        }
+                                        else
+                                        {
+                                            matchVote = new EndMatchVote(player, context.Channel.Id, VoteType.EndMatch, match, MatchOutcome.TeamA);
+                                        }
+
+                                        break;
+                                    }
+
+                                case "draw":
+                                    {
+                                        matchVote = new EndMatchVote(player, context.Channel.Id, VoteType.EndMatch, match, MatchOutcome.Draw);
+                                        break;
+                                    }
+                            }
                         }
-                    }
-                    else if (state == "loss")
-                    {
-                        Team? team = match.GetTeamOfPlayer(player);
-                        if (team != null)
+
+                        if (await match.MakeVote(context.Guild, context.Channel.Id, matchVote))
                         {
-                            if (team.IsTeamA)
-                            {
-                                // Team B win vote.
-                            }
-                            else
-                            {
-                                // Team A win vote.
-                            }
+                            await CheckersMessageFactory.MakeMatchVote(context, match);
                         }
-                    }
-                    else if (state == "draw")
-                    {
-                        // Draw vote.
                     }
                     else
                     {
@@ -168,26 +176,37 @@
         /// <summary>
         /// Process  finished match.
         /// </summary>
-        /// <param name="outcome"> The outcome of a match. </param>
+        /// <param name="matchVote"> The match vote. </param>
         /// <param name="channel"> The context of the command. </param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public async Task ProcessMatch(MatchOutcome outcome, ISocketMessageChannel channel)
+        public async Task ProcessMatch(EndMatchVote matchVote, ISocketMessageChannel channel)
         {
             var match = this.GetMatchFromMatchChannel(channel.Id);
 
             if (match != null)
             {
-                CheckersMatchResult result = new CheckersMatchResult(match, outcome);
-                await this.rankManager.ProcessMatchResult(result);
-                var players = await this.CleanUpMatch(match, channel);
-
-                if (players != null)
+                if (channel is IGuildChannel guildChannel)
                 {
-                    foreach (Player player in players)
+                    CheckersMatchResult result = new CheckersMatchResult(match, matchVote.MatchOutcome);
+
+                    var list = await this.rankManager.ProcessMatchResult(result);
+                    var players = await this.CleanUpMatch(match, channel);
+
+                    var general = await guildChannel.Guild.GetChannelAsync(CheckersConstants.GeneralText);
+
+                    if (general != null)
                     {
-                        player.IsQueued = false;
-                        player.IsPlaying = false;
-                        await this.DataAccessLayer.UpdatePlayer(player);
+                        await CheckersMessageFactory.MakeMatchResultsSummary((ISocketMessageChannel)general, list, matchVote);
+                    }
+
+                    if (players != null)
+                    {
+                        foreach (Player player in players)
+                        {
+                            player.IsQueued = false;
+                            player.IsPlaying = false;
+                            await this.DataAccessLayer.UpdatePlayer(player);
+                        }
                     }
                 }
             }

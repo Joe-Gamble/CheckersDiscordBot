@@ -72,6 +72,36 @@ namespace Checkers.Components
             return names;
         }
 
+        public string GetPlayerNamesRanksAndPointDifferences(List<PlayerMatchData> data)
+        {
+            string names = string.Empty;
+            foreach (var player in this.Players)
+            {
+                var playerdata = data.First(x => x.Player == player);
+                char symbol;
+
+                if (playerdata.Won == true)
+                {
+                    symbol = '+';
+                }
+                else
+                {
+                    symbol = '-'; 
+                }
+
+                string accent = string.Empty;
+
+                if (playerdata.Promoted == true)
+                {
+                    accent = "**";
+                }
+
+                names += $"{accent}{RatingUtils.GetTierEmoteAt((SkillTier)player.CurrentTier)} {player.Username} {symbol}{playerdata.PointDisplacement}{accent}\n";
+            }
+
+            return names;
+        }
+
         private int GetAverageRating()
         {
             int skillRating = 0;

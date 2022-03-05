@@ -54,6 +54,9 @@ namespace Checkers.Data.Migrations
                     b.Property<int>("GamesWon")
                         .HasColumnType("int");
 
+                    b.Property<int>("HighestRating")
+                        .HasColumnType("int");
+
                     b.Property<bool>("InPlacements")
                         .HasColumnType("tinyint(1)");
 

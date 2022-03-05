@@ -84,6 +84,12 @@ namespace Checkers.Data.Models
         /// </summary>
         public int Rating { get; set; }
 
+
+        /// <summary>
+        /// Gets or Sets the Players highest rating.
+        /// </summary>
+        public int HighestRating { get; set; }
+
         /// <summary>
         /// Gets or Sets the Players Winrate.
         /// </summary>

@@ -42,8 +42,10 @@ namespace Checkers.Services
             this.configuration = configuration;
         }
 
-        public async Task ProcessMatchResult(CheckersMatchResult result)
+        public async Task<List<PlayerMatchData>> ProcessMatchResult(CheckersMatchResult result)
         {
+            List<PlayerMatchData> playerResultList = new List<PlayerMatchData>();
+
             switch (result.Outcome)
             {
                 case MatchOutcome.Cancelled:
@@ -54,24 +56,26 @@ namespace Checkers.Services
 
                 case MatchOutcome.Draw:
                     {
-                        this.ProcessDraw(result.GetAllPlayers());
-                        break;
+                        this.ProcessDraw(result.GetAllPlayers(), out playerResultList);
+                        return playerResultList;
                     }
 
                 case MatchOutcome.TeamA:
                     {
-                        this.CalculateTeamAPoints(result.TeamA, result.SkillFavor, result.Multiplier, true);
-                        this.CalculateTeamBPoints(result.TeamB, result.SkillFavor, result.Multiplier, false);
+                        this.CalculateTeamAPoints(playerResultList, result.TeamA, result.SkillFavor, result.Multiplier, true);
+                        this.CalculateTeamBPoints(playerResultList, result.TeamB, result.SkillFavor, result.Multiplier, false);
                         break;
                     }
 
                 case MatchOutcome.TeamB:
                     {
-                        this.CalculateTeamAPoints(result.TeamA, result.SkillFavor, result.Multiplier, false);
-                        this.CalculateTeamBPoints(result.TeamB, result.SkillFavor, result.Multiplier, true);
+                        this.CalculateTeamAPoints(playerResultList, result.TeamA, result.SkillFavor, result.Multiplier, false);
+                        this.CalculateTeamBPoints(playerResultList, result.TeamB, result.SkillFavor, result.Multiplier, true);
                         break;
                     }
             }
+
+            return playerResultList;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -79,15 +83,18 @@ namespace Checkers.Services
             await this.service.AddModulesAsync(Assembly.GetEntryAssembly(), this.provider);
         }
 
-        private void ProcessDraw(List<Player> players)
+        private void ProcessDraw(List<Player> players, out List<PlayerMatchData> data)
         {
+            data = new List<PlayerMatchData>();
+
             foreach (Player player in players)
             {
+                data.Add(new PlayerMatchData(player, null, 0));
                 player.AddGamePlayed();
             }
         }
 
-        private void CalculateTeamAPoints(Team team, SkillFavors favors, double multiplier, bool win)
+        private void CalculateTeamAPoints(List<PlayerMatchData> playerResultList, Team team, SkillFavors favors, double multiplier, bool win)
         {
             var average = team.AverageRating;
             var ratingBase = CheckersConstants.StandardWin;
@@ -95,6 +102,8 @@ namespace Checkers.Services
             foreach (Player player in team.Players)
             {
                 double playerWeighting = (double)(player.Rating / (double)average);
+                double playerRating = 0;
+                bool promoted = false;
 
                 if (favors != SkillFavors.Equal)
                 {
@@ -102,65 +111,78 @@ namespace Checkers.Services
                     {
                         if (favors == SkillFavors.TeamA)
                         {
-                            double playerRating = ratingBase - (ratingBase * multiplier);
+                            playerRating = ratingBase - (ratingBase * multiplier);
                             playerRating /= playerWeighting;
-
-                            if (RatingUtils.Gain(player, (int)playerRating))
-                            {
-                                // Promoted
-                            }
                         }
                         else if (favors == SkillFavors.TeamB)
                         {
-                            double playerRating = ratingBase + (ratingBase * multiplier);
-                            playerRating /= playerWeighting;
+                            playerRating = ratingBase + (ratingBase * multiplier);
+                            playerRating /= playerWeighting; 
+                        }
 
-                            if (RatingUtils.Gain(player, (int)playerRating))
-                            {
-                                // Promoted
-                            }
+                        if (RatingUtils.Gain(player, (int)playerRating))
+                        {
+                            promoted = true;
                         }
                     }
                     else
                     {
                         if (favors == SkillFavors.TeamA)
                         {
-                            double playerRating = ratingBase + (ratingBase * multiplier);
+                            playerRating = ratingBase + (ratingBase * multiplier);
                             playerRating *= playerWeighting;
-
-                            if (RatingUtils.Lose(player, (int)playerRating))
-                            {
-                                // Demoted
-                            }
                         }
                         else if (favors == SkillFavors.TeamB)
                         {
-                            double playerRating = ratingBase - (ratingBase * multiplier);
+                            playerRating = ratingBase - (ratingBase * multiplier);
                             playerRating *= playerWeighting;
+                        }
 
-                            if (RatingUtils.Lose(player, (int)playerRating))
-                            {
-                                // Demoted
-                            }
+                        if (RatingUtils.Lose(player, (int)playerRating))
+                        {
+                            // Demoted
                         }
                     }
-
-                    player.AddGamePlayed(win);
                 }
+                else
+                {
+                    if (win)
+                    {
+                        playerRating = CheckersConstants.StandardWin;
+
+                        if (RatingUtils.Gain(player, (int)playerRating))
+                        {
+                            promoted = true;
+                        }
+                    }
+                    else
+                    {
+                        playerRating = CheckersConstants.StandardWin;
+
+                        if (RatingUtils.Lose(player, (int)playerRating))
+                        {
+                            // Demoted
+                        }
+                    }
+                }
+
+                PlayerMatchData data = new PlayerMatchData(player, win, (int)playerRating, promoted);
+
+                playerResultList.Add(data);
+                player.AddGamePlayed(win);
             }
         }
 
-        private void CalculateTeamBPoints(Team team, SkillFavors favors, double multiplier, bool win)
+        private void CalculateTeamBPoints(List<PlayerMatchData> playerResultList, Team team, SkillFavors favors, double multiplier, bool win)
         {
             var average = team.AverageRating;
             var ratingBase = CheckersConstants.StandardWin;
 
             foreach (Player player in team.Players)
             {
-                // The bigger the player weighting the smaller the multiplier should be
-                // Higher weightings should always be punished more.
-
                 double playerWeighting = (double)(player.Rating / (double)average);
+                double playerRating = 0;
+                bool promoted = false;
 
                 if (favors != SkillFavors.Equal)
                 {
@@ -168,51 +190,65 @@ namespace Checkers.Services
                     {
                         if (favors == SkillFavors.TeamB)
                         {
-                            double playerRating = ratingBase - (ratingBase * multiplier);
+                            playerRating = ratingBase - (ratingBase * multiplier);
                             playerRating /= playerWeighting;
-
-                            if (RatingUtils.Gain(player, (int)playerRating))
-                            {
-                                // Promoted
-                            }
                         }
                         else if (favors == SkillFavors.TeamA)
                         {
-                            double playerRating = ratingBase + (ratingBase * multiplier);
+                            playerRating = ratingBase + (ratingBase * multiplier);
                             playerRating /= playerWeighting;
+                        }
 
-                            if (RatingUtils.Gain(player, (int)playerRating))
-                            {
-                                // Promoted
-                            }
+                        if (RatingUtils.Gain(player, (int)playerRating))
+                        {
+                            promoted = true;
                         }
                     }
                     else
                     {
                         if (favors == SkillFavors.TeamB)
                         {
-                            double playerRating = ratingBase + (ratingBase * multiplier);
+                            playerRating = ratingBase + (ratingBase * multiplier);
                             playerRating *= playerWeighting;
-
-                            if (RatingUtils.Lose(player, (int)playerRating))
-                            {
-                                // Demoted
-                            }
                         }
                         else if (favors == SkillFavors.TeamA)
                         {
-                            double playerRating = ratingBase - (ratingBase * multiplier);
+                            playerRating = ratingBase - (ratingBase * multiplier);
                             playerRating *= playerWeighting;
+                        }
 
-                            if (RatingUtils.Lose(player, (int)playerRating))
-                            {
-                                // Demoted
-                            }
+                        if (RatingUtils.Lose(player, (int)playerRating))
+                        {
+                            // Demoted
                         }
                     }
-
-                    player.AddGamePlayed(win);
                 }
+                else
+                {
+                    if (win)
+                    {
+                        playerRating = CheckersConstants.StandardWin;
+
+                        if (RatingUtils.Gain(player, (int)playerRating))
+                        {
+                            promoted = true;
+                        }
+                    }
+                    else
+                    {
+                        playerRating = CheckersConstants.StandardWin;
+
+                        if (RatingUtils.Lose(player, (int)playerRating))
+                        {
+                            // Demoted
+                        }
+                    }
+                }
+
+                PlayerMatchData data = new PlayerMatchData(player, win, (int)playerRating, promoted);
+
+                playerResultList.Add(data);
+                player.AddGamePlayed(win);
             }
         }
     }

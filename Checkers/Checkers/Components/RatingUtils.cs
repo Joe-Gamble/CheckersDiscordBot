@@ -29,32 +29,30 @@ namespace Checkers.Components
             {
                 return SkillTier.Undefined;
             }
-            else if (rating <= 1500)
-            {
-                return SkillTier.Silver;
-            }
-            else if (rating <= 2000)
-            {
-                return SkillTier.Gold;
-            }
-            else if (rating <= 2500)
-            {
-                return SkillTier.Platnium;
-            }
-            else if (rating <= 3000)
-            {
-                return SkillTier.Sapphire;
-            }
-            else if (rating <= 3500)
-            {
-                return SkillTier.Masters;
-            }
-            else if (rating > 4000)
+            else if (rating >= 4000)
             {
                 return SkillTier.Warlord;
             }
-
-            return SkillTier.Undefined;
+            else if (rating >= 3500)
+            {
+                return SkillTier.Masters;
+            }
+            else if (rating >= 3000)
+            {
+                return SkillTier.Sapphire;
+            }
+            else if (rating >= 2500)
+            {
+                return SkillTier.Platnium;
+            }
+            else if (rating >= 2000)
+            {
+                return SkillTier.Gold;
+            }
+            else
+            {
+                return SkillTier.Silver;
+            }
         }
 
         public static Emote? GetTierEmoteAt(SkillTier tier)
@@ -64,27 +62,27 @@ namespace Checkers.Components
 
             if (tier == SkillTier.Silver)
             {
-                text = "<:SilverIcon:943255400495583303>";
+                text = "<:silver:949739166667767818>";
             }
             else if (tier == SkillTier.Gold)
             {
-                text = "<:SilverIcon:943255400495583303>";
+                text = "<:gold:949739167116587078>";
             }
             else if (tier == SkillTier.Platnium)
             {
-                text = "<:SilverIcon:943255400495583303>";
+                text = "<:plat:949739167582146580>";
             }
             else if (tier == SkillTier.Sapphire)
             {
-                text = "<:SilverIcon:943255400495583303>";
+                text = "<:sapphire:949739167347253368>";
             }
             else if (tier == SkillTier.Masters)
             {
-                text = "<:SilverIcon:943255400495583303>";
+                text = "<:masters:949739168169336882>";
             }
             else if (tier == SkillTier.Warlord)
             {
-                text = "<:SilverIcon:943255400495583303>";
+                text = "<:warlord:949739167909302302>";
             }
 
             if (Emote.TryParse(text, out result))
@@ -109,9 +107,21 @@ namespace Checkers.Components
 
             SkillTier tier = GetTierAt(player.Rating);
 
+            bool rankUp = false;
+
+            if (player.HighestRating < player.Rating)
+            {
+                player.HighestRating = player.Rating;
+                rankUp = true;
+            }
+
             if (player.CurrentTier != (int)tier)
             {
-                // promoted
+                if (rankUp)
+                {
+                    // New Rank!!!!!
+                }
+
                 player.CurrentTier = (int)GetTierAt(player.Rating);
                 player.GamesOutOfDivision = 0;
                 return true;
@@ -134,12 +144,20 @@ namespace Checkers.Components
 
             if ((int)GetTierAt(player.Rating) != player.CurrentTier)
             {
-                player.GamesOutOfDivision++;
+                if (player.CurrentTier <= (int)SkillTier.Sapphire)
+                {
+                    player.GamesOutOfDivision++;
 
-                if (player.GamesOutOfDivision >= 5)
+                    if (player.GamesOutOfDivision >= 5)
+                    {
+                        player.CurrentTier = (int)GetTierAt(player.Rating);
+                        player.GamesOutOfDivision = 0;
+                        return true;
+                    }
+                }
+                else
                 {
                     player.CurrentTier = (int)GetTierAt(player.Rating);
-                    player.GamesOutOfDivision = 0;
                     return true;
                 }
             }

@@ -52,7 +52,7 @@ namespace Checkers.Components
         /// <summary>
         /// Gets the start time of the Match.
         /// </summary>
-        public DateTimeOffset TimeStarted { get; }
+        public DateTime TimeStarted { get; }
 
         /// <summary>
         /// Gets thelist of Votes for this match.
@@ -73,13 +73,16 @@ namespace Checkers.Components
             return players;
         }
 
-        public async Task<bool> MakeVote(SocketGuild guild, ulong channelID, Vote vote)
+        public async Task<bool> MakeVote(SocketGuild guild, ulong channelID, Vote? vote)
         {
-            if (!this.ActiveVotes.Contains(vote))
+            if (vote != null)
             {
-                this.ActiveVotes.Add(vote);
-                await this.Channels.ChangeTextPerms(guild, channelID, false);
-                return true;
+                if (!this.ActiveVotes.Contains(vote))
+                {
+                    this.ActiveVotes.Add(vote);
+                    await this.Channels.ChangeTextPerms(guild, channelID, false);
+                    return true;
+                }
             }
 
             return false;

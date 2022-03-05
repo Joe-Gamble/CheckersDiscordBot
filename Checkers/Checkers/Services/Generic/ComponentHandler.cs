@@ -74,7 +74,7 @@ namespace Checkers.Services.Generic
 
                                     if (matchvote != null)
                                     {
-                                        await this.matchManager.ProcessMatch(matchvote.MatchOutcome, component.Channel);
+                                        await this.matchManager.ProcessMatch(matchvote, component.Channel);
                                     }
                                 }
 
