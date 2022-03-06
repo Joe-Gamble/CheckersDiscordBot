@@ -15,14 +15,15 @@ namespace Checkers.Components.Voting
             this.VoteID = id;
             this.CreatedByPlayer = created_by_player.Username;
             this.VoterIDs = new List<ulong>();
-            this.MaxVotes = match.GetPlayers().Count;
             this.Title = string.Empty;
             this.Proposal = string.Empty;
+            this.Type = type;
 
             switch (type)
             {
                 case VoteType.EndMatch:
                     {
+                        this.MaxVotes = match.GetPlayers().Count;
                         this.RequiredVotes = (int)Math.Ceiling(this.MaxVotes * 0.66);
                         this.AddForVote(created_by_player);
                         this.Title = "Match Vote";
@@ -31,9 +32,10 @@ namespace Checkers.Components.Voting
 
                 case VoteType.Forfeit:
                     {
-                        this.RequiredVotes = (int)Math.Ceiling(this.MaxVotes * 0.66);
+                        this.MaxVotes = match.GetPlayers().Count / 2;
+                        this.RequiredVotes = (int)Math.Ceiling(this.MaxVotes * 0.5);
                         this.AddForVote(created_by_player);
-                        this.Title = "Forfeit";
+                        this.Title = "Match Forfeit";
                         break;
                     }
 
@@ -53,6 +55,8 @@ namespace Checkers.Components.Voting
         public string CreatedByPlayer { get; set; }
 
         public string Title { get; set; }
+
+        public VoteType Type { get; set; }
 
         public string Proposal { get; set; }
 
@@ -103,6 +107,11 @@ namespace Checkers.Components.Voting
             }
 
             return false;
+        }
+
+        public bool HasVotes()
+        {
+            return this.TotalVotes >= this.RequiredVotes;
         }
 
         public bool HasPlayer(ulong id)

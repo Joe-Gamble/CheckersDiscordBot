@@ -18,13 +18,28 @@ namespace Checkers.Components.Voting
             {
                 case MatchOutcome.TeamA:
                     {
-                        this.Proposal = "Team A Win";
+                        if (type == VoteType.Forfeit)
+                        {
+                            this.Proposal = "Team A Win **(Team B Forfeit)**";
+                        }
+                        else
+                        {
+                            this.Proposal = "Team A Win";
+                        }
                         break;
                     }
 
                 case MatchOutcome.TeamB:
                     {
-                        this.Proposal = "Team B Win";
+                        if (type == VoteType.Forfeit)
+                        {
+                            this.Proposal = "Team B Win **(Team A Forfeit)**";
+                        }
+                        else
+                        {
+                            this.Proposal = "Team B Win";
+                        }
+
                         break;
                     }
 

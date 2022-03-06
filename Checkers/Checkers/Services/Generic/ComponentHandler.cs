@@ -1,6 +1,7 @@
 ﻿using Checkers.Common;
 using Checkers.Components.Voting;
 using Checkers.Data;
+using Checkers.Data.Models;
 using Discord;
 using Discord.Addons.Hosting;
 using Discord.Commands;
@@ -59,16 +60,8 @@ namespace Checkers.Services.Generic
                     {
                         case "match_voteyes":
                             {
-                                var result = await CheckersMessageFactory.ModifyVote(vote, component, player, true);
-                                if (result)
+                                if (await this.AddVote(vote, component, player, true))
                                 {
-                                    var guild = (component.Channel as IGuildChannel)?.Guild;
-
-                                    if (guild != null)
-                                    {
-                                        await match.RemoveVote((SocketGuild)guild, component.Channel.Id, vote);
-                                        await match.Channels.ChangeTextPerms((SocketGuild)guild, component.Channel.Id, true);
-                                    }
 
                                     EndMatchVote? matchvote = vote as EndMatchVote;
 
@@ -83,17 +76,7 @@ namespace Checkers.Services.Generic
 
                         case "match_voteno":
                             {
-                                var result = await CheckersMessageFactory.ModifyVote(vote, component, player, false);
-                                if (result)
-                                {
-                                    var guild = (component.Channel as IGuildChannel)?.Guild;
-
-                                    if (guild != null)
-                                    {
-                                        await match.RemoveVote((SocketGuild)guild, component.Channel.Id, vote);
-                                        await match.Channels.ChangeTextPerms((SocketGuild)guild, component.Channel.Id, true);
-                                    }
-                                }
+                                await this.AddVote(vote, component, player, false);
 
                                 break;
                             }
@@ -113,6 +96,23 @@ namespace Checkers.Services.Generic
                     }
                 }
             }
+        }
+
+        private async Task<bool> AddVote(Vote vote, SocketMessageComponent component, Player player, bool votefor)
+        {
+            var result = await CheckersMessageFactory.ModifyVote(vote, component, player, votefor);
+            if (result)
+            {
+                var guild = (component.Channel as IGuildChannel)?.Guild;
+
+                if (guild != null)
+                {
+                    await vote.Match.RemoveVote((SocketGuild)guild, component.Channel.Id, vote);
+                    await vote.Match.Channels.ChangeTextPerms((SocketGuild)guild, component.Channel.Id, true);
+                }
+            }
+
+            return result;
         }
 
 

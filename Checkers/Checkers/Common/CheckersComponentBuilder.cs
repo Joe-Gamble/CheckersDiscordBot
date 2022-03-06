@@ -45,6 +45,13 @@ namespace Checkers.Common
                             .WithButton("Pick C", "match_vote_c", ButtonStyle.Primary, null, null, disabled, 0);
                         break;
                     }
+
+                case VoteType.Forfeit:
+                    {
+                        this.WithButton("Forfeit", "match_forfeit_yes", ButtonStyle.Success, null, null, disabled, 0)
+                            .WithButton("Decline", "match_forfeit_no", ButtonStyle.Danger, null, null, disabled, 0);
+                        break;
+                    }
             }
         }
     }

@@ -93,7 +93,7 @@ namespace Checkers.Components
 
                 if (playerdata.Promoted == true)
                 {
-                    accent = "**";
+                    accent = "***";
                 }
 
                 names += $"{accent}{RatingUtils.GetTierEmoteAt((SkillTier)player.CurrentTier)} {player.Username} {symbol}{playerdata.PointDisplacement}{accent}\n";

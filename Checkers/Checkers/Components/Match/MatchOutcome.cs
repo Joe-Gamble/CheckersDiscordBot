@@ -11,6 +11,8 @@ namespace Checkers.Components
         Cancelled = -1,
         Draw,
         TeamA,
-        TeamB
+        TeamB,
+        Forfeit,
+        Disconnect
     }
 }

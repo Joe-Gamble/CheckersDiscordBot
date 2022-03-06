@@ -47,7 +47,7 @@
             var duration = string.Format("{0} minutes, {1} seconds", span.Minutes, span.Seconds);
 
             var embed = new CheckersEmbedBuilder().WithTitle("Match Report").WithTimestamp(DateTime.UtcNow)
-                .AddField("Outcome: ", vote.MatchOutcome, false)
+                .AddField("Outcome: ", vote.Proposal, false)
                 .AddField("Duration: ", duration, false)
                 .AddField("Team A", vote.Match.TeamA.GetPlayerNamesRanksAndPointDifferences(playerData), true)
                 .AddField("Team B", vote.Match.TeamB.GetPlayerNamesRanksAndPointDifferences(playerData), true)
@@ -56,14 +56,18 @@
             await channel.SendMessageAsync(embed: embed);
         }
 
-        public static async Task MakeMatchVote(SocketCommandContext context, Match match)
+        public static async Task<bool> MakeMatchVote(Player player, SocketCommandContext context, EndMatchVote vote)
         {
-            var player = match.GetPlayers().First(x => x.Id == context.User.Id);
-            var matchVote = await match.GetVote(context.Channel.Id);
-
-            var voteModule = new CheckersComponentBuilder(VoteType.EndMatch, false).Build();
-            var embed = new CheckersEmbedBuilder().WithTitle($"{matchVote.Title}:      {matchVote.TotalVotes} / {matchVote.RequiredVotes}").AddField("Created By", player.Username, true).AddField("Proposal:", matchVote.Proposal, true).Build();
+            var voteModule = new CheckersComponentBuilder(vote.Type, vote.HasVotes()).Build();
+            var embed = new CheckersEmbedBuilder().WithTitle($"{vote.Title}:      {vote.TotalVotes} / {vote.RequiredVotes}").AddField("Created By", vote.CreatedByPlayer, true).AddField("Proposal:", vote.Proposal, true).Build();
             await context.Message.ReplyAsync(components: voteModule, embed: embed);
+
+            if (vote.HasVotes())
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public static async Task<bool> ModifyVote(Vote vote, SocketMessageComponent component, Player player, bool votefor)

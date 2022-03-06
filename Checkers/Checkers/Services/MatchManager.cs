@@ -96,13 +96,56 @@
             }
         }
 
+        public async Task StartMatchForfeitVote(SocketCommandContext context)
+        {
+            var player = this.DataAccessLayer.HasPlayer(context.User.Id);
+
+            if (player != null)
+            {
+                var match = this.GetMatchFromTeamChannel(context.Channel.Id);
+
+                if (match != null)
+                {
+                    Team? team = match.GetTeamOfPlayer(player);
+
+                    if (team != null)
+                    {
+                        MatchOutcome outcome;
+                        if (team.IsTeamA)
+                        {
+                            outcome = MatchOutcome.TeamB;
+                        }
+                        else
+                        {
+                            outcome = MatchOutcome.TeamA;
+                        }
+
+                        EndMatchVote forfeitVote = new EndMatchVote(player, context.Channel.Id, VoteType.Forfeit, match, outcome);
+
+                        if (await match.MakeVote(context.Guild, context.Channel.Id, forfeitVote))
+                        {
+                            if (await CheckersMessageFactory.MakeMatchVote(player, context, forfeitVote))
+                            {
+                                // Vote instantly has enough to be fulfilled.
+                                await this.ProcessMatch(forfeitVote, context.Channel);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    await context.Message.ReplyAsync("Invalid Channel for forfeiting a Match. If you're trying to forfeit a Match, please do so from your team text channel.");
+                }
+            }
+        }
+
         /// <summary>
         /// Start a match vote.
         /// </summary>
         /// <param name="state"> The state of which the player is voting to end the match. </param>
         /// <param name="context"> The context of the command. </param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public async Task StartMatchVote(string state, SocketCommandContext context)
+        public async Task StartEndMatchVote(string state, SocketCommandContext context)
         {
             var player = this.DataAccessLayer.HasPlayer(context.User.Id);
             if (player != null)
@@ -154,11 +197,14 @@
                                         break;
                                     }
                             }
-                        }
 
-                        if (await match.MakeVote(context.Guild, context.Channel.Id, matchVote))
-                        {
-                            await CheckersMessageFactory.MakeMatchVote(context, match);
+                            if (matchVote != null)
+                            {
+                                if (await match.MakeVote(context.Guild, context.Channel.Id, matchVote))
+                                {
+                                    await CheckersMessageFactory.MakeMatchVote(player, context, (EndMatchVote)matchVote);
+                                }
+                            }
                         }
                     }
                     else
@@ -181,32 +227,29 @@
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task ProcessMatch(EndMatchVote matchVote, ISocketMessageChannel channel)
         {
-            var match = this.GetMatchFromMatchChannel(channel.Id);
+            var match = matchVote.Match;
 
-            if (match != null)
+            if (channel is IGuildChannel guildChannel)
             {
-                if (channel is IGuildChannel guildChannel)
+                CheckersMatchResult result = new CheckersMatchResult(match, matchVote.MatchOutcome);
+
+                var list = await this.rankManager.ProcessMatchResult(result);
+                var players = await this.CleanUpMatch(match, channel);
+
+                var general = await guildChannel.Guild.GetChannelAsync(CheckersConstants.GeneralText);
+
+                if (general != null)
                 {
-                    CheckersMatchResult result = new CheckersMatchResult(match, matchVote.MatchOutcome);
+                    await CheckersMessageFactory.MakeMatchResultsSummary((ISocketMessageChannel)general, list, matchVote);
+                }
 
-                    var list = await this.rankManager.ProcessMatchResult(result);
-                    var players = await this.CleanUpMatch(match, channel);
-
-                    var general = await guildChannel.Guild.GetChannelAsync(CheckersConstants.GeneralText);
-
-                    if (general != null)
+                if (players != null)
+                {
+                    foreach (Player player in players)
                     {
-                        await CheckersMessageFactory.MakeMatchResultsSummary((ISocketMessageChannel)general, list, matchVote);
-                    }
-
-                    if (players != null)
-                    {
-                        foreach (Player player in players)
-                        {
-                            player.IsQueued = false;
-                            player.IsPlaying = false;
-                            await this.DataAccessLayer.UpdatePlayer(player);
-                        }
+                        player.IsQueued = false;
+                        player.IsPlaying = false;
+                        await this.DataAccessLayer.UpdatePlayer(player);
                     }
                 }
             }

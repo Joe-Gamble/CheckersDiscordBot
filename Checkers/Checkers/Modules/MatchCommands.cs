@@ -112,12 +112,18 @@ namespace Checkers.Modules
             {
                 var result = arg.ToLower();
 
-                await this.matchManager.StartMatchVote(result, this.Context);
+                await this.matchManager.StartEndMatchVote(result, this.Context);
             }
             else
             {
                 await this.ReplyAsync("Please specify the outcome of the match. For example, !EndMatch win");
             }
+        }
+
+        [Command("Forfeit")]
+        public async Task EndMatch()
+        {
+            await this.matchManager.StartMatchForfeitVote(this.Context);
         }
 
 
