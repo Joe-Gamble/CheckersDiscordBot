@@ -96,6 +96,51 @@
             }
         }
 
+        public async Task StartDisconnectPlayerVote(SocketCommandContext context, ulong playerId)
+        {
+            var player = this.DataAccessLayer.HasPlayer(context.User.Id);
+
+            if (player != null)
+            {
+                var targetPlayer = this.DataAccessLayer.HasPlayer(playerId);
+
+                if (targetPlayer != null)
+                {
+                    var match = this.GetMatchFromMatchChannel(context.Channel.Id);
+
+                    if (match != null)
+                    {
+                        if (match.HasPlayer(targetPlayer) && match.HasPlayer(player))
+                        {
+                            EndMatchVote forfeitVote = new EndMatchVote(player, context.Channel.Id, VoteType.Disconnect, match, MatchOutcome.Cancelled, targetPlayer);
+
+                            if (await match.MakeVote(context.Guild, context.Channel.Id, forfeitVote))
+                            {
+                                if (await CheckersMessageFactory.MakeMatchVote(player, context, forfeitVote))
+                                {
+                                    // Vote instantly has enough to be fulfilled.
+                                    await this.ProcessMatch(forfeitVote, context.Channel);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            await context.Message.ReplyAsync("Both the Player and the Player mentioned must belong to the match.");
+                        }
+                    }
+                    else
+                    {
+                        await context.Message.ReplyAsync("Invalid Channel for forfeiting a Match. If you're trying to forfeit a Match, please do so from your team text channel.");
+                    }
+                }
+                else
+                {
+                    await context.Message.ReplyAsync("Player does not exist in the Database.");
+                }
+            }
+        }
+        
+
         public async Task StartMatchForfeitVote(SocketCommandContext context)
         {
             var player = this.DataAccessLayer.HasPlayer(context.User.Id);
@@ -231,16 +276,24 @@
 
             if (channel is IGuildChannel guildChannel)
             {
+                // 2nd argument is null unless a player is being targeted.
                 CheckersMatchResult result = new CheckersMatchResult(match, matchVote.MatchOutcome);
 
-                var list = await this.rankManager.ProcessMatchResult(result);
+                var list = await this.rankManager.ProcessMatchResult(result, matchVote.TargetPlayer);
                 var players = await this.CleanUpMatch(match, channel);
 
                 var general = await guildChannel.Guild.GetChannelAsync(CheckersConstants.GeneralText);
 
                 if (general != null)
                 {
-                    await CheckersMessageFactory.MakeMatchResultsSummary((ISocketMessageChannel)general, list, matchVote);
+                    if (matchVote.MatchOutcome != MatchOutcome.Cancelled)
+                    {
+                        await CheckersMessageFactory.MakeMatchResultsSummary((ISocketMessageChannel)general, list, matchVote);
+                    }
+                    else
+                    {
+                        await CheckersMessageFactory.MakeMatchCancelledMessage((ISocketMessageChannel)general, matchVote, list);
+                    }
                 }
 
                 if (players != null)

@@ -15,6 +15,7 @@ namespace Checkers.Modules
     using Checkers.Data;
     using Checkers.Data.Models;
     using Checkers.Services;
+    using Discord;
     using Discord.Commands;
     using Discord.WebSocket;
 
@@ -39,7 +40,8 @@ namespace Checkers.Modules
             this.matchManager = manager;
         }
 
-        [Command("Q")]
+        [Command("Queue")]
+        [Alias("Q")]
         public async Task QueuePlayer()
         {
             if (this.Context.Channel.Id != CheckersConstants.GeneralText)
@@ -66,7 +68,8 @@ namespace Checkers.Modules
             }
         }
 
-        [Command("UnQueue")]
+        [Command("LeaveQueue")]
+        [Alias("DQ", "UnQueue")]
         public async Task DeQueuePlayer()
         {
             if (this.Context.Channel.Id != CheckersConstants.GeneralText)
@@ -92,20 +95,8 @@ namespace Checkers.Modules
             }
         }
 
-        [Command("Total")]
-        public async Task GetQueue()
-        {
-            string players = string.Empty;
-
-            foreach (Player queueplayer in this.matchManager.Queue.GetAllPlayersInQueue())
-            {
-                players += queueplayer.Username + " ";
-            }
-
-            await this.ReplyAsync($"Current Queue: {players} ");
-        }
-
         [Command("EndMatch")]
+        [Alias("RegisterMatch")]
         public async Task EndMatch(string? arg = null)
         {
             if (arg != null)
@@ -121,12 +112,22 @@ namespace Checkers.Modules
         }
 
         [Command("Forfeit")]
-        public async Task EndMatch()
+        public async Task ForfeitMatch()
         {
             await this.matchManager.StartMatchForfeitVote(this.Context);
         }
 
+        [Command("RegisterDisconnect")]
+        [Alias("DC", "Disconnect")]
+        public async Task ForfeitMatch(SocketUser? user = null)
+        {
+            if (user != null)
+            {
+                await this.matchManager.StartDisconnectPlayerVote(this.Context, user.Id);
+            }
+        }
 
+        [RequireUserPermission(ChannelPermission.ManageMessages)]
         [Command("Destroy")]
         public async Task Destroy()
         {

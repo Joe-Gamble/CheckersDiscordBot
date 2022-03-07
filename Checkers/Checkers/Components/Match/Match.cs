@@ -73,6 +73,19 @@ namespace Checkers.Components
             return players;
         }
 
+        public string GetPlayersReport(List<PlayerMatchData> data)
+        {
+            string report = string.Empty;
+
+            foreach (var playerData in data)
+            {
+                var player = playerData.Player;
+                report += $"{RatingUtils.GetTierEmoteAt((SkillTier)player.CurrentTier)} {player.Username} - {playerData.PointDisplacement}\n";
+            }
+
+            return report;
+        }
+
         public async Task<bool> MakeVote(SocketGuild guild, ulong channelID, Vote? vote)
         {
             if (vote != null)

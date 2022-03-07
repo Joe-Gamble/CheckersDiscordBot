@@ -163,7 +163,9 @@ namespace Checkers.Data.Models
         private void UpdateWinRate()
         {
             var totalApplicableGames = this.GamesWon + this.GamesLost;
-            this.WinRate = (int)((double)(this.GamesWon / totalApplicableGames) * 100);
+            double percentage = (double)this.GamesWon / totalApplicableGames * 100;
+
+            this.WinRate = (int)percentage;
         }
     }
 }

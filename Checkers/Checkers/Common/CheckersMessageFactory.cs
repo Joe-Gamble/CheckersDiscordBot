@@ -46,14 +46,43 @@
 
             var duration = string.Format("{0} minutes, {1} seconds", span.Minutes, span.Seconds);
 
+            string teamAPlayers = string.Empty;
+            string teamBPlayers = string.Empty;
+
+            if (channel is IGuildChannel guildChannel)
+            {
+                var guild = guildChannel.Guild;
+
+                teamAPlayers = await vote.Match.TeamA.GetPlayerNamesRanksAndPointDifferences(playerData, guild);
+                teamBPlayers = await vote.Match.TeamB.GetPlayerNamesRanksAndPointDifferences(playerData, guild);
+            }
+            else
+            {
+                teamAPlayers = await vote.Match.TeamA.GetPlayerNamesRanksAndPointDifferences(playerData);
+                teamBPlayers = await vote.Match.TeamB.GetPlayerNamesRanksAndPointDifferences(playerData);
+            }
+
             var embed = new CheckersEmbedBuilder().WithTitle("Match Report").WithTimestamp(DateTime.UtcNow)
                 .AddField("Outcome: ", vote.Proposal, false)
                 .AddField("Duration: ", duration, false)
-                .AddField("Team A", vote.Match.TeamA.GetPlayerNamesRanksAndPointDifferences(playerData), true)
-                .AddField("Team B", vote.Match.TeamB.GetPlayerNamesRanksAndPointDifferences(playerData), true)
+                .AddField("Team A", teamAPlayers, true)
+                .AddField("Team B", teamBPlayers, true)
                 .Build();
 
             await channel.SendMessageAsync(embed: embed);
+        }
+
+        public static async Task MakeMatchCancelledMessage(ISocketMessageChannel channel, EndMatchVote vote, List<PlayerMatchData>? data = null)
+        {
+            var embed = new CheckersEmbedBuilder().WithTitle(vote.Title).WithTimestamp(DateTime.UtcNow)
+                .AddField("Reason: ", vote.Proposal, false);
+
+            if (data != null)
+            {
+                embed.AddField("Players:", vote.Match.GetPlayersReport(data), false);
+            }
+
+            await channel.SendMessageAsync(embed: embed.Build());
         }
 
         public static async Task<bool> MakeMatchVote(Player player, SocketCommandContext context, EndMatchVote vote)

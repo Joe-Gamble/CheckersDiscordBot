@@ -74,20 +74,54 @@ namespace Checkers.Services.Generic
                                 break;
                             }
 
-                        case "match_voteno":
+                        case "match_vote_no":
                             {
                                 await this.AddVote(vote, component, player, false);
 
                                 break;
                             }
 
-                        case "match_accept":
+                        case "match_forfeit_yes":
                             {
+                                if (await this.AddVote(vote, component, player, true))
+                                {
+                                    EndMatchVote? matchvote = vote as EndMatchVote;
+
+                                    if (matchvote != null)
+                                    {
+                                        await this.matchManager.ProcessMatch(matchvote, component.Channel);
+                                    }
+                                }
+
                                 break;
                             }
 
-                        case "match_decline":
+                        case "match_forfeit_no":
                             {
+                                await this.AddVote(vote, component, player, false);
+
+                                break;
+                            }
+
+                        case "match_disconnect_yes":
+                            {
+                                if (await this.AddVote(vote, component, player, true))
+                                {
+                                    EndMatchVote? matchvote = vote as EndMatchVote;
+
+                                    if (matchvote != null)
+                                    {
+                                        await this.matchManager.ProcessMatch(matchvote, component.Channel);
+                                    }
+                                }
+
+                                break;
+                            }
+
+                        case "match_disconnect_no":
+                            {
+                                await this.AddVote(vote, component, player, false);
+
                                 break;
                             }
 

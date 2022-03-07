@@ -9,10 +9,11 @@ namespace Checkers.Components.Voting
 {
     public class EndMatchVote : Vote
     {
-        public EndMatchVote(Player created_by_player, ulong id, VoteType type, Match match, MatchOutcome outcome)
+        public EndMatchVote(Player created_by_player, ulong id, VoteType type, Match match, MatchOutcome outcome, Player? target = null)
             : base(created_by_player, id, type, match)
         {
             this.MatchOutcome = outcome;
+
 
             switch (outcome)
             {
@@ -48,9 +49,26 @@ namespace Checkers.Components.Voting
                         this.Proposal = "Draw";
                         break;
                     }
+
+                case MatchOutcome.Cancelled:
+                    {
+                        if (target != null)
+                        {
+                            this.TargetPlayer = target;
+                            this.Proposal = $"Player Disconnect.";
+                        }
+                        else
+                        {
+                            this.Proposal = "Cancelled";
+                        }
+
+                        break;
+                    }
             }
         }
 
         public MatchOutcome MatchOutcome { get; set; }
+
+        public Player? TargetPlayer { get; set; }
     }
 }

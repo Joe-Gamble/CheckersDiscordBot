@@ -11,6 +11,7 @@ namespace Checkers.Components
     using System.Threading.Tasks;
     using Checkers.Data.Models;
     using Checkers.Services;
+    using Discord;
     using Discord.WebSocket;
 
     /// <summary>
@@ -72,7 +73,7 @@ namespace Checkers.Components
             return names;
         }
 
-        public string GetPlayerNamesRanksAndPointDifferences(List<PlayerMatchData> data)
+        public async Task<string> GetPlayerNamesRanksAndPointDifferences(List<PlayerMatchData> data, IGuild? guild = null)
         {
             string names = string.Empty;
             foreach (var player in this.Players)
@@ -80,13 +81,28 @@ namespace Checkers.Components
                 var playerdata = data.First(x => x.Player == player);
                 char symbol;
 
+                string username = string.Empty;
+
+                if (guild != null)
+                {
+                    var user = await guild.GetUserAsync(player.Id);
+                    if (user != null)
+                    {
+                        username = user.Mention;
+                    }
+                }
+                else
+                {
+                    username = player.Username;
+                }
+
                 if (playerdata.Won == true)
                 {
                     symbol = '+';
                 }
                 else
                 {
-                    symbol = '-'; 
+                    symbol = '-';
                 }
 
                 string accent = string.Empty;
@@ -96,7 +112,7 @@ namespace Checkers.Components
                     accent = "***";
                 }
 
-                names += $"{accent}{RatingUtils.GetTierEmoteAt((SkillTier)player.CurrentTier)} {player.Username} {symbol}{playerdata.PointDisplacement}{accent}\n";
+                names += $"{accent}{RatingUtils.GetTierEmoteAt((SkillTier)player.CurrentTier)} {username} {symbol}{playerdata.PointDisplacement}{accent}\n";
             }
 
             return names;

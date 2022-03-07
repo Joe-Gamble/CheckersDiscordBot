@@ -39,6 +39,15 @@ namespace Checkers.Components.Voting
                         break;
                     }
 
+                case VoteType.Disconnect:
+                    {
+                        this.MaxVotes = match.GetPlayers().Count;
+                        this.RequiredVotes = (int)Math.Ceiling(this.MaxVotes * 0.66);
+                        this.AddForVote(created_by_player);
+                        this.Title = "Match Cancelled";
+                        break;
+                    }
+
                 default:
                     {
                         this.RequiredVotes = 0;

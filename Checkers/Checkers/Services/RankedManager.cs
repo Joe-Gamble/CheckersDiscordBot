@@ -42,7 +42,7 @@ namespace Checkers.Services
             this.configuration = configuration;
         }
 
-        public async Task<List<PlayerMatchData>> ProcessMatchResult(CheckersMatchResult result)
+        public async Task<List<PlayerMatchData>> ProcessMatchResult(CheckersMatchResult result, Player? player = null)
         {
             List<PlayerMatchData> playerResultList = new List<PlayerMatchData>();
 
@@ -50,6 +50,14 @@ namespace Checkers.Services
             {
                 case MatchOutcome.Cancelled:
                     {
+                        if (player != null)
+                        {
+                            RatingUtils.Lose(player, 50);
+
+                            // This might need to be a list of players eventually.
+                            playerResultList.Add(new PlayerMatchData(player, false, 50));
+                        }
+
                         // Do we have to do something here?
                         break;
                     }

@@ -52,6 +52,13 @@ namespace Checkers.Common
                             .WithButton("Decline", "match_forfeit_no", ButtonStyle.Danger, null, null, disabled, 0);
                         break;
                     }
+
+                case VoteType.Disconnect:
+                    {
+                        this.WithButton("Vote Yes", "match_disconnect_yes", ButtonStyle.Success, null, null, disabled, 0)
+                            .WithButton("Vote No", "match_disconnect_no", ButtonStyle.Danger, null, null, disabled, 0);
+                        break;
+                    }
             }
         }
     }
