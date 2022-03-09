@@ -1,4 +1,4 @@
-﻿// <copyright file="MatchOutcome.cs" company="GambleDev">
+﻿// <copyright file="MapType.cs" company="GambleDev">
 // Copyright (c) GambleDev. All rights reserved.
 // </copyright>
 
@@ -10,13 +10,12 @@ using System.Threading.Tasks;
 
 namespace Checkers.Components
 {
-    public enum MatchOutcome
+    public enum MapType
     {
-        Cancelled = -1,
-        Draw,
-        TeamA,
-        TeamB,
-        Forfeit,
-        Disconnect
+        Undefined = -1,
+        Escort,
+        Hybrid,
+        Assault,
+        Control
     }
 }

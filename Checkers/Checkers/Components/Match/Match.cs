@@ -55,9 +55,19 @@ namespace Checkers.Components
         public DateTime TimeStarted { get; }
 
         /// <summary>
-        /// Gets thelist of Votes for this match.
+        /// Gets the list of Votes for this match.
         /// </summary>
         public List<Vote> ActiveVotes { get; }
+
+        /// <summary>
+        /// Gets the map name of the match.
+        /// </summary>
+        public string MapName { get; set; }
+
+        /// <summary>
+        /// Gets thelist of Votes for this match.
+        /// </summary>
+        public MapType Maptype { get; set; }
 
         /// <summary>
         /// Return all players.
@@ -71,6 +81,17 @@ namespace Checkers.Components
             players.AddRange(this.TeamB.Players);
 
             return players;
+        }
+
+        /// <summary>
+        /// Sets the map of the match.
+        /// </summary>
+        /// <param name="type"> The map type. </param>
+        /// <param name="mapName"> The name of the map. </param>
+        public void SetMap(MapType type, string mapName)
+        {
+            this.MapName = mapName;
+            this.Maptype = type;
         }
 
         public string GetPlayersReport(List<PlayerMatchData> data)
@@ -107,8 +128,6 @@ namespace Checkers.Components
             {
                 this.ActiveVotes.Remove(vote);
             }
-
-            await this.Channels.ChangeTextPerms(guild, channelID, true);
         }
 
         public async Task<Vote> GetVote(ulong channelID)

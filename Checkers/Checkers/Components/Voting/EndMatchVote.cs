@@ -1,4 +1,8 @@
-﻿using Checkers.Data.Models;
+﻿// <copyright file="EndMatchVote.cs" company="GambleDev">
+// Copyright (c) GambleDev. All rights reserved.
+// </copyright>
+
+using Checkers.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +14,7 @@ namespace Checkers.Components.Voting
     public class EndMatchVote : Vote
     {
         public EndMatchVote(Player created_by_player, ulong id, VoteType type, Match match, MatchOutcome outcome, Player? target = null)
-            : base(created_by_player, id, type, match)
+            : base(id, type, match, created_by_player)
         {
             this.MatchOutcome = outcome;
 

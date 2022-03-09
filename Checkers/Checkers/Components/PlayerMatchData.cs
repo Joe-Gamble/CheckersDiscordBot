@@ -1,4 +1,8 @@
-﻿using Checkers.Data.Models;
+﻿// <copyright file="PlayerMatchData.cs" company="GambleDev">
+// Copyright (c) GambleDev. All rights reserved.
+// </copyright>
+
+using Checkers.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

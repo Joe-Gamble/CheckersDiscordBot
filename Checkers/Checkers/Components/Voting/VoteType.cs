@@ -1,4 +1,8 @@
-﻿using System;
+﻿// <copyright file="VoteType.cs" company="GambleDev">
+// Copyright (c) GambleDev. All rights reserved.
+// </copyright>
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

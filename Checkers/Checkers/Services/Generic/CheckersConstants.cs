@@ -1,4 +1,9 @@
-﻿using Discord;
+﻿// <copyright file="CheckersConstants.cs" company="GambleDev">
+// Copyright (c) GambleDev. All rights reserved.
+// </copyright>
+
+using Checkers.Components;
+using Discord;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,5 +23,31 @@ namespace Checkers.Services
         public static Color CheckerGreen = new Color(87, 203, 147);
         public static Color CheckerBeige = new Color(249, 214, 150);
         public static Color CheckerRed = Color.Red;
+
+        public static Dictionary<string, MapType> Maps = new Dictionary<string, MapType>() {
+        { "Temple of Anubis", MapType.Assault },
+        { "Volskya Industries", MapType.Assault },
+        { "Hanamura", MapType.Assault },
+        { "Horizon Lunar Colony",  MapType.Assault },
+        { "Paris", MapType.Assault },
+        /*
+        { MapType.Escort, "Dorado" },
+        { MapType.Escort, "Havana" },
+        { MapType.Escort, "Junkertown" },
+        { MapType.Escort, "Rialto" },
+        { MapType.Escort, "Route 66" },
+        { MapType.Escort, "Watchpoint: Gibraltar" },
+        { MapType.Control, "Busan" },
+        { MapType.Control, "Ilios" },
+        { MapType.Control, "Lijiang Tower" },
+        { MapType.Control, "Nepal" },
+        { MapType.Control, "Oasis" },
+        { MapType.Hybrid, "Blizzard World" },
+        { MapType.Hybrid, "Eichenwalde" },
+        { MapType.Hybrid, "Holywood" },
+        { MapType.Hybrid, "Kings Row" },
+        { MapType.Hybrid, "Numbani" },
+        */
+        };
     }
 }

@@ -1,4 +1,8 @@
-﻿namespace Checkers.Components.Voting
+﻿// <copyright file="VoteManager.cs" company="GambleDev">
+// Copyright (c) GambleDev. All rights reserved.
+// </copyright>
+
+namespace Checkers.Components.Voting
 {
     using System;
     using System.Collections.Generic;

@@ -55,6 +55,7 @@ namespace Checkers
                     LogLevel = LogSeverity.Debug,
                     AlwaysDownloadUsers = true,
                     MessageCacheSize = 200,
+                    UseInteractionSnowflakeDate = false,
                 };
                 config.Token = context.Configuration["Token"];
             })

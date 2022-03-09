@@ -1,4 +1,8 @@
-﻿using Checkers.Data;
+﻿// <copyright file="RankedCommandsTest.cs" company="GambleDev">
+// Copyright (c) GambleDev. All rights reserved.
+// </copyright>
+
+using Checkers.Data;
 using Checkers.Services;
 using Discord.Commands;
 using System;

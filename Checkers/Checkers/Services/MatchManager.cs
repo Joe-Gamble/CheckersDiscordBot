@@ -1,4 +1,8 @@
-﻿namespace Checkers.Services
+﻿// <copyright file="MatchManager.cs" company="GambleDev">
+// Copyright (c) GambleDev. All rights reserved.
+// </copyright>
+
+namespace Checkers.Services
 {
     using System;
     using System.Collections.Generic;
@@ -96,6 +100,27 @@
             }
         }
 
+        public async Task StartMapVote(Match match, ISocketMessageChannel channel)
+        {
+            MapVoteManager mapVoteManager = new MapVoteManager(this, channel.Id, match);
+
+            if (channel is SocketGuildChannel guildChannel)
+            {
+                var guild = guildChannel.Guild;
+
+                foreach (MapVote vote in mapVoteManager.Maps)
+                {
+                    if (!await match.MakeVote(guild, channel.Id, vote))
+                    {
+                        await mapVoteManager.RemoveMapVotesFromMatch(match, guild);
+                        break;
+                    }
+                }
+
+                await CheckersMessageFactory.MakeMatchMapVote(channel, mapVoteManager);
+            }
+        }
+
         public async Task StartDisconnectPlayerVote(SocketCommandContext context, ulong playerId)
         {
             var player = this.DataAccessLayer.HasPlayer(context.User.Id);
@@ -139,7 +164,6 @@
                 }
             }
         }
-        
 
         public async Task StartMatchForfeitVote(SocketCommandContext context)
         {
@@ -362,8 +386,7 @@
             return players;
         }
 
-        // This will be private.
-        // Change to add match params.
+
         private async Task<List<Player>?> CleanUpMatch(Match match, ISocketMessageChannel channel)
         {
             var guildChannel = channel as SocketGuildChannel;
@@ -408,6 +431,16 @@
                 this.Matches.Remove(match);
             }
             return players;
+        }
+
+        public void SelectMap(SocketGuildChannel channel, MapVote vote)
+        {
+            vote.Match.SetMap(vote.Type, vote.Title);
+
+            if (channel is ISocketMessageChannel messageChannel)
+            {
+                messageChannel.SendMessageAsync($"The chosen map is {vote.Title}");
+            }
         }
 
         /// <summary>
@@ -480,6 +513,9 @@
                 {
                     // Match introduction here.
                     await CheckersMessageFactory.MakeMatchSummary(socketchannel, match);
+
+                    // Make Map Vote
+                    await this.StartMapVote(match, socketchannel);
                 }
             }
         }

@@ -1,4 +1,8 @@
-﻿namespace Checkers.Common
+﻿// <copyright file="CheckersMessageFactory.cs" company="GambleDev">
+// Copyright (c) GambleDev. All rights reserved.
+// </copyright>
+
+namespace Checkers.Common
 {
     using Checkers.Components;
     using Checkers.Components.Voting;
@@ -72,6 +76,18 @@
             await channel.SendMessageAsync(embed: embed);
         }
 
+        public static async Task MakeMatchMapVote(ISocketMessageChannel channel, MapVoteManager mapManager)
+        {
+            var voteModule = new CheckersComponentBuilder(VoteType.MapPick, false).Build();
+
+            var embed = new CheckersEmbedBuilder().WithTitle($"{mapManager.Title}:")
+            .AddField($"Map 1:  {mapManager.Maps[0].TypeName} - {mapManager.Maps[0].TotalVotes} Votes", mapManager.Maps[0].Title, true)
+            .AddField($"Map 2:  {mapManager.Maps[1].TypeName} - {mapManager.Maps[1].TotalVotes} Votes", mapManager.Maps[1].Title, false)
+            .AddField($"Map 3:  {mapManager.Maps[2].TypeName} - {mapManager.Maps[2].TotalVotes} Votes", mapManager.Maps[2].Title, false).Build();
+
+            await channel.SendMessageAsync(components: voteModule, embed: embed);
+        }
+
         public static async Task MakeMatchCancelledMessage(ISocketMessageChannel channel, EndMatchVote vote, List<PlayerMatchData>? data = null)
         {
             var embed = new CheckersEmbedBuilder().WithTitle(vote.Title).WithTimestamp(DateTime.UtcNow)
@@ -97,6 +113,51 @@
             }
 
             return false;
+        }
+
+        public static async Task<bool> ModifyMapVote(MapVote vote, SocketMessageComponent component, Player player)
+        {
+            if (!vote.Manager.HasPlayer(player))
+            {
+                if (!vote.Manager.AddVote(player, (int)vote.VoteID))
+                {
+                    var embed = new CheckersEmbedBuilder().WithTitle($"{vote.Manager.Title}:")
+                        .AddField($"Map 1:  {vote.Manager.Maps[0].TypeName} - {vote.Manager.Maps[0].TotalVotes} Votes", vote.Manager.Maps[0].Title, true)
+                        .AddField($"Map 2:  {vote.Manager.Maps[1].TypeName} - {vote.Manager.Maps[1].TotalVotes} Votes", vote.Manager.Maps[1].Title, false)
+                        .AddField($"Map 3:  {vote.Manager.Maps[2].TypeName} - {vote.Manager.Maps[2].TotalVotes} Votes", vote.Manager.Maps[2].Title, false).Build();
+
+                    await component.UpdateAsync(x => x.Embed = embed);
+                    return false;
+                }
+                else
+                {
+                    var embed = new CheckersEmbedBuilder().WithTitle($"{vote.Manager.Title}:")
+                       .AddField($"Map 1:  {vote.Manager.Maps[0].TypeName} - {vote.Manager.Maps[0].TotalVotes} Votes", vote.Manager.Maps[0].Title, true)
+                       .AddField($"Map 2:  {vote.Manager.Maps[1].TypeName} - {vote.Manager.Maps[1].TotalVotes} Votes", vote.Manager.Maps[1].Title, false)
+                       .AddField($"Map 3:  {vote.Manager.Maps[2].TypeName} - {vote.Manager.Maps[2].TotalVotes} Votes", vote.Manager.Maps[2].Title, false)
+                       .WithColor(CheckersConstants.CheckerGreen)
+                       .Build();
+
+                    await component.UpdateAsync(x =>
+                    {
+                        x.Embed = embed;
+                        x.Components = new CheckersComponentBuilder(VoteType.MapPick, true).Build();
+                    });
+
+                    return true;
+                }
+            }
+            else
+            {
+                await component.DeferAsync();
+                return false;
+            }
+        }
+
+        public static async Task ExpireMapVote(MapVoteManager mapVoteManager, SocketMessage message)
+        {
+            await message.DeleteAsync();
+            await message.Channel.SendMessageAsync("Vote Passed!");
         }
 
         public static async Task<bool> ModifyVote(Vote vote, SocketMessageComponent component, Player player, bool votefor)
