@@ -166,19 +166,6 @@ namespace Checkers.Modules
             }
         }
 
-
-        /// <summary>
-        /// Test event function to see how it works.
-        /// </summary>
-        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-        [Command("Event")]
-        public async Task TestEvent()
-        {
-            // TODO: Auto desc and names for seasons.
-            var guildEvent = await this.Context.Guild.CreateEventAsync("Ranked", DateTimeOffset.UtcNow.AddDays(1),
-                GuildScheduledEventType.Voice, GuildScheduledEventPrivacyLevel.Private, description: "This is a test desc", endTime: DateTimeOffset.UtcNow.AddDays(8), channelId: 942528248561156136);
-        }
-
         /// <summary>
         /// Get the details of a user.
         /// </summary>
@@ -202,19 +189,16 @@ namespace Checkers.Modules
             }
         }
 
-        // TEST FUNCTION CAN I UPDATE EMBEDS LIKE THIS?
-        public async Task EditEmbed(ulong id)
+        /// <summary>
+        /// Test event function to see how it works.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Command("Event")]
+        public async Task TestEvent()
         {
-            var message = await this.Context.Channel.GetMessageAsync(id) as IUserMessage;
-
-            var embed = new EmbedBuilder()
-                .WithDescription("test edit")
-                .Build();
-
-            if (message != null)
-            {
-                await message.ModifyAsync(x => x.Embed = embed);
-            }
+            // TODO: Auto desc and names for seasons.
+            var guildEvent = await this.Context.Guild.CreateEventAsync("Ranked", DateTimeOffset.UtcNow.AddDays(1),
+                GuildScheduledEventType.Voice, GuildScheduledEventPrivacyLevel.Private, description: "This is a test desc", endTime: DateTimeOffset.UtcNow.AddDays(8), channelId: 942528248561156136);
         }
     }
 }

@@ -133,7 +133,7 @@ namespace Checkers.Components
             return false;
         }
 
-        public async Task RemoveVote(SocketGuild guild, ulong channelID, Vote vote)
+        public void RemoveVote(SocketGuild guild, ulong channelID, Vote vote)
         {
             if (this.ActiveVotes.Contains(vote))
             {
@@ -141,7 +141,7 @@ namespace Checkers.Components
             }
         }
 
-        public async Task<Vote> GetVote(ulong channelID)
+        public Vote GetVote(ulong channelID)
         {
             return this.ActiveVotes.First(x => x.VoteID == channelID);
         }
