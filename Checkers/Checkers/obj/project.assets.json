@@ -17,21 +17,21 @@
           "lib/net6.0/Discord.Addons.Hosting.dll": {}
         }
       },
-      "Discord.Net/3.3.0": {
+      "Discord.Net/3.4.0": {
         "type": "package",
         "dependencies": {
-          "Discord.Net.Commands": "3.3.0",
-          "Discord.Net.Core": "3.3.0",
-          "Discord.Net.Interactions": "3.3.0",
-          "Discord.Net.Rest": "3.3.0",
-          "Discord.Net.WebSocket": "3.3.0",
-          "Discord.Net.Webhook": "3.3.0"
+          "Discord.Net.Commands": "3.4.0",
+          "Discord.Net.Core": "3.4.0",
+          "Discord.Net.Interactions": "3.4.0",
+          "Discord.Net.Rest": "3.4.0",
+          "Discord.Net.WebSocket": "3.4.0",
+          "Discord.Net.Webhook": "3.4.0"
         }
       },
-      "Discord.Net.Commands/3.3.0": {
+      "Discord.Net.Commands/3.4.0": {
         "type": "package",
         "dependencies": {
-          "Discord.Net.Core": "3.3.0"
+          "Discord.Net.Core": "3.4.0"
         },
         "compile": {
           "lib/net6.0/Discord.Net.Commands.dll": {}
@@ -40,7 +40,7 @@
           "lib/net6.0/Discord.Net.Commands.dll": {}
         }
       },
-      "Discord.Net.Core/3.3.0": {
+      "Discord.Net.Core/3.4.0": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "13.0.1",
@@ -55,12 +55,12 @@
           "lib/net6.0/Discord.Net.Core.dll": {}
         }
       },
-      "Discord.Net.Interactions/3.3.0": {
+      "Discord.Net.Interactions/3.4.0": {
         "type": "package",
         "dependencies": {
-          "Discord.Net.Core": "3.3.0",
-          "Discord.Net.Rest": "3.3.0",
-          "Discord.Net.WebSocket": "3.3.0",
+          "Discord.Net.Core": "3.4.0",
+          "Discord.Net.Rest": "3.4.0",
+          "Discord.Net.WebSocket": "3.4.0",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "5.0.0",
           "System.Collections.Immutable": "5.0.0",
           "System.Reactive": "5.0.0"
@@ -72,10 +72,10 @@
           "lib/net6.0/Discord.Net.Interactions.dll": {}
         }
       },
-      "Discord.Net.Rest/3.3.0": {
+      "Discord.Net.Rest/3.4.0": {
         "type": "package",
         "dependencies": {
-          "Discord.Net.Core": "3.3.0"
+          "Discord.Net.Core": "3.4.0"
         },
         "compile": {
           "lib/net6.0/Discord.Net.Rest.dll": {}
@@ -84,11 +84,11 @@
           "lib/net6.0/Discord.Net.Rest.dll": {}
         }
       },
-      "Discord.Net.Webhook/3.3.0": {
+      "Discord.Net.Webhook/3.4.0": {
         "type": "package",
         "dependencies": {
-          "Discord.Net.Core": "3.3.0",
-          "Discord.Net.Rest": "3.3.0"
+          "Discord.Net.Core": "3.4.0",
+          "Discord.Net.Rest": "3.4.0"
         },
         "compile": {
           "lib/net6.0/Discord.Net.Webhook.dll": {}
@@ -97,17 +97,29 @@
           "lib/net6.0/Discord.Net.Webhook.dll": {}
         }
       },
-      "Discord.Net.WebSocket/3.3.0": {
+      "Discord.Net.WebSocket/3.4.0": {
         "type": "package",
         "dependencies": {
-          "Discord.Net.Core": "3.3.0",
-          "Discord.Net.Rest": "3.3.0"
+          "Discord.Net.Core": "3.4.0",
+          "Discord.Net.Rest": "3.4.0"
         },
         "compile": {
           "lib/net6.0/Discord.Net.WebSocket.dll": {}
         },
         "runtime": {
           "lib/net6.0/Discord.Net.WebSocket.dll": {}
+        }
+      },
+      "Fergun.Interactive/1.4.2": {
+        "type": "package",
+        "dependencies": {
+          "Discord.Net.WebSocket": "3.4.0"
+        },
+        "compile": {
+          "lib/netstandard2.1/Fergun.Interactive.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.1/Fergun.Interactive.dll": {}
         }
       },
       "Humanizer.Core/2.8.26": {
@@ -119,11 +131,11 @@
           "lib/netstandard2.0/Humanizer.dll": {}
         }
       },
-      "Microsoft.EntityFrameworkCore/6.0.2": {
+      "Microsoft.EntityFrameworkCore/6.0.3": {
         "type": "package",
         "dependencies": {
-          "Microsoft.EntityFrameworkCore.Abstractions": "6.0.2",
-          "Microsoft.EntityFrameworkCore.Analyzers": "6.0.2",
+          "Microsoft.EntityFrameworkCore.Abstractions": "6.0.3",
+          "Microsoft.EntityFrameworkCore.Analyzers": "6.0.3",
           "Microsoft.Extensions.Caching.Memory": "6.0.1",
           "Microsoft.Extensions.DependencyInjection": "6.0.0",
           "Microsoft.Extensions.Logging": "6.0.0",
@@ -137,7 +149,7 @@
           "lib/net6.0/Microsoft.EntityFrameworkCore.dll": {}
         }
       },
-      "Microsoft.EntityFrameworkCore.Abstractions/6.0.2": {
+      "Microsoft.EntityFrameworkCore.Abstractions/6.0.3": {
         "type": "package",
         "compile": {
           "lib/net6.0/Microsoft.EntityFrameworkCore.Abstractions.dll": {}
@@ -146,7 +158,7 @@
           "lib/net6.0/Microsoft.EntityFrameworkCore.Abstractions.dll": {}
         }
       },
-      "Microsoft.EntityFrameworkCore.Analyzers/6.0.2": {
+      "Microsoft.EntityFrameworkCore.Analyzers/6.0.3": {
         "type": "package",
         "compile": {
           "lib/netstandard2.0/_._": {}
@@ -155,11 +167,11 @@
           "lib/netstandard2.0/_._": {}
         }
       },
-      "Microsoft.EntityFrameworkCore.Design/6.0.2": {
+      "Microsoft.EntityFrameworkCore.Design/6.0.3": {
         "type": "package",
         "dependencies": {
           "Humanizer.Core": "2.8.26",
-          "Microsoft.EntityFrameworkCore.Relational": "6.0.2"
+          "Microsoft.EntityFrameworkCore.Relational": "6.0.3"
         },
         "compile": {
           "lib/net6.0/_._": {}
@@ -171,10 +183,10 @@
           "build/net6.0/Microsoft.EntityFrameworkCore.Design.props": {}
         }
       },
-      "Microsoft.EntityFrameworkCore.Relational/6.0.2": {
+      "Microsoft.EntityFrameworkCore.Relational/6.0.3": {
         "type": "package",
         "dependencies": {
-          "Microsoft.EntityFrameworkCore": "6.0.2",
+          "Microsoft.EntityFrameworkCore": "6.0.3",
           "Microsoft.Extensions.Configuration.Abstractions": "6.0.0"
         },
         "compile": {
@@ -212,7 +224,7 @@
           "lib/netstandard2.0/Microsoft.Extensions.Caching.Memory.dll": {}
         }
       },
-      "Microsoft.Extensions.Configuration/6.0.0": {
+      "Microsoft.Extensions.Configuration/6.0.1": {
         "type": "package",
         "dependencies": {
           "Microsoft.Extensions.Configuration.Abstractions": "6.0.0",
@@ -814,8 +826,8 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
-          "Microsoft.EntityFrameworkCore": "6.0.2",
-          "Microsoft.Extensions.Configuration": "6.0.0",
+          "Microsoft.EntityFrameworkCore": "6.0.3",
+          "Microsoft.Extensions.Configuration": "6.0.1",
           "Microsoft.Extensions.Configuration.Binder": "6.0.0",
           "Microsoft.Extensions.Configuration.Json": "6.0.0",
           "Pomelo.EntityFrameworkCore.MySql": "6.0.1"
@@ -845,25 +857,25 @@
         "lib/net6.0/Discord.Addons.Hosting.xml"
       ]
     },
-    "Discord.Net/3.3.0": {
-      "sha512": "06+YS0OEqLWix6ucEPNeduqt1Hw8CCymdqQqdod7tn7M2bnUeoWLwqZRIkaclTXE+T7PCp6g4jI70n2WIP6JyQ==",
+    "Discord.Net/3.4.0": {
+      "sha512": "/n+NoIWaj1vWL1l8IcG93i+Txj38E1DZ04t6q7jr0DbC/oKQD7pRRhjXLXO/njtjFCR+wMfYhpQY8e02ON2m2g==",
       "type": "package",
-      "path": "discord.net/3.3.0",
+      "path": "discord.net/3.4.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "discord.net.3.3.0.nupkg.sha512",
+        "discord.net.3.4.0.nupkg.sha512",
         "discord.net.nuspec"
       ]
     },
-    "Discord.Net.Commands/3.3.0": {
-      "sha512": "s82l76wj9H7XFgWWgg8XNpFMBNP592Wk7SvX6XqziaVVcmJid1uxOK6dau5cCz9Q5JFtAxp6GZcI0dxP8Ak0hQ==",
+    "Discord.Net.Commands/3.4.0": {
+      "sha512": "UgXqI1aMbSauc1OVoOpnps9MwL9osfLLeQlfY6P4XCfFV5hkJAPQZPOgv7C7zaiMVxRjM8GRaccwm0sBkgLPiA==",
       "type": "package",
-      "path": "discord.net.commands/3.3.0",
+      "path": "discord.net.commands/3.4.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "discord.net.commands.3.3.0.nupkg.sha512",
+        "discord.net.commands.3.4.0.nupkg.sha512",
         "discord.net.commands.nuspec",
         "lib/net461/Discord.Net.Commands.dll",
         "lib/net461/Discord.Net.Commands.xml",
@@ -877,14 +889,14 @@
         "lib/netstandard2.1/Discord.Net.Commands.xml"
       ]
     },
-    "Discord.Net.Core/3.3.0": {
-      "sha512": "pt4OkL7S5kE6NKWBfkqnRobdckE8BcS6rk9/ax4+j0XtWeY/8uX0mZqjPZcdxXPlsdy/VxRchWN40IryFDiInw==",
+    "Discord.Net.Core/3.4.0": {
+      "sha512": "1Fc5QICGL9OcdQWUoRF/lbJM1bG9uEoZtTkzGRzoQ+1MM81CRPZUhoHoIhtca925Kvn0PUw+JTEhWsO9MYdXUQ==",
       "type": "package",
-      "path": "discord.net.core/3.3.0",
+      "path": "discord.net.core/3.4.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "discord.net.core.3.3.0.nupkg.sha512",
+        "discord.net.core.3.4.0.nupkg.sha512",
         "discord.net.core.nuspec",
         "lib/net461/Discord.Net.Core.dll",
         "lib/net461/Discord.Net.Core.xml",
@@ -898,14 +910,14 @@
         "lib/netstandard2.1/Discord.Net.Core.xml"
       ]
     },
-    "Discord.Net.Interactions/3.3.0": {
-      "sha512": "xvkvZjh4CZGpILvfnv1N6209fUogULr4hk/Gt66nX7CgUPMpg4K1MbJZOgKxHZQMldJKVgn0pNQdZROzjLzdww==",
+    "Discord.Net.Interactions/3.4.0": {
+      "sha512": "qYd7ao85bcT+8YlibLTa5sTrbQoZTFZbYkGms8eDVo9PMfZ5xuFs1qOQUHzdTkX943YQns8TzCMeuL3sBpv91w==",
       "type": "package",
-      "path": "discord.net.interactions/3.3.0",
+      "path": "discord.net.interactions/3.4.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "discord.net.interactions.3.3.0.nupkg.sha512",
+        "discord.net.interactions.3.4.0.nupkg.sha512",
         "discord.net.interactions.nuspec",
         "lib/net461/Discord.Net.Interactions.dll",
         "lib/net461/Discord.Net.Interactions.xml",
@@ -919,14 +931,14 @@
         "lib/netstandard2.1/Discord.Net.Interactions.xml"
       ]
     },
-    "Discord.Net.Rest/3.3.0": {
-      "sha512": "IQFnLDv/8oL9Pvmqj9697SPc3tJYkNxM41sMquZ0Ke6yLtTGXAR8xiirha59CmM4e8dx/FUHH6Qcbao9y+kEJQ==",
+    "Discord.Net.Rest/3.4.0": {
+      "sha512": "kEtFtVUZYudjC5eslZNIfEjOf2iO5CdNw5kSbDRaQUhcgKkJdC7OPr4YSxubKUC6XNtejTYWVUcGzWRa89ZZdA==",
       "type": "package",
-      "path": "discord.net.rest/3.3.0",
+      "path": "discord.net.rest/3.4.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "discord.net.rest.3.3.0.nupkg.sha512",
+        "discord.net.rest.3.4.0.nupkg.sha512",
         "discord.net.rest.nuspec",
         "lib/net461/Discord.Net.Rest.dll",
         "lib/net461/Discord.Net.Rest.xml",
@@ -940,14 +952,14 @@
         "lib/netstandard2.1/Discord.Net.Rest.xml"
       ]
     },
-    "Discord.Net.Webhook/3.3.0": {
-      "sha512": "tUgn8XZM8BKKv9EbBzFk+UuY4l6Vq2Rh2RYsVXKDNuO5HIEa8UPXyyXtNAjAQNOlL1Pn5g0ltbSnS/eaV6cmyw==",
+    "Discord.Net.Webhook/3.4.0": {
+      "sha512": "hqd2c9vri/rwCb8kSMgkp9Bqd9DyOBmyniG8fYRNOklsfQwQGaNBm/9Jp537JtLuhANvz5T4bBmdtXE/b3OpiA==",
       "type": "package",
-      "path": "discord.net.webhook/3.3.0",
+      "path": "discord.net.webhook/3.4.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "discord.net.webhook.3.3.0.nupkg.sha512",
+        "discord.net.webhook.3.4.0.nupkg.sha512",
         "discord.net.webhook.nuspec",
         "lib/net5.0/Discord.Net.Webhook.dll",
         "lib/net5.0/Discord.Net.Webhook.xml",
@@ -959,14 +971,14 @@
         "lib/netstandard2.1/Discord.Net.Webhook.xml"
       ]
     },
-    "Discord.Net.WebSocket/3.3.0": {
-      "sha512": "hGSLOMu0G3TUpu8TuklpuDa7h2Zpz79nIzlzVRC9YHUoNoSwR0pEwSuhEeTqvNQ45kywghZ1z10IgfZhC+cG7A==",
+    "Discord.Net.WebSocket/3.4.0": {
+      "sha512": "CNksOt2hyzRbmKYmhbvwvSsKxLudYoiYNihftAWpfUazfq6u/JITXFlE14eebBianZTU28NF2Yl7M2pXZATbyg==",
       "type": "package",
-      "path": "discord.net.websocket/3.3.0",
+      "path": "discord.net.websocket/3.4.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "discord.net.websocket.3.3.0.nupkg.sha512",
+        "discord.net.websocket.3.4.0.nupkg.sha512",
         "discord.net.websocket.nuspec",
         "lib/net461/Discord.Net.WebSocket.dll",
         "lib/net461/Discord.Net.WebSocket.xml",
@@ -978,6 +990,23 @@
         "lib/netstandard2.0/Discord.Net.WebSocket.xml",
         "lib/netstandard2.1/Discord.Net.WebSocket.dll",
         "lib/netstandard2.1/Discord.Net.WebSocket.xml"
+      ]
+    },
+    "Fergun.Interactive/1.4.2": {
+      "sha512": "IZH1Et0djJyg03QsrLM6f5n2IlxuIrwOxnD2Q2XaBYcvNhsSeOZab45bLI0UPVNriUx5lMlD2fgtMxRNwnwRiw==",
+      "type": "package",
+      "path": "fergun.interactive/1.4.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "fergun.interactive.1.4.2.nupkg.sha512",
+        "fergun.interactive.nuspec",
+        "lib/net461/Fergun.Interactive.dll",
+        "lib/net461/Fergun.Interactive.xml",
+        "lib/netstandard2.0/Fergun.Interactive.dll",
+        "lib/netstandard2.0/Fergun.Interactive.xml",
+        "lib/netstandard2.1/Fergun.Interactive.dll",
+        "lib/netstandard2.1/Fergun.Interactive.xml"
       ]
     },
     "Humanizer.Core/2.8.26": {
@@ -996,52 +1025,52 @@
         "logo.png"
       ]
     },
-    "Microsoft.EntityFrameworkCore/6.0.2": {
-      "sha512": "hoZtatDA6zL/+gMXXkG3UNsF6iWguC9OkJeYUepqyPEF2mjFajga+DxS4H/UODs7HWo9oNCnhi2Q/BE9T0lg2g==",
+    "Microsoft.EntityFrameworkCore/6.0.3": {
+      "sha512": "f7ZlNOI1wPg/r0zRgvmcLAM3kwuCVGe5cZc8rYoKPDGZs5dgRFe5a43H9FnCXsyFAF6FILB08Nr9RkuNMwd3TQ==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore/6.0.2",
+      "path": "microsoft.entityframeworkcore/6.0.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "lib/net6.0/Microsoft.EntityFrameworkCore.dll",
         "lib/net6.0/Microsoft.EntityFrameworkCore.xml",
-        "microsoft.entityframeworkcore.6.0.2.nupkg.sha512",
+        "microsoft.entityframeworkcore.6.0.3.nupkg.sha512",
         "microsoft.entityframeworkcore.nuspec"
       ]
     },
-    "Microsoft.EntityFrameworkCore.Abstractions/6.0.2": {
-      "sha512": "71hgKvRpMebTp9bKZB86w3uRXQAJzTeksZ4EyO1/OKj/AoL8/8IU31kHHcIFAfX/D0uefl4rO6jWgh3OaR41pQ==",
+    "Microsoft.EntityFrameworkCore.Abstractions/6.0.3": {
+      "sha512": "7c6wJtTFj7FDe20IVPDKeCzxWIMu+XDpYi7aYuUo6knu4vDeB3N3F0pjAZgXJ96GwTZYBrjOEwnbpYmfapEz/w==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore.abstractions/6.0.2",
+      "path": "microsoft.entityframeworkcore.abstractions/6.0.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "lib/net6.0/Microsoft.EntityFrameworkCore.Abstractions.dll",
         "lib/net6.0/Microsoft.EntityFrameworkCore.Abstractions.xml",
-        "microsoft.entityframeworkcore.abstractions.6.0.2.nupkg.sha512",
+        "microsoft.entityframeworkcore.abstractions.6.0.3.nupkg.sha512",
         "microsoft.entityframeworkcore.abstractions.nuspec"
       ]
     },
-    "Microsoft.EntityFrameworkCore.Analyzers/6.0.2": {
-      "sha512": "pHUMjXPeWqyZS2OfkQsDC1Qdk30JVcPNDUxEVhOTDAJvyUN4EuBFYbnniQ9RLHbWAw8IkEwVAAo6v/ICmT4/dw==",
+    "Microsoft.EntityFrameworkCore.Analyzers/6.0.3": {
+      "sha512": "Ld9HyVABYor3Tq43/sG2JERL94UnDHJPg5PwpkCW4CWsf/CbxHetdecv+bCXA/Hg4q+44sov0GVl4Ywjk4PnyA==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore.analyzers/6.0.2",
+      "path": "microsoft.entityframeworkcore.analyzers/6.0.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "analyzers/dotnet/cs/Microsoft.EntityFrameworkCore.Analyzers.dll",
         "lib/netstandard2.0/_._",
-        "microsoft.entityframeworkcore.analyzers.6.0.2.nupkg.sha512",
+        "microsoft.entityframeworkcore.analyzers.6.0.3.nupkg.sha512",
         "microsoft.entityframeworkcore.analyzers.nuspec"
       ]
     },
-    "Microsoft.EntityFrameworkCore.Design/6.0.2": {
-      "sha512": "U5nqbIKJ8LQF/T1BzMjL35mwhTPsEUsjLhX+GjPQcrKaavv6oczCdznhr7VbEmCmGSjQjSarNqXkSCneUX2mXA==",
+    "Microsoft.EntityFrameworkCore.Design/6.0.3": {
+      "sha512": "Gc3XhQ4vLK4rlGpZi8zaa4bl0t894QxqMXHSbDSsx8d7ghRaLbGIH1tQawpo2hriU/q918eepbCyoISD89Xx1w==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore.design/6.0.2",
+      "path": "microsoft.entityframeworkcore.design/6.0.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -1049,21 +1078,21 @@
         "build/net6.0/Microsoft.EntityFrameworkCore.Design.props",
         "lib/net6.0/Microsoft.EntityFrameworkCore.Design.dll",
         "lib/net6.0/Microsoft.EntityFrameworkCore.Design.xml",
-        "microsoft.entityframeworkcore.design.6.0.2.nupkg.sha512",
+        "microsoft.entityframeworkcore.design.6.0.3.nupkg.sha512",
         "microsoft.entityframeworkcore.design.nuspec"
       ]
     },
-    "Microsoft.EntityFrameworkCore.Relational/6.0.2": {
-      "sha512": "yZARjY5P+jtCpoAogk5mOfdplATHow5gQugMje6F3cZFPKtF1UtJLGRyxVsNX4hCEWbSq/W+1AbXLCMQ1jOiSw==",
+    "Microsoft.EntityFrameworkCore.Relational/6.0.3": {
+      "sha512": "Dga4OH8QxmPT9APr7ZL5R0TvNADOcjDNNvJa8pU3QbPJ6OvRPTlzqAehfEBow0/NXBTKbIO48b4aIJI4VCO7fg==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore.relational/6.0.2",
+      "path": "microsoft.entityframeworkcore.relational/6.0.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
         "lib/net6.0/Microsoft.EntityFrameworkCore.Relational.dll",
         "lib/net6.0/Microsoft.EntityFrameworkCore.Relational.xml",
-        "microsoft.entityframeworkcore.relational.6.0.2.nupkg.sha512",
+        "microsoft.entityframeworkcore.relational.6.0.3.nupkg.sha512",
         "microsoft.entityframeworkcore.relational.nuspec"
       ]
     },
@@ -1105,10 +1134,10 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "Microsoft.Extensions.Configuration/6.0.0": {
-      "sha512": "tq2wXyh3fL17EMF2bXgRhU7JrbO3on93MRKYxzz4JzzvuGSA1l0W3GI9/tl8EO89TH+KWEymP7bcFway6z9fXg==",
+    "Microsoft.Extensions.Configuration/6.0.1": {
+      "sha512": "BUyFU9t+HzlSE7ri4B+AQN2BgTgHv/uM82s5ZkgU1BApyzWzIl48nDsG5wR1t0pniNuuyTBzG3qCW8152/NtSw==",
       "type": "package",
-      "path": "microsoft.extensions.configuration/6.0.0",
+      "path": "microsoft.extensions.configuration/6.0.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -1119,7 +1148,7 @@
         "lib/net461/Microsoft.Extensions.Configuration.xml",
         "lib/netstandard2.0/Microsoft.Extensions.Configuration.dll",
         "lib/netstandard2.0/Microsoft.Extensions.Configuration.xml",
-        "microsoft.extensions.configuration.6.0.0.nupkg.sha512",
+        "microsoft.extensions.configuration.6.0.1.nupkg.sha512",
         "microsoft.extensions.configuration.nuspec",
         "useSharedDesignerContext.txt"
       ]
@@ -2111,12 +2140,13 @@
     "net6.0": [
       "Checkers.Data >= 1.0.0",
       "Discord.Addons.Hosting >= 5.1.0",
-      "Discord.Net >= 3.3.0",
-      "Discord.Net.Commands >= 3.3.0",
-      "Discord.Net.Core >= 3.3.0",
-      "Discord.Net.WebSocket >= 3.3.0",
-      "Microsoft.EntityFrameworkCore >= 6.0.2",
-      "Microsoft.EntityFrameworkCore.Design >= 6.0.2",
+      "Discord.Net >= 3.4.0",
+      "Discord.Net.Commands >= 3.4.0",
+      "Discord.Net.Core >= 3.4.0",
+      "Discord.Net.WebSocket >= 3.4.0",
+      "Fergun.Interactive >= 1.4.2",
+      "Microsoft.EntityFrameworkCore >= 6.0.3",
+      "Microsoft.EntityFrameworkCore.Design >= 6.0.3",
       "Microsoft.Extensions.Http >= 6.0.0",
       "Profanity.Detector >= 0.1.8",
       "StyleCop.Analyzers >= 1.1.118"
@@ -2176,29 +2206,33 @@
           },
           "Discord.Net": {
             "target": "Package",
-            "version": "[3.3.0, )"
+            "version": "[3.4.0, )"
           },
           "Discord.Net.Commands": {
             "target": "Package",
-            "version": "[3.3.0, )"
+            "version": "[3.4.0, )"
           },
           "Discord.Net.Core": {
             "target": "Package",
-            "version": "[3.3.0, )"
+            "version": "[3.4.0, )"
           },
           "Discord.Net.WebSocket": {
             "target": "Package",
-            "version": "[3.3.0, )"
+            "version": "[3.4.0, )"
+          },
+          "Fergun.Interactive": {
+            "target": "Package",
+            "version": "[1.4.2, )"
           },
           "Microsoft.EntityFrameworkCore": {
             "target": "Package",
-            "version": "[6.0.2, )"
+            "version": "[6.0.3, )"
           },
           "Microsoft.EntityFrameworkCore.Design": {
             "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
             "suppressParent": "All",
             "target": "Package",
-            "version": "[6.0.2, )"
+            "version": "[6.0.3, )"
           },
           "Microsoft.Extensions.Http": {
             "target": "Package",

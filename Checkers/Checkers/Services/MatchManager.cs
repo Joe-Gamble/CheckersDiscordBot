@@ -141,7 +141,7 @@ namespace Checkers.Services
 
                             if (await match.MakeVote(context.Guild, context.Channel.Id, forfeitVote))
                             {
-                                if (await CheckersMessageFactory.MakeMatchVote(player, context, forfeitVote))
+                                if (await CheckersMessageFactory.MakeMatchVote(context, forfeitVote))
                                 {
                                     // Vote instantly has enough to be fulfilled.
                                     await this.ProcessMatch(forfeitVote, context.Channel);
@@ -193,7 +193,7 @@ namespace Checkers.Services
 
                         if (await match.MakeVote(context.Guild, context.Channel.Id, forfeitVote))
                         {
-                            if (await CheckersMessageFactory.MakeMatchVote(player, context, forfeitVote))
+                            if (await CheckersMessageFactory.MakeMatchVote(context, forfeitVote))
                             {
                                 // Vote instantly has enough to be fulfilled.
                                 await this.ProcessMatch(forfeitVote, context.Channel);
@@ -223,62 +223,69 @@ namespace Checkers.Services
 
                 if (match != null)
                 {
-                    Vote? matchVote = null;
-
-                    if (state == "win" || state == "lose" || state == "draw")
+                    if (match.HasStarted)
                     {
-                        Team? team = match.GetTeamOfPlayer(player);
-                        if (team != null)
+                        Vote? matchVote = null;
+
+                        if (state == "win" || state == "lose" || state == "draw")
                         {
-                            switch (state)
+                            Team? team = match.GetTeamOfPlayer(player);
+                            if (team != null)
                             {
-                                case "win":
-                                    {
-                                        if (team.IsTeamA)
-                                        {
-                                            matchVote = new EndMatchVote(player, context.Channel.Id, VoteType.EndMatch, match, MatchOutcome.TeamA);
-                                        }
-                                        else
-                                        {
-                                            matchVote = new EndMatchVote(player, context.Channel.Id, VoteType.EndMatch, match, MatchOutcome.TeamB);
-                                        }
-
-                                        break;
-                                    }
-
-                                case "lose":
-                                    {
-                                        if (team.IsTeamA)
-                                        {
-                                            matchVote = new EndMatchVote(player, context.Channel.Id, VoteType.EndMatch, match, MatchOutcome.TeamB);
-                                        }
-                                        else
-                                        {
-                                            matchVote = new EndMatchVote(player, context.Channel.Id, VoteType.EndMatch, match, MatchOutcome.TeamA);
-                                        }
-
-                                        break;
-                                    }
-
-                                case "draw":
-                                    {
-                                        matchVote = new EndMatchVote(player, context.Channel.Id, VoteType.EndMatch, match, MatchOutcome.Draw);
-                                        break;
-                                    }
-                            }
-
-                            if (matchVote != null)
-                            {
-                                if (await match.MakeVote(context.Guild, context.Channel.Id, matchVote))
+                                switch (state)
                                 {
-                                    await CheckersMessageFactory.MakeMatchVote(player, context, (EndMatchVote)matchVote);
+                                    case "win":
+                                        {
+                                            if (team.IsTeamA)
+                                            {
+                                                matchVote = new EndMatchVote(player, context.Channel.Id, VoteType.EndMatch, match, MatchOutcome.TeamA);
+                                            }
+                                            else
+                                            {
+                                                matchVote = new EndMatchVote(player, context.Channel.Id, VoteType.EndMatch, match, MatchOutcome.TeamB);
+                                            }
+
+                                            break;
+                                        }
+
+                                    case "lose":
+                                        {
+                                            if (team.IsTeamA)
+                                            {
+                                                matchVote = new EndMatchVote(player, context.Channel.Id, VoteType.EndMatch, match, MatchOutcome.TeamB);
+                                            }
+                                            else
+                                            {
+                                                matchVote = new EndMatchVote(player, context.Channel.Id, VoteType.EndMatch, match, MatchOutcome.TeamA);
+                                            }
+
+                                            break;
+                                        }
+
+                                    case "draw":
+                                        {
+                                            matchVote = new EndMatchVote(player, context.Channel.Id, VoteType.EndMatch, match, MatchOutcome.Draw);
+                                            break;
+                                        }
+                                }
+
+                                if (matchVote != null)
+                                {
+                                    if (await match.MakeVote(context.Guild, context.Channel.Id, matchVote))
+                                    {
+                                        await CheckersMessageFactory.MakeMatchVote(context, (EndMatchVote)matchVote);
+                                    }
                                 }
                             }
+                        }
+                        else
+                        {
+                            await context.Message.ReplyAsync("Invalid argument for ending a match. EndMatch commands must state whether the player registering the result has won, lost or drawn their match.");
                         }
                     }
                     else
                     {
-                        await context.Message.ReplyAsync("Invalid argument for ending a match. EndMatch commands must state whether the player registering the result has won, lost or drawn their match.");
+                        await context.Message.ReplyAsync("The match must start before you can vote for the outcome.");
                     }
                 }
                 else
@@ -433,13 +440,16 @@ namespace Checkers.Services
             return players;
         }
 
-        public void SelectMap(SocketGuildChannel channel, MapVote vote)
+        public async Task SelectMap(SocketGuildChannel channel, MapVote vote)
         {
-            vote.Match.SetMap(vote.Type, vote.Title);
+            vote.Match.SetMap(vote.Maptype, vote.Title);
+            vote.Match.Start();
+
+            await vote.Match.Channels.ChangeTextPerms(channel.Guild, channel.Id, true);
 
             if (channel is ISocketMessageChannel messageChannel)
             {
-                messageChannel.SendMessageAsync($"The chosen map is {vote.Title}");
+                await messageChannel.SendMessageAsync($"The chosen map is {vote.Title}");
             }
         }
 

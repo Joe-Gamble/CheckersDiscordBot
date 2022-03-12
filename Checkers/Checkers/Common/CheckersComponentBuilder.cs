@@ -26,8 +26,8 @@ namespace Checkers.Common
             {
                 case VoteType.EndMatch:
                     {
-                        this.WithButton("Vote Yes", "match_voteyes", ButtonStyle.Success, null, null, disabled, 0)
-                            .WithButton("Vote No", "match_voteno", ButtonStyle.Danger, null, null, disabled, 0);
+                        this.WithButton("Vote Yes", "match_vote_yes", ButtonStyle.Success, null, null, disabled, 0)
+                            .WithButton("Vote No", "match_vote_no", ButtonStyle.Danger, null, null, disabled, 0);
                         break;
                     }
 
@@ -60,6 +60,16 @@ namespace Checkers.Common
                         break;
                     }
             }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CheckersComponentBuilder"/> class.
+        /// </summary>
+        public CheckersComponentBuilder(MapVoteManager manager, bool disabled)
+        {
+            this.WithButton(manager.Maps[0].Title, "match_vote_a", ButtonStyle.Primary, null, null, disabled, 0)
+                .WithButton(manager.Maps[1].Title, "match_vote_b", ButtonStyle.Primary, null, null, disabled, 0)
+                .WithButton(manager.Maps[2].Title, "match_vote_c", ButtonStyle.Primary, null, null, disabled, 0);
         }
     }
 }

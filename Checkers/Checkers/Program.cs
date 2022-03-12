@@ -16,6 +16,7 @@ namespace Checkers
     using Discord.Addons.Hosting;
     using Discord.Commands;
     using Discord.WebSocket;
+    using Fergun.Interactive;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -68,7 +69,9 @@ namespace Checkers
             .ConfigureServices((context, services) =>
             {
                 services
-                .AddSingleton<MatchManager>().AddSingleton<RankedManager>().
+                .AddSingleton<MatchManager>()
+                .AddSingleton<RankedManager>()
+                .AddSingleton<InteractiveService>().
                     AddHostedService<ComponentHandler>().AddHostedService<CommandHandler>().
                     AddHttpClient().AddDbContextFactory<CheckersDbContext>(options =>
                     options.UseMySql(

@@ -67,3 +67,4 @@ C:\Users\joemi\Documents\Dev\DiscordBots\Checkers\CheckersDiscordBot\Checkers\Ch
 C:\Users\joemi\Documents\Dev\DiscordBots\Checkers\CheckersDiscordBot\Checkers\Checkers\obj\Debug\net6.0\Checkers.pdb
 C:\Users\joemi\Documents\Dev\DiscordBots\Checkers\CheckersDiscordBot\Checkers\Checkers\obj\Debug\net6.0\Checkers.genruntimeconfig.cache
 C:\Users\joemi\Documents\Dev\DiscordBots\Checkers\CheckersDiscordBot\Checkers\Checkers\obj\Debug\net6.0\refint\Checkers.dll
+C:\Users\joemi\Documents\Dev\DiscordBots\Checkers\CheckersDiscordBot\Checkers\Checkers\bin\Debug\net6.0\Fergun.Interactive.dll

@@ -64,6 +64,12 @@ namespace Checkers.Components
         /// </summary>
         public string MapName { get; set; }
 
+
+        /// <summary>
+        /// Gets or sets a value indicating whether gets the Match has started.
+        /// </summary>
+        public bool HasStarted { get; set; }
+
         /// <summary>
         /// Gets thelist of Votes for this match.
         /// </summary>
@@ -81,6 +87,11 @@ namespace Checkers.Components
             players.AddRange(this.TeamB.Players);
 
             return players;
+        }
+
+        public void Start()
+        {
+            this.HasStarted = true;
         }
 
         /// <summary>

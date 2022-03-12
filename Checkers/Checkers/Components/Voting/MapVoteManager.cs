@@ -13,27 +13,30 @@ namespace Checkers.Components.Voting
     using Checkers.Data.Models;
     using Checkers.Services;
     using Checkers.Services.Generic;
+    using Discord.Rest;
     using Discord.WebSocket;
 
     public class MapVoteManager
     {
-        private readonly CheckersTimer timer;
+        private readonly CheckersTimer voteTimer;
+
         private MatchManager matchManager;
+        private Dictionary<string, MapType> mapCollection = new Dictionary<string, MapType>();
 
         public MapVoteManager(MatchManager mm, ulong id, Match match)
         {
             Random random = new Random();
+
             this.Maps = new List<MapVote>();
+            this.mapCollection = CheckersConstants.Maps;
 
             for (int i = 0; i < 3; i++)
             {
-                this.Maps.Add(new MapVote(this, i, match, this.GetNewMapEntry(random.Next(CheckersConstants.Maps.Count))));
+                var mapkey = random.Next(CheckersConstants.Maps.Count);
+                this.Maps.Add(new MapVote(this, i, match, this.GetNewMapEntry(mapkey)));
             }
 
-            // Create an AutoResetEvent to signal the timeout threshold in the
-            // timer callback has been reached.
-
-            this.timer = new CheckersTimer(OnVoteFinish, null, TimeSpan.FromSeconds(30), TimeSpan.FromSeconds(30));
+            this.voteTimer = new CheckersTimer(OnVoteFinish, null, TimeSpan.FromSeconds(30), TimeSpan.FromSeconds(30));
 
             this.matchManager = mm;
         }
@@ -42,7 +45,9 @@ namespace Checkers.Components.Voting
 
         public string Title { get; } = "Map Vote";
 
-        public SocketMessage Message { get; set; }
+        public DateTime TimeStarted { get; }
+
+        public RestUserMessage Message { get; set; }
 
         public bool AddVote(Player player, int id)
         {
@@ -54,16 +59,28 @@ namespace Checkers.Components.Voting
             return false;
         }
 
-        public bool HasPlayer(Player player)
+        public Player? HasPlayer(Player player)
         {
             foreach (MapVote vote in this.Maps)
             {
                 if (vote.HasPlayer(player.Id))
                 {
-                    return true;
+                    return player;
                 }
             }
-            return false;
+
+            return null;
+        }
+
+        public void RemovePlayerVote(Player player)
+        {
+            foreach (MapVote map in Maps)
+            {
+                if (map.HasPlayer(player.Id))
+                {
+                    map.RemoveVote(player);
+                }
+            }
         }
 
         public async Task RemoveMapVotesFromMatch(Match match, SocketGuild guild)
@@ -72,71 +89,84 @@ namespace Checkers.Components.Voting
             {
                 match.ActiveVotes.Remove(mapVote);
             }
-            this.timer.Dispose();
+            this.voteTimer.Dispose();
         }
 
-        public void EndMapVote(MapVote vote)
+        public async void EndMapVote(MapVote vote)
         {
-            this.timer.Dispose();
+            this.voteTimer.Dispose();
+
             if (this.Message.Channel is SocketGuildChannel guildChannel)
             {
-                this.matchManager.SelectMap(guildChannel, vote);
+                await this.matchManager.SelectMap(guildChannel, vote);
+                await CheckersMessageFactory.ExpireMapVote(this, vote);
             }
         }
 
         public TimeSpan GetTimeRemaining()
         {
-            return this.timer.DueTime;
+            return this.voteTimer.DueTime;
         }
 
         private KeyValuePair<string, MapType> GetNewMapEntry(int key)
         {
-            return CheckersConstants.Maps.ElementAt(key);
+            var map = this.mapCollection.ElementAt(key);
+            this.mapCollection.Remove(map.Key);
+
+            return map;
         }
 
         private async void OnVoteFinish(object? state)
         {
-            await CheckersMessageFactory.ExpireMapVote(this, this.Message);
-            this.SelectBestMap();
-            this.timer.Dispose();
-        }
+            this.voteTimer.Dispose();
 
-        private void SelectBestMap()
-        {
             if (this.Message.Channel is SocketGuildChannel guildChannel)
             {
-                MapVote? bestVote = null;
-                int maxVotes = 0;
+                var map = await this.SelectBestMap();
+                await this.matchManager.SelectMap(guildChannel, map);
+                await CheckersMessageFactory.ExpireMapVote(this, map);
+            }
+        }
 
-                List<MapVote> TiedVotes = new List<MapVote>();
+        private async Task<MapVote> SelectBestMap()
+        {
+            MapVote bestVote = this.Maps.First();
+            int maxVotes = 0;
 
-                foreach (MapVote vote in this.Maps)
+            List<MapVote> tiedVotes = new List<MapVote>();
+
+            foreach (MapVote vote in this.Maps)
+            {
+                if (vote.TotalVotes == maxVotes)
                 {
-                    if (vote.TotalVotes == maxVotes)
-                    {
-                        TiedVotes.Add(vote);
-                    }
-                    else if (vote.TotalVotes > maxVotes)
-                    {
-                        TiedVotes.Clear();
-                        bestVote = vote;
-                        maxVotes = vote.TotalVotes;
-                        TiedVotes.Add(vote);
-                    }
+                    tiedVotes.Add(vote);
                 }
-
-                if (TiedVotes.Count > 1)
+                else if (vote.TotalVotes > maxVotes)
                 {
-                    Random random = new Random();
-                    this.matchManager.SelectMap(guildChannel, TiedVotes[random.Next(TiedVotes.Count)]);
+                    tiedVotes.Clear();
+                    bestVote = vote;
+                    maxVotes = vote.TotalVotes;
+                    tiedVotes.Add(vote);
                 }
                 else
                 {
-                    if (bestVote != null)
+                    if (tiedVotes.Count == 0)
                     {
-                        this.matchManager.SelectMap(guildChannel, bestVote);
+                        tiedVotes.Add(vote);
                     }
                 }
+            }
+
+            if (tiedVotes.Count > 1)
+            {
+                Random random = new Random();
+                var map = tiedVotes[random.Next(tiedVotes.Count)];
+
+                return map;
+            }
+            else
+            {
+                return bestVote;
             }
         }
     }

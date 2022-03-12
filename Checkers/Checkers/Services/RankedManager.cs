@@ -58,8 +58,8 @@ namespace Checkers.Services
                             playerResultList.Add(new PlayerMatchData(player, false, 50));
                         }
 
-                        // Do we have to do something here?
-                        break;
+                            // Do we have to do something here?
+                            break;
                     }
 
                 case MatchOutcome.Draw:

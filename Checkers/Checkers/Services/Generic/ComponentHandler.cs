@@ -2,26 +2,27 @@
 // Copyright (c) GambleDev. All rights reserved.
 // </copyright>
 
-using Checkers.Common;
-using Checkers.Components.Voting;
-using Checkers.Data;
-using Checkers.Data.Models;
-using Discord;
-using Discord.Addons.Hosting;
-using Discord.Commands;
-using Discord.Interactions;
-using Discord.WebSocket;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Checkers.Services.Generic
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+    using System.Text;
+    using System.Threading.Tasks;
+    using Checkers.Common;
+    using Checkers.Components.Voting;
+    using Checkers.Data;
+    using Checkers.Data.Models;
+    using Discord;
+    using Discord.Addons.Hosting;
+    using Discord.Commands;
+    using Discord.Interactions;
+    using Discord.WebSocket;
+    using Fergun.Interactive;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.Logging;
+
     public class ComponentHandler : CheckersService
     {
         private readonly IServiceProvider provider;
@@ -29,6 +30,7 @@ namespace Checkers.Services.Generic
         private readonly IConfiguration configuration;
 
         private MatchManager matchManager;
+        private InteractiveService interactive;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ComponentHandler"/> class.
@@ -39,13 +41,14 @@ namespace Checkers.Services.Generic
         /// <param name="service"> The <see cref="CommandService"/> that should be injected. </param>
         /// <param name="configuration"> The <see cref="IConfiguration"/> that should be injected. </param>
         /// <param name="dataAccessLayer"> The <see cref="DataAccessLayer"/> that should be injected. </param>
-        public ComponentHandler(IServiceProvider provider, DiscordSocketClient client, ILogger<DiscordClientService> logger, CommandService service, IConfiguration configuration, DataAccessLayer dataAccessLayer, MatchManager mm)
+        public ComponentHandler(IServiceProvider provider, DiscordSocketClient client, ILogger<DiscordClientService> logger, CommandService service, IConfiguration configuration, DataAccessLayer dataAccessLayer, MatchManager mm, InteractiveService interactiveService)
             : base(client, logger, configuration, dataAccessLayer)
         {
             this.provider = provider;
             this.service = service;
             this.configuration = configuration;
             this.matchManager = mm;
+            this.interactive = interactiveService;
         }
 
         public async Task ButtonHandler(SocketMessageComponent component)
@@ -60,7 +63,7 @@ namespace Checkers.Services.Generic
                 {
                     switch (component.Data.CustomId)
                     {
-                        case "match_voteyes":
+                        case "match_vote_yes":
                             {
                                 Vote vote = await match.GetVote(component.Channel.Id);
 
@@ -145,10 +148,7 @@ namespace Checkers.Services.Generic
 
                                 if (vote is MapVote mapVote)
                                 {
-                                    if (await this.AddMapVote(mapVote, component, player))
-                                    {
-                                        mapVote.Manager.EndMapVote(mapVote);
-                                    }
+                                    await this.AddMapVote(mapVote, component, player);
                                 }
 
                                 break;
@@ -160,10 +160,7 @@ namespace Checkers.Services.Generic
 
                                 if (vote is MapVote mapVote)
                                 {
-                                    if (await this.AddMapVote(mapVote, component, player))
-                                    {
-                                        mapVote.Manager.EndMapVote(mapVote);
-                                    }
+                                    await this.AddMapVote(mapVote, component, player);
                                 }
 
                                 break;
@@ -175,10 +172,7 @@ namespace Checkers.Services.Generic
 
                                 if (vote is MapVote mapVote)
                                 {
-                                    if (await this.AddMapVote(mapVote, component, player))
-                                    {
-                                        mapVote.Manager.EndMapVote(mapVote);
-                                    }
+                                    await this.AddMapVote(mapVote, component, player);
                                 }
 
                                 break;
@@ -208,23 +202,9 @@ namespace Checkers.Services.Generic
             return result;
         }
 
-        private async Task<bool> AddMapVote(MapVote mapVote, SocketMessageComponent component, Player player)
+        private async Task AddMapVote(MapVote mapVote, SocketMessageComponent component, Player player)
         {
-            mapVote.Manager.Message = component.Message;
-
-            var result = await CheckersMessageFactory.ModifyMapVote(mapVote, component, player);
-            if (result)
-            {
-                var guild = (component.Channel as IGuildChannel)?.Guild;
-
-                if (guild != null)
-                {
-                    await mapVote.Manager.RemoveMapVotesFromMatch(mapVote.Match, (SocketGuild)guild);
-                    await mapVote.Match.Channels.ChangeTextPerms((SocketGuild)guild, component.Channel.Id, true);
-                }
-            }
-
-            return result;
+            await CheckersMessageFactory.ModifyMapVoteOnVote(mapVote, component, player);
         }
 
 

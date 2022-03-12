@@ -18,7 +18,7 @@ namespace Checkers.Components.Voting
             : base((ulong)id, VoteType.MapPick, match)
         {
             this.Title = map.Key;
-            this.Type = map.Value;
+            this.Maptype = map.Value;
             this.Manager = manager;
 
             switch (map.Value)
@@ -56,7 +56,7 @@ namespace Checkers.Components.Voting
 
         public MapVoteManager Manager { get; }
 
-        public MapType Type { get; }
+        public MapType Maptype { get; }
 
         public override bool AddForVote(Player player)
         {
@@ -76,9 +76,10 @@ namespace Checkers.Components.Voting
             return false;
         }
 
-        public override bool AddAgainstVote(Player player)
+        public void RemoveVote(Player player)
         {
-            return base.AddAgainstVote(player);
+            this.VoterIDs.Remove(player.Id);
+            this.TotalVotes--;
         }
     }
 }
