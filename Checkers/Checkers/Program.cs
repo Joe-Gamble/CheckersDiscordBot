@@ -69,11 +69,12 @@ namespace Checkers
             .ConfigureServices((context, services) =>
             {
                 services
-                .AddSingleton<MatchManager>()
                 .AddSingleton<RankedManager>()
-                .AddSingleton<InteractiveService>().
-                    AddHostedService<ComponentHandler>().AddHostedService<CommandHandler>().
-                    AddHttpClient().AddDbContextFactory<CheckersDbContext>(options =>
+                .AddHostedService<ComponentHandler>()
+                .AddHostedService<CommandHandler>()
+                .AddSingleton<MatchManager>()
+                .AddHttpClient()
+                .AddDbContextFactory<CheckersDbContext>(options =>
                     options.UseMySql(
                         connectionString:
                     context.Configuration.GetConnectionString("Default"),

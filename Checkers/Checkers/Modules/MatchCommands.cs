@@ -51,8 +51,14 @@ namespace Checkers.Modules
 
             var player = this.DataAccessLayer.HasPlayer(this.Context.User.Id);
 
+
             if (player != null)
             {
+                if (!player.IsActive)
+                {
+                    player.IsActive = true;
+                }
+
                 if (player.IsPlaying || player.IsQueued)
                 {
                     await this.ReplyAsync("Cannot join queue while player is already queued or playing a match. If your match has ended, make sure to register your match in its repective channel.");
@@ -61,9 +67,12 @@ namespace Checkers.Modules
 
                 var players = await this.matchManager.QueuePlayer(this.Context, player);
 
-                foreach (Player matchPlayer in players)
+                if (players != null)
                 {
-                    await this.DataAccessLayer.UpdatePlayer(matchPlayer);
+                    foreach (Player matchPlayer in players)
+                    {
+                        await this.DataAccessLayer.UpdatePlayer(matchPlayer);
+                    }
                 }
             }
         }

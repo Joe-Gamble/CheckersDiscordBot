@@ -52,6 +52,7 @@ namespace Checkers.Services
             this.rankManager = rm;
 
             client.ChannelCreated += this.OnChannelCreated;
+            this.Client.UserVoiceStateUpdated += this.OnVoiceUpdate;
 
             this.Queue = new CheckersQueue();
             this.Matches = new List<Match>();
@@ -70,16 +71,55 @@ namespace Checkers.Services
         /// <param name="context"> The context of the message. </param>
         /// <param name="player"> the player being added to the Queue. </param>
         /// <returns> A list containing all relevant players. If the Queue pops, the list will contain all relevant players. </returns>
-        public async Task<List<Player>> QueuePlayer(SocketCommandContext context, Player player)
+        public async Task<List<Player>?> QueuePlayer(SocketCommandContext context, Player player)
         {
             player.IsQueued = true;
 
-            await context.Message.AddReactionAsync(Emoji.Parse(":white_check_mark:"));
+            // Is the user currently connected to a voice channel in the server?
+            if (context.User is SocketGuildUser guildUser)
+            {
+                if (guildUser.VoiceChannel == context.Guild.GetChannel(CheckersConstants.QueueVoice))
+                {
+                    await context.Message.AddReactionAsync(Emoji.Parse(":white_check_mark:"));
+
+                    // At some point this functin should return if theres 12 sufficiently close players in the Q.
+                    if (this.Queue.AddToQueue(player))
+                    {
+                        var match = await this.InitialiseMatch(context.Guild);
+                        return match.GetPlayers();
+                    }
+
+                    var players = new List<Player>();
+                    players.Add(player);
+                    return players;
+                }
+                else
+                {
+                    await context.Message.ReplyAsync($"Can't join Queue if not present in {context.Guild.GetChannel(CheckersConstants.QueueVoice).Name}.");
+                    return null;
+                }
+            }
+            else
+            {
+                await context.Message.ReplyAsync($"Can't join Queue through DM's. Queue through the Official Checkers Server.");
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Queue a player.
+        /// </summary>
+        /// <param name="guild"> The Checkers Guild. </param>
+        /// <param name="player"> the player being added to the Queue. </param>
+        /// <returns> A list containing all relevant players. If the Queue pops, the list will contain all relevant players. </returns>
+        public async Task<List<Player>?> QueuePlayer(SocketGuild guild, Player player)
+        {
+            player.IsQueued = true;
 
             // At some point this functin should return if theres 12 sufficiently close players in the Q.
             if (this.Queue.AddToQueue(player))
             {
-                var match = await this.InitialiseMatch(context.Guild);
+                var match = await this.InitialiseMatch(guild);
                 return match.GetPlayers();
             }
 
@@ -90,13 +130,22 @@ namespace Checkers.Services
 
         public async Task UnQueuePlayer(SocketCommandContext context, Player player)
         {
-            if (player.IsActive)
+            if (player.IsQueued)
             {
-                if (player.IsQueued)
-                {
-                    this.Queue.RemoveFromQueue(player);
-                    await context.Message.AddReactionAsync(Emoji.Parse(":white_check_mark:"));
-                }
+                this.Queue.RemoveFromQueue(player);
+                await context.Message.AddReactionAsync(Emoji.Parse(":white_check_mark:"));
+            }
+        }
+
+        public async Task UnQueuePlayer(SocketUser user, Player player)
+        {
+            if (player.IsQueued)
+            {
+                this.Queue.RemoveFromQueue(player);
+                player.IsQueued = false;
+
+                await this.DataAccessLayer.UpdatePlayer(player);
+                await user.SendMessageAsync("You've been removed from the Queue.");
             }
         }
 
@@ -511,6 +560,45 @@ namespace Checkers.Services
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             await this.service.AddModulesAsync(Assembly.GetEntryAssembly(), this.provider);
+        }
+
+        private async Task OnVoiceUpdate(SocketUser user, SocketVoiceState oldState, SocketVoiceState newState)
+        {
+            var player = this.DataAccessLayer.HasPlayer(user.Id);
+
+            if (user is SocketGuildUser guildUser)
+            {
+                if (player != null)
+                {
+                    if (oldState.VoiceChannel == guildUser.Guild.GetVoiceChannel(CheckersConstants.QueueVoice))
+                    {
+                        if (player.IsQueued && !player.IsPlaying)
+                        {
+                            await this.UnQueuePlayer(user, player);
+                        }
+                    }
+                    else if (newState.VoiceChannel == guildUser.Guild.GetVoiceChannel(CheckersConstants.QueueVoice))
+                    {
+                        if (!player.IsQueued && !player.IsPlaying)
+                        {
+                            var players = await this.QueuePlayer(guildUser.Guild, player);
+
+                            if (players != null)
+                            {
+                                foreach (Player matchPlayer in players)
+                                {
+                                    await this.DataAccessLayer.UpdatePlayer(matchPlayer);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            await user.SendMessageAsync("Cannot join queue while player is already queued or playing a match. If your match has ended, make sure to register your match in its repective channel.");
+                            return;
+                        }
+                    }
+                }
+            }
         }
 
         private async Task OnChannelCreated(SocketChannel channel)
