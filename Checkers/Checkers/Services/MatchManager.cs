@@ -438,8 +438,8 @@ namespace Checkers.Services
                     if (channel != null)
                     {
                         // If so, move them tback to the lobby.
-                        var queueVoice = context.Guild.GetChannel(CheckersConstants.QueueVoice) as SocketVoiceChannel;
-                        await user.ModifyAsync(x => x.Channel = queueVoice);
+                        var lobbyVoice = context.Guild.GetVoiceChannel(CheckersConstants.LobbyVoice);
+                        await user.ModifyAsync(x => x.Channel = lobbyVoice);
                     }
 
                     var team = match.GetTeamOfPlayer(matchPlayer);
@@ -486,8 +486,8 @@ namespace Checkers.Services
                         if (voiceChannel != null)
                         {
                             // If so, move them tback to the lobby.
-                            var queueVoice = guildChannel.Guild.GetChannel(CheckersConstants.QueueVoice) as SocketVoiceChannel;
-                            await user.ModifyAsync(x => x.Channel = guildChannel.Guild.GetVoiceChannel(953431550572245052));
+                            var lobbyVoice = guildChannel.Guild.GetVoiceChannel(CheckersConstants.LobbyVoice);
+                            await user.ModifyAsync(x => x.Channel = lobbyVoice);
                         }
 
                         var team = match.GetTeamOfPlayer(matchPlayer);

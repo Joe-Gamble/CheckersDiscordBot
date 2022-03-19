@@ -16,6 +16,7 @@ namespace Checkers.Services
     {
         public const ulong GeneralText = 942528248099790902;
         public static ulong QueueVoice = 953440503968448512;
+        public static ulong LobbyVoice = 953431550572245052;
         public static ulong RegisterRole = 942533679027200051;
 
         public static int MapVoteDuration = 60;

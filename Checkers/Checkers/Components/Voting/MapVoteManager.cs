@@ -49,14 +49,9 @@ namespace Checkers.Components.Voting
 
         public RestUserMessage Message { get; set; }
 
-        public bool AddVote(Player player, int id)
+        public void AddVote(Player player, int id)
         {
-            if (this.Maps[id].AddForVote(player))
-            {
-                return true;
-            }
-
-            return false;
+            this.Maps[id].AddForVote(player);
         }
 
         public Player? HasPlayer(Player player)

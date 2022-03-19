@@ -126,15 +126,16 @@ namespace Checkers.Common
                 vote.Manager.RemovePlayerVote(playerVoting);
             }
 
-            if (!vote.Manager.AddVote(player, (int)vote.VoteID))
-            {
-                var embed = new CheckersEmbedBuilder().WithTitle($"{vote.Manager.Title}: ")
-                    .AddField($"Map 1:  {vote.Manager.Maps[0].TypeName} - {vote.Manager.Maps[0].TotalVotes} Votes", vote.Manager.Maps[0].Title, true)
-                    .AddField($"Map 2:  {vote.Manager.Maps[1].TypeName} - {vote.Manager.Maps[1].TotalVotes} Votes", vote.Manager.Maps[1].Title, false)
-                    .AddField($"Map 3:  {vote.Manager.Maps[2].TypeName} - {vote.Manager.Maps[2].TotalVotes} Votes", vote.Manager.Maps[2].Title, false).Build();
 
-                await component.UpdateAsync(x => x.Embed = embed);
-            }
+            vote.Manager.AddVote(player, (int)vote.VoteID);
+
+            var embed = new CheckersEmbedBuilder().WithTitle($"{vote.Manager.Title}: ")
+                .AddField($"Map 1:  {vote.Manager.Maps[0].TypeName} - {vote.Manager.Maps[0].TotalVotes} Votes", vote.Manager.Maps[0].Title, true)
+                .AddField($"Map 2:  {vote.Manager.Maps[1].TypeName} - {vote.Manager.Maps[1].TotalVotes} Votes", vote.Manager.Maps[1].Title, false)
+                .AddField($"Map 3:  {vote.Manager.Maps[2].TypeName} - {vote.Manager.Maps[2].TotalVotes} Votes", vote.Manager.Maps[2].Title, false).Build();
+
+            await component.UpdateAsync(x => x.Embed = embed);
+
         }
 
         public static async Task ModifyMapVoteOnTick(MapVoteManager mapVoteManager)

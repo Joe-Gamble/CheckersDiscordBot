@@ -60,20 +60,10 @@ namespace Checkers.Components.Voting
 
         public override bool AddForVote(Player player)
         {
-            if (this.Match.HasPlayer(player))
-            {
-                this.TotalVotes++;
-                if (this.TotalVotes < this.RequiredVotes)
-                {
-                    this.VoterIDs.Add(player.Id);
-                }
-                else
-                {
-                    return true;
-                }
-            }
+            this.TotalVotes++;
+            this.VoterIDs.Add(player.Id);
 
-            return false;
+            return true;
         }
 
         public void RemoveVote(Player player)
