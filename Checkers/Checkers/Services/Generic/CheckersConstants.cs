@@ -15,10 +15,13 @@ namespace Checkers.Services
     public static class CheckersConstants
     {
         public const ulong GeneralText = 942528248099790902;
-        public static ulong QueueVoice = 942528248561156136;
+        public static ulong QueueVoice = 953440503968448512;
         public static ulong RegisterRole = 942533679027200051;
+
+        public static int MapVoteDuration = 60;
         public static int StandardWin = 25;
         public static int MaxRank = 5000;
+        public static int QueueSize = 2;
 
         public static Color CheckerGreen = new Color(87, 203, 147);
         public static Color CheckerBeige = new Color(249, 214, 150);
@@ -43,7 +46,7 @@ namespace Checkers.Services
         { "Oasis", MapType.Control },
         { "Blizzard World", MapType.Hybrid },
         { "Eichenwalde", MapType.Hybrid },
-        { "Holywood", MapType.Hybrid },
+        { "Hollywood", MapType.Hybrid },
         { "Kings Row", MapType.Hybrid },
         { "Numbani", MapType.Hybrid },
         };

@@ -13,6 +13,7 @@ namespace Checkers.Services
     using Checkers.Components;
     using Checkers.Data;
     using Checkers.Data.Models;
+    using Discord;
     using Discord.Addons.Hosting;
     using Discord.Commands;
     using Discord.WebSocket;
@@ -42,7 +43,7 @@ namespace Checkers.Services
             this.configuration = configuration;
         }
 
-        public async Task<List<PlayerMatchData>> ProcessMatchResult(CheckersMatchResult result, Player? player = null)
+        public async Task<List<PlayerMatchData>> ProcessMatchResult(IGuild guild, CheckersMatchResult result, Player? player = null)
         {
             List<PlayerMatchData> playerResultList = new List<PlayerMatchData>();
 
@@ -57,9 +58,8 @@ namespace Checkers.Services
                             // This might need to be a list of players eventually.
                             playerResultList.Add(new PlayerMatchData(player, false, 50));
                         }
-
-                            // Do we have to do something here?
-                            break;
+                        // Do we have to do something here?
+                        break;
                     }
 
                 case MatchOutcome.Draw:
@@ -70,14 +70,14 @@ namespace Checkers.Services
 
                 case MatchOutcome.TeamA:
                     {
-                        this.CalculateTeamAPoints(playerResultList, result.TeamA, result.SkillFavor, result.Multiplier, true);
+                        this.CalculateTeamAPoints(guild, playerResultList, result.TeamA, result.SkillFavor, result.Multiplier, true);
                         this.CalculateTeamBPoints(playerResultList, result.TeamB, result.SkillFavor, result.Multiplier, false);
                         break;
                     }
 
                 case MatchOutcome.TeamB:
                     {
-                        this.CalculateTeamAPoints(playerResultList, result.TeamA, result.SkillFavor, result.Multiplier, false);
+                        this.CalculateTeamAPoints(guild, playerResultList, result.TeamA, result.SkillFavor, result.Multiplier, false);
                         this.CalculateTeamBPoints(playerResultList, result.TeamB, result.SkillFavor, result.Multiplier, true);
                         break;
                     }
@@ -102,7 +102,7 @@ namespace Checkers.Services
             }
         }
 
-        private void CalculateTeamAPoints(List<PlayerMatchData> playerResultList, Team team, SkillFavors favors, double multiplier, bool win)
+        private void CalculateTeamAPoints(IGuild guild, List<PlayerMatchData> playerResultList, Team team, SkillFavors favors, double multiplier, bool win)
         {
             var average = team.AverageRating;
             var ratingBase = CheckersConstants.StandardWin;
@@ -111,7 +111,7 @@ namespace Checkers.Services
             {
                 double playerWeighting = (double)(player.Rating / (double)average);
                 double playerRating = 0;
-                bool promoted = false;
+                bool? promoted = null;
 
                 if (favors != SkillFavors.Equal)
                 {
@@ -148,7 +148,7 @@ namespace Checkers.Services
 
                         if (RatingUtils.Lose(player, (int)playerRating))
                         {
-                            // Demoted
+                            promoted = false;
                         }
                     }
                 }
@@ -169,7 +169,7 @@ namespace Checkers.Services
 
                         if (RatingUtils.Lose(player, (int)playerRating))
                         {
-                            // Demoted
+                            promoted = false;
                         }
                     }
                 }

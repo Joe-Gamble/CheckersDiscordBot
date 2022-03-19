@@ -17,9 +17,7 @@ namespace Checkers.Services.Generic
     using Discord;
     using Discord.Addons.Hosting;
     using Discord.Commands;
-    using Discord.Interactions;
     using Discord.WebSocket;
-    using Fergun.Interactive;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging;
 
@@ -30,7 +28,6 @@ namespace Checkers.Services.Generic
         private readonly IConfiguration configuration;
 
         private MatchManager matchManager;
-        private InteractiveService interactive;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ComponentHandler"/> class.
@@ -41,14 +38,13 @@ namespace Checkers.Services.Generic
         /// <param name="service"> The <see cref="CommandService"/> that should be injected. </param>
         /// <param name="configuration"> The <see cref="IConfiguration"/> that should be injected. </param>
         /// <param name="dataAccessLayer"> The <see cref="DataAccessLayer"/> that should be injected. </param>
-        public ComponentHandler(IServiceProvider provider, DiscordSocketClient client, ILogger<DiscordClientService> logger, CommandService service, IConfiguration configuration, DataAccessLayer dataAccessLayer, MatchManager mm, InteractiveService interactiveService)
+        public ComponentHandler(IServiceProvider provider, DiscordSocketClient client, ILogger<DiscordClientService> logger, CommandService service, IConfiguration configuration, DataAccessLayer dataAccessLayer, MatchManager mm)
             : base(client, logger, configuration, dataAccessLayer)
         {
             this.provider = provider;
             this.service = service;
             this.configuration = configuration;
             this.matchManager = mm;
-            this.interactive = interactiveService;
         }
 
         public async Task ButtonHandler(SocketMessageComponent component)
@@ -65,7 +61,7 @@ namespace Checkers.Services.Generic
                     {
                         case "match_vote_yes":
                             {
-                                Vote vote = await match.GetVote(component.Channel.Id);
+                                Vote vote = match.GetVote(component.Channel.Id);
 
                                 if (await this.AddVote(vote, component, player, true))
                                 {
@@ -83,7 +79,7 @@ namespace Checkers.Services.Generic
 
                         case "match_vote_no":
                             {
-                                Vote vote = await match.GetVote(component.Channel.Id);
+                                Vote vote = match.GetVote(component.Channel.Id);
 
                                 await this.AddVote(vote, component, player, false);
 
@@ -92,7 +88,7 @@ namespace Checkers.Services.Generic
 
                         case "match_forfeit_yes":
                             {
-                                Vote vote = await match.GetVote(component.Channel.Id);
+                                Vote vote = match.GetVote(component.Channel.Id);
 
                                 if (await this.AddVote(vote, component, player, true))
                                 {
@@ -109,7 +105,7 @@ namespace Checkers.Services.Generic
 
                         case "match_forfeit_no":
                             {
-                                Vote vote = await match.GetVote(component.Channel.Id);
+                                Vote vote = match.GetVote(component.Channel.Id);
 
                                 await this.AddVote(vote, component, player, false);
 
@@ -118,7 +114,7 @@ namespace Checkers.Services.Generic
 
                         case "match_disconnect_yes":
                             {
-                                Vote vote = await match.GetVote(component.Channel.Id);
+                                Vote vote = match.GetVote(component.Channel.Id);
 
                                 if (await this.AddVote(vote, component, player, true))
                                 {
@@ -135,7 +131,7 @@ namespace Checkers.Services.Generic
 
                         case "match_disconnect_no":
                             {
-                                Vote vote = await match.GetVote(component.Channel.Id);
+                                Vote vote = match.GetVote(component.Channel.Id);
 
                                 await this.AddVote(vote, component, player, false);
 
@@ -144,7 +140,7 @@ namespace Checkers.Services.Generic
 
                         case "match_vote_a":
                             {
-                                Vote vote = await match.GetVote(0);
+                                Vote vote = match.GetVote(0);
 
                                 if (vote is MapVote mapVote)
                                 {
@@ -156,7 +152,7 @@ namespace Checkers.Services.Generic
 
                         case "match_vote_b":
                             {
-                                Vote vote = await match.GetVote(1);
+                                Vote vote = match.GetVote(1);
 
                                 if (vote is MapVote mapVote)
                                 {
@@ -168,7 +164,7 @@ namespace Checkers.Services.Generic
 
                         case "match_vote_c":
                             {
-                                Vote vote = await match.GetVote(2);
+                                Vote vote = match.GetVote(2);
 
                                 if (vote is MapVote mapVote)
                                 {
@@ -194,7 +190,7 @@ namespace Checkers.Services.Generic
 
                 if (guild != null)
                 {
-                    await vote.Match.RemoveVote((SocketGuild)guild, component.Channel.Id, vote);
+                    vote.Match.RemoveVote((SocketGuild)guild, component.Channel.Id, vote);
                     await vote.Match.Channels.ChangeTextPerms((SocketGuild)guild, component.Channel.Id, true);
                 }
             }

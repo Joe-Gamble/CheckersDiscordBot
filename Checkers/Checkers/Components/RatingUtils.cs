@@ -93,6 +93,38 @@ namespace Checkers.Components
             return null;
         }
 
+        public static ulong GetRoleOfTier (SkillTier tier)
+        {
+            if (tier == SkillTier.Silver)
+            {
+                return 942528550962098186;
+            }
+            else if (tier == SkillTier.Gold)
+            {
+                return 942528871096516609;
+            }
+            else if (tier == SkillTier.Platnium)
+            {
+                return 942529009638572052;
+            }
+            else if (tier == SkillTier.Sapphire)
+            {
+                return 942529349343641681;
+            }
+            else if (tier == SkillTier.Masters)
+            {
+                return 942530077130899486;
+            }
+            else if (tier == SkillTier.Warlord)
+            {
+                return 942530129731661894;
+            }
+            else
+            {
+                return 942532554915971082;
+            }
+        }
+
         /// <summary>
         /// Add Skill Rating to the Current Rating. Auto adjusts rating if players surpass their current Tier's threshold.
         /// </summary>
@@ -103,7 +135,7 @@ namespace Checkers.Components
         {
             player.Rating += total;
 
-            ClampRating(player.Rating);
+            player.Rating = ClampRating(player.Rating);
 
             SkillTier tier = GetTierAt(player.Rating);
 
@@ -140,7 +172,7 @@ namespace Checkers.Components
         {
             player.Rating -= total;
 
-            ClampRating(player.Rating);
+            player.Rating = ClampRating(player.Rating);
 
             if ((int)GetTierAt(player.Rating) != player.CurrentTier)
             {
@@ -165,9 +197,10 @@ namespace Checkers.Components
             return false;
         }
 
-        private static void ClampRating(int rating)
+        private static int ClampRating(int rating)
         {
-            Math.Clamp(rating, 0, CheckersConstants.MaxRank);
+            rating = Math.Clamp(rating, 0, CheckersConstants.MaxRank);
+            return rating;
         }
     }
 }

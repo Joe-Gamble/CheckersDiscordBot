@@ -28,8 +28,8 @@ namespace Checkers.Data.Models
             this.IsQueued = false;
             this.IsPlaying = false;
 
-            this.Rating = 0;
-            this.CurrentTier = -1;
+            this.Rating = 2500;
+            this.CurrentTier = 2; // Plat
         }
 
         /// <summary>

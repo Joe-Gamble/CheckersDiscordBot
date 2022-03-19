@@ -1,0 +1,239 @@
+﻿++Solution 'Checkers' ‎(2 of 2 projects)
+i:{00000000-0000-0000-0000-000000000000}:Checkers.sln
+++Solution Items
+i:{00000000-0000-0000-0000-000000000000}:Solution Items
+++.editorconfig
+i:{d6b309ad-b317-4987-926f-06cedf1a7de7}:C:\Users\joemi\Documents\Dev\DiscordBots\Checkers\CheckersDiscordBot\Checkers\.editorconfig
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\.editorconfig
+++Checkers
+i:{00000000-0000-0000-0000-000000000000}:Checkers
+++Dependencies
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:>476
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:>475
+++Properties
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\properties\
+++Common
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\common\
+++CheckersComponentBuilder.cs
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\common\checkerscomponentbuilder.cs
+++CheckersEmbedBuilder.cs
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\common\checkersembedbuilder.cs
+++CheckersMessageFactory.cs
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\common\checkersmessagefactory.cs
+++Components
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\components\
+++Match
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\components\match\
+++CheckersMatchResult.cs
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\components\match\checkersmatchresult.cs
+++Match.cs
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\components\match\match.cs
+++MatchChannels.cs
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\components\match\matchchannels.cs
+++MatchOutcome.cs
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\components\match\matchoutcome.cs
+++SkillFavors.cs
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\components\match\skillfavors.cs
+++Voting
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\components\voting\
+++EndMatchVote.cs
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\components\voting\endmatchvote.cs
+++MapVote.cs
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\components\voting\mapvote.cs
+++MapVoteManager.cs
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\components\voting\mapvotemanager.cs
+++Vote.cs
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\components\voting\vote.cs
+++VoteType.cs
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\components\voting\votetype.cs
+++CheckersQueue.cs
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\components\checkersqueue.cs
+++MapType.cs
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\components\maptype.cs
+++PlayerMatchData.cs
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\components\playermatchdata.cs
+++RatingUtils.cs
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\components\ratingutils.cs
+++SkillTier.cs
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\components\skilltier.cs
+++Team.cs
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\components\team.cs
+++Modules
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\modules\
+++CheckersModuleBase.cs
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\modules\checkersmodulebase.cs
+++General.cs
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\modules\general.cs
+++MatchCommands.cs
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\modules\matchcommands.cs
+++Services
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\services\
+++Generic
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\services\generic\
+++CheckersConstants.cs
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\services\generic\checkersconstants.cs
+++CheckersService.cs
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\services\generic\checkersservice.cs
+++CheckersTimer.cs
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\services\generic\checkerstimer.cs
+++CommandHandler.cs
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\services\generic\commandhandler.cs
+++ComponentHandler.cs
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\services\generic\componenthandler.cs
+++MatchManager.cs
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\services\matchmanager.cs
+++ProfanityHandler.cs
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\services\profanityhandler.cs
+++RankedManager.cs
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\services\rankedmanager.cs
+++VoteManager.cs
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\services\votemanager.cs
+++appSettings.json
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\appsettings.json
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers.data\appsettings.json
+++GlobalSuppressions.cs
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\globalsuppressions.cs
+++Program.cs
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\program.cs
+++stylecop.json
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\stylecop.json
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers.data\stylecop.json
+++Analyzers
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:analyzers
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:analyzers
+++Frameworks
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:frameworks
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:frameworks
+++Packages
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:packages
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:packages
+++Projects
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:projects
+++launchSettings.json
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\properties\launchsettings.json
+++Microsoft.CodeAnalysis.CSharp.NetAnalyzers
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\program files\dotnet\sdk\6.0.200\sdks\microsoft.net.sdk\analyzers\microsoft.codeanalysis.csharp.netanalyzers.dll
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\program files\dotnet\sdk\6.0.200\sdks\microsoft.net.sdk\analyzers\microsoft.codeanalysis.csharp.netanalyzers.dll
+++Microsoft.CodeAnalysis.NetAnalyzers
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\program files\dotnet\sdk\6.0.200\sdks\microsoft.net.sdk\analyzers\microsoft.codeanalysis.netanalyzers.dll
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\program files\dotnet\sdk\6.0.200\sdks\microsoft.net.sdk\analyzers\microsoft.codeanalysis.netanalyzers.dll
+++Microsoft.EntityFrameworkCore.Analyzers
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\.nuget\packages\microsoft.entityframeworkcore.analyzers\6.0.2\analyzers\dotnet\cs\microsoft.entityframeworkcore.analyzers.dll
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\users\joemi\.nuget\packages\microsoft.entityframeworkcore.analyzers\6.0.2\analyzers\dotnet\cs\microsoft.entityframeworkcore.analyzers.dll
+++Microsoft.Extensions.Logging.Generators
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\.nuget\packages\microsoft.extensions.logging.abstractions\6.0.0\analyzers\dotnet\roslyn4.0\cs\microsoft.extensions.logging.generators.dll
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\users\joemi\.nuget\packages\microsoft.extensions.logging.abstractions\6.0.0\analyzers\dotnet\roslyn4.0\cs\microsoft.extensions.logging.generators.dll
+++StyleCop.Analyzers
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\.nuget\packages\stylecop.analyzers\1.1.118\analyzers\dotnet\cs\stylecop.analyzers.dll
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\users\joemi\.nuget\packages\stylecop.analyzers\1.1.118\analyzers\dotnet\cs\stylecop.analyzers.dll
+++StyleCop.Analyzers.CodeFixes
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\.nuget\packages\stylecop.analyzers\1.1.118\analyzers\dotnet\cs\stylecop.analyzers.codefixes.dll
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\users\joemi\.nuget\packages\stylecop.analyzers\1.1.118\analyzers\dotnet\cs\stylecop.analyzers.codefixes.dll
+++System.Text.Json.SourceGeneration
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\program files\dotnet\packs\microsoft.netcore.app.ref\6.0.2\analyzers\dotnet\cs\system.text.json.sourcegeneration.dll
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\program files\dotnet\packs\microsoft.netcore.app.ref\6.0.2\analyzers\dotnet\cs\system.text.json.sourcegeneration.dll
+++Microsoft.NETCore.App
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers\microsoft.netcore.app
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers.data\microsoft.netcore.app
+++Discord.Addons.Hosting (5.1.0)
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:>498
+++Discord.Net (3.4.0)
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:>540
+++Discord.Net.Commands (3.4.0)
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:>537
+++Discord.Net.Core (3.4.0)
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:>535
+++Discord.Net.WebSocket (3.4.0)
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:>536
+++Fergun.Interactive (1.4.2)
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:>541
+++Microsoft.EntityFrameworkCore (6.0.3)
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:>539
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:>542
+++Microsoft.EntityFrameworkCore.Design (6.0.3)
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:>538
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:>543
+++Microsoft.Extensions.Http (6.0.0)
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:>501
+++Profanity.Detector (0.1.8)
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:>503
+++StyleCop.Analyzers (1.1.118)
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:>506
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:>495
+++Checkers.Data
+i:{1e0fdf2e-44b2-4f54-bc31-fb0845e4fff5}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers.data\checkers.data.csproj
+i:{00000000-0000-0000-0000-000000000000}:Checkers.Data
+++Context
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers.data\context\
+++CheckersDbContext.cs
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers.data\context\checkersdbcontext.cs
+++CheckersDbContextFactory.cs
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers.data\context\checkersdbcontextfactory.cs
+++Migrations
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers.data\migrations\
+++Models
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers.data\models\
+++CheckersLegacyData
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers.data\models\checkerslegacydata\
+++ChannelTypes.cs
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers.data\models\checkerslegacydata\channeltypes.cs
+++CheckersChannelID.cs
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers.data\models\checkerslegacydata\checkerschannelid.cs
+++Guild.cs
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers.data\models\checkerslegacydata\guild.cs
+++GameData
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers.data\models\gamedata\
+++MatchData.cs
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers.data\models\gamedata\matchdata.cs
+++TeamData.cs
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers.data\models\gamedata\teamdata.cs
+++Player
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers.data\models\player\
+++Player.cs
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers.data\models\player\player.cs
+++DataAccessLayer.cs
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers.data\dataaccesslayer.cs
+++20220212123517_InitialMigration.cs
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers.data\migrations\20220212123517_initialmigration.cs
+++20220212124133_TestMigration.cs
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers.data\migrations\20220212124133_testmigration.cs
+++20220217222010_TestCase.cs
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers.data\migrations\20220217222010_testcase.cs
+++20220218205535_Player Addition.cs
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers.data\migrations\20220218205535_player addition.cs
+++20220220182112_UpdatedPlayer.cs
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers.data\migrations\20220220182112_updatedplayer.cs
+++20220220192517_PlayerRatingRefactor.cs
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers.data\migrations\20220220192517_playerratingrefactor.cs
+++20220228205153_PlayerAdditions.cs
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers.data\migrations\20220228205153_playeradditions.cs
+++20220305210126_Player-HighestRating.cs
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers.data\migrations\20220305210126_player-highestrating.cs
+++CheckersDBContextModelSnapshot.cs
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers.data\migrations\checkersdbcontextmodelsnapshot.cs
+++Microsoft.EntityFrameworkCore.Tools (6.0.3)
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:>545
+++Microsoft.Extensions.Configuration (6.0.1)
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:>544
+++Microsoft.Extensions.Configuration.Binder (6.0.0)
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:>490
+++Microsoft.Extensions.Configuration.Json (6.0.0)
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:>491
+++Pomelo.EntityFrameworkCore.MySql (6.0.1)
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:>494
+++20220212123517_InitialMigration.Designer.cs
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers.data\migrations\20220212123517_initialmigration.designer.cs
+++20220212124133_TestMigration.Designer.cs
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers.data\migrations\20220212124133_testmigration.designer.cs
+++20220217222010_TestCase.Designer.cs
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers.data\migrations\20220217222010_testcase.designer.cs
+++20220218205535_Player Addition.Designer.cs
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers.data\migrations\20220218205535_player addition.designer.cs
+++20220220182112_UpdatedPlayer.Designer.cs
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers.data\migrations\20220220182112_updatedplayer.designer.cs
+++20220220192517_PlayerRatingRefactor.Designer.cs
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers.data\migrations\20220220192517_playerratingrefactor.designer.cs
+++20220228205153_PlayerAdditions.Designer.cs
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers.data\migrations\20220228205153_playeradditions.designer.cs
+++20220305210126_Player-HighestRating.Designer.cs
+i:{4e9bac07-7582-46a8-bff1-fb5f58d466fe}:c:\users\joemi\documents\dev\discordbots\checkers\checkersdiscordbot\checkers\checkers.data\migrations\20220305210126_player-highestrating.designer.cs

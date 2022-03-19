@@ -359,8 +359,8 @@ namespace Checkers.Services
                 // 2nd argument is null unless a player is being targeted.
                 CheckersMatchResult result = new CheckersMatchResult(match, matchVote.MatchOutcome);
 
-                var list = await this.rankManager.ProcessMatchResult(result, matchVote.TargetPlayer);
-                var players = await this.CleanUpMatch(match, channel);
+                var list = await this.rankManager.ProcessMatchResult(guildChannel.Guild, result, matchVote.TargetPlayer);
+                await this.CleanUpMatch(match, channel);
 
                 var general = await guildChannel.Guild.GetChannelAsync(CheckersConstants.GeneralText);
 
@@ -376,13 +376,37 @@ namespace Checkers.Services
                     }
                 }
 
-                if (players != null)
+                var guild = guildChannel.Guild;
+
+                foreach (var data in list)
                 {
-                    foreach (Player player in players)
+                    var player = data.Player;
+
+                    player.IsQueued = false;
+                    player.IsPlaying = false;
+
+                    await this.DataAccessLayer.UpdatePlayer(player);
+
+                    if (data.Promoted != null)
                     {
-                        player.IsQueued = false;
-                        player.IsPlaying = false;
-                        await this.DataAccessLayer.UpdatePlayer(player);
+                        var user = await guild.GetUserAsync(player.Id);
+                        if (user != null)
+                        {
+                            await user.AddRoleAsync(guild.GetRole(RatingUtils.GetRoleOfTier((SkillTier)player.CurrentTier)));
+
+                            ulong oldRoleID;
+
+                            if (data.Promoted == true)
+                            {
+                                oldRoleID = RatingUtils.GetRoleOfTier((SkillTier)player.CurrentTier - 1);
+                            }
+                            else
+                            {
+                                oldRoleID = RatingUtils.GetRoleOfTier((SkillTier)player.CurrentTier + 1);
+                            }
+
+                            await user.RemoveRoleAsync(oldRoleID);
+                        }
                     }
                 }
             }
@@ -443,7 +467,7 @@ namespace Checkers.Services
         }
 
 
-        private async Task<List<Player>?> CleanUpMatch(Match match, ISocketMessageChannel channel)
+        private async Task CleanUpMatch(Match match, ISocketMessageChannel channel)
         {
             var guildChannel = channel as SocketGuildChannel;
             var players = new List<Player>(match.GetPlayers());
@@ -463,7 +487,7 @@ namespace Checkers.Services
                         {
                             // If so, move them tback to the lobby.
                             var queueVoice = guildChannel.Guild.GetChannel(CheckersConstants.QueueVoice) as SocketVoiceChannel;
-                            await user.ModifyAsync(x => x.Channel = queueVoice);
+                            await user.ModifyAsync(x => x.Channel = guildChannel.Guild.GetVoiceChannel(953431550572245052));
                         }
 
                         var team = match.GetTeamOfPlayer(matchPlayer);
@@ -486,7 +510,6 @@ namespace Checkers.Services
                 await match.Channels.RemoveChannels(guildChannel.Guild);
                 this.Matches.Remove(match);
             }
-            return players;
         }
 
         public async Task SelectMap(SocketGuildChannel channel, MapVote vote)
@@ -568,33 +591,38 @@ namespace Checkers.Services
 
             if (user is SocketGuildUser guildUser)
             {
-                if (player != null)
-                {
-                    if (oldState.VoiceChannel == guildUser.Guild.GetVoiceChannel(CheckersConstants.QueueVoice))
-                    {
-                        if (player.IsQueued && !player.IsPlaying)
-                        {
-                            await this.UnQueuePlayer(user, player);
-                        }
-                    }
-                    else if (newState.VoiceChannel == guildUser.Guild.GetVoiceChannel(CheckersConstants.QueueVoice))
-                    {
-                        if (!player.IsQueued && !player.IsPlaying)
-                        {
-                            var players = await this.QueuePlayer(guildUser.Guild, player);
+                var queueVoice = guildUser.Guild.GetVoiceChannel(CheckersConstants.QueueVoice);
 
-                            if (players != null)
+                if (queueVoice != null)
+                {
+                    if (player != null)
+                    {
+                        if (oldState.VoiceChannel == queueVoice && newState.VoiceChannel != queueVoice)
+                        {
+                            if (player.IsQueued && !player.IsPlaying)
                             {
-                                foreach (Player matchPlayer in players)
-                                {
-                                    await this.DataAccessLayer.UpdatePlayer(matchPlayer);
-                                }
+                                await this.UnQueuePlayer(user, player);
                             }
                         }
-                        else
+                        else if (newState.VoiceChannel == queueVoice)
                         {
-                            await user.SendMessageAsync("Cannot join queue while player is already queued or playing a match. If your match has ended, make sure to register your match in its repective channel.");
-                            return;
+                            if (!player.IsQueued && !player.IsPlaying)
+                            {
+                                var players = await this.QueuePlayer(guildUser.Guild, player);
+
+                                if (players != null)
+                                {
+                                    foreach (Player matchPlayer in players)
+                                    {
+                                        await this.DataAccessLayer.UpdatePlayer(matchPlayer);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                await user.SendMessageAsync("Cannot join queue while player is already queued or playing a match. If your match has ended, make sure to register your match in its repective channel.");
+                                return;
+                            }
                         }
                     }
                 }

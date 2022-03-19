@@ -36,7 +36,7 @@ namespace Checkers.Components.Voting
                 this.Maps.Add(new MapVote(this, i, match, this.GetNewMapEntry(mapkey)));
             }
 
-            this.voteTimer = new CheckersTimer(OnVoteFinish, null, TimeSpan.FromSeconds(30), TimeSpan.FromSeconds(30));
+            this.voteTimer = new CheckersTimer(OnVoteFinish, null, TimeSpan.FromSeconds(CheckersConstants.MapVoteDuration), TimeSpan.FromSeconds(CheckersConstants.MapVoteDuration));
 
             this.matchManager = mm;
         }

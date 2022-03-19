@@ -16,7 +16,6 @@ namespace Checkers
     using Discord.Addons.Hosting;
     using Discord.Commands;
     using Discord.WebSocket;
-    using Fergun.Interactive;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;

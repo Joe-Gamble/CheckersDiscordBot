@@ -11,6 +11,7 @@ namespace Checkers.Components
     using System.Threading.Tasks;
     using Checkers.Data.Models;
     using Checkers.Data.Models.Game;
+    using Checkers.Services;
     using Discord.WebSocket;
 
     /// <summary>
@@ -22,7 +23,7 @@ namespace Checkers.Components
         /// List of Players currently in Queue.
         /// </summary>
         private readonly List<Player> players = new ();
-        private readonly int gameSize = 2;
+        private readonly int gameSize = CheckersConstants.QueueSize;
 
         /// <summary>
         /// Add a player to the Queue.
